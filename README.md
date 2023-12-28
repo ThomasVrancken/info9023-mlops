@@ -42,6 +42,19 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 06/05/2024 | W10        | Sprint 5       | CICD                                 |                            |
 | 13/05/2024 | W11        | Closing sprint | Ethics & Real world use cases        |                            |
 
+## Course pillars
+
+The objective of this course is to provide the following:
+
+- **Theory**: Fundamental concepts of MLOps. Why is it important, framework, type of implementation, best practices, …
+- **Technical skills**: Labs are there to show how to use key basic tools of ML Engineering.
+Tools are chosen based on popularity, being open-source and ease of utilisation.
+- **Project**: We will apply the theoretical and technical learnings on one large group project.
+The project will empower you to build applications in a creative way.
+- **Engaging**: Always discuss!
+Goal to have interactive classes and labs. The classes are built to follow a healthy tempo, to be engaging, frequently give time for open questions, group discussions... and of course the (not so) occasional meme.
+
+
 ## Topics covered
 
 You can find a full view of the topics in the "`Course Introduction`" lecture.
@@ -57,6 +70,24 @@ WIP
 ## Exam info
 
 WIP
+
+## Questions answered during this course
+
+- I’ve trained my model in notebooks, now what?
+- What are different components of an ML system?
+- How to automatically train my model with new data?
+- How to evaluate your models, both offline and online?
+- What’s the difference between online prediction and batch prediction?
+- How to build an API? How to deploy an API in the Cloud?
+- How to serve a model on the cloud?
+- How to continually monitor and deploy changes to ML systems?
+- How to use basic tools such 
+  - Github
+  - Weights & Biases 
+  - Docker 
+  - Cloud
+- …
+
 
 ## Resources
 
