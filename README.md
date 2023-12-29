@@ -113,3 +113,14 @@ WIP
 - Introducing MLOps (Mark Treveil, Nicolas Omont, Clément Stenac et al.)
 - Machine Learning Design Patterns (Valliappa Lakshmanan, Sara Robinson, Michael Munn)
 
+# Credits
+
+Many people helped and supported through the preparation of this course. Special thanks to:
+- Gilles Louppe
+- Filippo Lanubile
+- Luigi Quaranta
+- Robbe Sneyders
+- Sebastian Wehkamp
+- Ruwan Lambrichts
+- Jason Li
+- Thomas Janssens
