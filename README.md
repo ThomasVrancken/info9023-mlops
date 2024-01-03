@@ -18,7 +18,7 @@ The material is not meant to be challenging but rather try to bring a maximum of
 - **Lecture place**: B28 R.75 (0/75) [Liège Sart-Tilman - Polytech]
 - **Office hours**: You can ask any question by email, during (or after) classes or in person during open office hours every Monday till 18:00 in office 77B (building B28).
 - **Communication**: 
-  - Main communication point will be Slack ([montaifiore.slack.com](montaifiore.slack.com) > `info9023-mlsd`)
+  - Main communication point will be Discord ([link](https://discord.gg/AVbAdNGR))
 
 ## Agenda
 
@@ -109,7 +109,7 @@ WIP
 - Hidden Technical Debt in Machine Learning System - Google ([link](https://proceedings.neurips.cc/paper_files/paper/2015/file/86df7dcfd896fcaf2674f757a2463eba-Paper.pdf))
 
 #### Books
-- Building Machine Learning Powered Applications: Going from Idea to Product (Emmanuel Ameisen
+- Building Machine Learning Powered Applications: Going from Idea to Product (Emmanuel Ameisen)
 - Introducing MLOps (Mark Treveil, Nicolas Omont, Clément Stenac et al.)
 - Machine Learning Design Patterns (Valliappa Lakshmanan, Sara Robinson, Michael Munn)
 
