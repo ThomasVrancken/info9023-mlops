@@ -14,7 +14,7 @@ This course and material contained in this repo aims at closing that technical d
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
 - **Class time & place**: Classes are held from **9:00** to **12:30** every Monday in B28 R.75 (0/75) [Liège Sart-Tilman - Polytech]
 - **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
-- **Communication**: Main communication point will be Discord ([link](https://discord.gg/AVbAdNGR)). Official communication might also come by email.
+- **Communication**: Main communication point will be Discord ([link](https://discord.gg/4jsySN4z)). Official communication might also come by email.
 
 ## Agenda
 
