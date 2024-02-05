@@ -12,7 +12,9 @@ This course and material contained in this repo aims at closing that technical d
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor): t.vrancken@uliege.be
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
-- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday in B28 R.75 (0/75) [Liège Sart-Tilman - Polytech]
+- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday in B37 S.42 (-1/42) [Liège Sart-Tilman - Polytech]
+  - Note that it was changed from the original room B28 R.75 (0/75) as we were a too large group for it.
+  - The new room is *not available on the 04/03/2024*. That day we will be back in room B28 R.75 (0/75).
 - **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
 - **Communication**: Main communication point will be Discord ([link](https://discord.gg/4jsySN4z)). Official communication might also come by email.
 
@@ -26,7 +28,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 12/02/2024 | W1         | Sprint 1       | Use case definition                  |                            |
 | 19/02/2024 | W2         | Sprint 1       | Project organisation                 |                            |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                      |                            |
-| 04/03/2024 | W4         | Sprint 2       | Model development                    |                            |
+| 04/03/2024 | W4         | Sprint 2       | Model development (_class in B28 R.75 (0/75)_)                   |                            |
 | 11/03/2024 | W5         | Sprint 3       | API implementation                   |                            |
 | 18/03/2024 | W6         | Sprint 3       | Model serving & Cloud infrastructure |                            |
 | 25/03/2024 | W7         | Sprint 4       | Containerisation                     |                            |
