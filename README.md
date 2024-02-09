@@ -24,8 +24,8 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description                          | Material (gradually added) |
 |------------|------------|----------------|--------------------------------------|----------------------------|
-| 05/02/2024 | W0         | Sprint 0       | Course introduction                  | [link](lectures/00_course_introduction.pdf)            |
-| 12/02/2024 | W1         | Sprint 1       | Use case definition                  |                            |
+| 05/02/2024 | W0         | Sprint 0       | Course introduction                  | [slides](lectures/00_course_introduction.pdf)            |
+| 12/02/2024 | W1         | Sprint 1       | Use case definition                  | [slides](lectures/01_use_case_definition.pdf)                           |
 | 19/02/2024 | W2         | Sprint 1       | Project organisation                 |                            |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                      |                            |
 | 04/03/2024 | W4         | Sprint 2       | Model development (_class in B28 R.75 (0/75)_)                   |                            |
