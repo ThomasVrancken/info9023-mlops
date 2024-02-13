@@ -22,11 +22,11 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description                                       | Material (gradually added)                  |
 |------------|------------|----------------|---------------------------------------------------|---------------------------------------------|
-| 05/02/2024 | W0         | Sprint 0       | Course introduction                               | [link](lectures/00_course_introduction.pdf) |
-| 12/02/2024 | W1         | Sprint 1       | Use case definition                               |                                             |
+| 05/02/2024 | W0         | Sprint 0       | Course introduction                               | [slides](lectures/00_course_introduction.pdf) |
+| 12/02/2024 | W1         | Sprint 1       | Use case definition                               |                  [slides](lectures/01_use_case_definition.pdf)                           |
 | 19/02/2024 | W2         | Sprint 1       | Project organisation<br/> Lab git code versioning | [link](labs/02_lab_git_code_versioning.pdf) |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                                   |                                             |
-| 04/03/2024 | W4         | Sprint 2       | Model development                                 |                                             |
+| 04/03/2024 | W4         | Sprint 2       | Model development              (_class in B28 R.75 (0/75)_)                   |                                             |
 | 11/03/2024 | W5         | Sprint 3       | API implementation                                |                                             |
 | 18/03/2024 | W6         | Sprint 3       | Model serving & Cloud infrastructure              |                                             |
 | 25/03/2024 | W7         | Sprint 4       | Containerisation                                  |                                             |
