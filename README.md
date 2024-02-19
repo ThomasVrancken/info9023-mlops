@@ -64,6 +64,35 @@ Here is an overview of how the sprints are organised:
 
 All the project info can be found in the [project/project_description.pdf](project/project_description.pdf) document.
 
+Important to highlight that you are the **decision makers for the design of your project** :open_hands: Design it in a coherent way. Spend time on features that **make sense**. Don't see the workpackages as a long checklist, rather on possible points to implement.
+
+For example, if you implement a computer vision model you might spend more time on the model serving rather than the data exploration. Or conversely, if you need to get tabular data from external APIs you might want to spend more time on the data construction rather than on model serving optimisation. Those are design choices you need to make depending on your project - and as always make sure to ask questions to the teaching staff if you have any (ideally at the end of lectures).  
+
+**Milestones:**
+
+The main way to handover the results of your projects will be during the 3 **milestones**.
+
+The first Milestone will be used to present the work you did during sprint 1 & 2, the second Milestone for the work you did in sprint 3 & 4 and the final milestone will be used to present the overall project outcome and work from sprint 5.
+
+The main purpose of the Milestones is to provide feedback and guidance on the project. The final project grade will be determined at the end of the project. If there are any issues highlighted during the milestone there is room for fixing it in the later development of the project
+
+**Handovers:**
+1. At each milestone, you will set an **online meeting** with the teaching staff where you will spend **10 minutes presenting your results** so far and 5 minutes for QA from the teaching staff. 
+1. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
+Note that the teaching staff won't go through the whole codebase. Put any information that the teaching staff should specifically look at in the README and pull request description.
+
+**Practicals:**
+- :warning: Each team needs **to book an online meeting** slot to present their Milestone
+  - You can book the online meeting via a Google Meets link *shared by email*. If a group has no students in the mailing list please let the teaching staff know.
+  - You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
+- Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Notifications on Github are not the single point.
+  - Make sure to clearly document what is important in the code base for the teaching staff to look at. By default, the teaching staff will focus on the README.
+- You can present your project [ML Canvas](https://madewithml.com/courses/mlops/product-design) during the first Milestone presentation.
+
+**Timing:**
+- Milestone 1 presentations can be booked between the 11/03/2024 and the 13/03/2024 (included) from 13:00 to 16:30. Link will be sent by email.
+- Milestone 2 and 3 timing still needs to be set.
+
 ## Exam 
 
 You can find a practice exam in the [exams/practice_exam_june_2024.pdf](exams/practice_exam_june_2024.pdf) document.
