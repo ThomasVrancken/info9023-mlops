@@ -12,8 +12,9 @@ This course and material contained in this repo aims at closing that technical d
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor): t.vrancken@uliege.be
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
-- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday in B28 R.75 (0/75) [Liège Sart-Tilman - Polytech]
-- **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
+- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday in B37 S.42 (-1/42) [Liège Sart-Tilman - Polytech]
+  - Note that it was changed from the original room B28 R.75 (0/75) as we were a too large group for it.
+  - The new room is *not available on the 04/03/2024*. That day we will be back in room B28 R.75 (0/75).- **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
 - **Communication**: Main communication point will be Discord ([link](https://discord.gg/4jsySN4z)). Official communication might also come by email.
 
 ## Agenda
@@ -24,7 +25,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 |------------|------------|----------------|---------------------------------------------------|----------------------------------------------------|
 | 05/02/2024 | W0         | Sprint 0       | Course introduction                               | [slides](lectures/00_course_introduction.pdf)      |
 | 12/02/2024 | W1         | Sprint 1       | Use case definition                               | [slides](lectures/01_use_case_definition.pdf)      |
-| 19/02/2024 | W2         | Sprint 1       | Project organisation<br/> Lab git code versioning | [slides labo](labs/02_lab_git_code_versioning.pdf) |
+| 19/02/2024 | W2         | Sprint 1       | Project organisation<br/> Lab git code versioning | [slides lecture](lectures/02_project_organization.pdf), [slides labo](labs/02_lab_git_code_versioning.pdf) |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                                   |                                                    |
 | 04/03/2024 | W4         | Sprint 2       | Model development              (_class in B28 R.75 (0/75)_)                   |                                                    |
 | 11/03/2024 | W5         | Sprint 3       | API implementation                                |                                                    |
