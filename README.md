@@ -23,9 +23,10 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description                                       | Material (gradually added)                         |
 |------------|------------|----------------|---------------------------------------------------|----------------------------------------------------|
-| 05/02/2024 | W0         | Sprint 0       | Course introduction                               | [slides](lectures/00_course_introduction.pdf)      |
-| 12/02/2024 | W1         | Sprint 1       | Use case definition                               | [slides](lectures/01_use_case_definition.pdf)      |
-| 19/02/2024 | W2         | Sprint 1       | Project organisation<br/> Lab git code versioning | [slides lecture](lectures/02_project_organization.pdf), [slides labo](labs/02_lab_git_code_versioning.pdf) |
+| 05/02/2024 | W0         | Sprint 0       | Course introduction                               | [lecture slides](lectures/00_course_introduction.pdf)      |
+| 12/02/2024 | W1         | Sprint 1       | Use case definition                               | [lecture slides](lectures/01_use_case_definition.pdf)      |
+| 19/02/2024 | W2         | Sprint 1       | Project organisation<br/> Lab git code versioning | [lecture slides](lectures/02_project_organization.pdf) - [labo](labs/02_lab_git_code_versioning.pdf) |
+| 26/02/2024 | W3         | Sprint 2       | Data processing                                   | [lecture slides](lectures/03_data_preparation.pdf)                                                 |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                                   |                                                    |
 | 04/03/2024 | W4         | Sprint 2       | Model development              (_class in B28 R.75 (0/75)_)                   |                                                    |
 | 11/03/2024 | W5         | Sprint 3       | API implementation                                |                                                    |
@@ -74,19 +75,19 @@ The main way to handover the results of your projects will be during the 3 **mil
 
 The first Milestone will be used to present the work you did during sprint 1 & 2, the second Milestone for the work you did in sprint 3 & 4 and the final milestone will be used to present the overall project outcome and work from sprint 5.
 
-The main purpose of the Milestones is to provide feedback and guidance on the project. The final project grade will be determined at the end of the project. If there are any issues highlighted during the milestone there is room for fixing it in the later development of the project
+The main purpose of the Milestones is to provide feedback and guidance on the project. The final project grade will be determined at the end of the project. If there are any issues highlighted during the milestone there is room for fixing it in the later development of the project.
+
+Make it your own! Focus on what is relevant and interesting. You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
 
 **Handovers:**
 1. At each milestone, you will set an **online meeting** with the teaching staff where you will spend **10 minutes presenting your results** so far and 5 minutes for QA from the teaching staff. 
 1. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
-Note that the teaching staff won't go through the whole codebase. Put any information that the teaching staff should specifically look at in the README and pull request description.
+Make sure to clearly document what is important in the code base for the teaching staff to look at. By default, the teaching staff will focus on the README and the pull request description.
 
 **Practicals:**
 - :warning: Each team needs **to book an online meeting** slot to present their Milestone
   - You can book the online meeting via a Google Meets link *shared by email*. If a group has no students in the mailing list please let the teaching staff know.
-  - You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
 - Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Notifications on Github are not the single point.
-  - Make sure to clearly document what is important in the code base for the teaching staff to look at. By default, the teaching staff will focus on the README.
 - You can present your project [ML Canvas](https://madewithml.com/courses/mlops/product-design) during the first Milestone presentation.
 
 **Timing:**
