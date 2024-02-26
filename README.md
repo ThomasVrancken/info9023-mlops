@@ -29,16 +29,19 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 26/02/2024 | W3         | Sprint 2       | Data processing<br/> Lab YData-profiling                    | [lecture slides](lectures/03_data_preparation.pdf) <br/> [labo slides](labs/03_lab_ydata_profiling.pdf) - [labo notebook](labs/ydata_tuto.ipynb) |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                                             |                                                                                                                        |
 | 04/03/2024 | W4         | Sprint 2       | Model development              (_class in B28 R.75 (0/75)_) |                                                                                                                        |
+| 11/03/2024 - 13/03/2024 | [MS 1 presentations](#project)                                                                                                                       |
 | 11/03/2024 | W5         | Sprint 3       | API implementation                                          |                                                                                                                        |
 | 18/03/2024 | W6         | Sprint 3       | Model serving & Cloud infrastructure                        |                                                                                                                        |
 | 25/03/2024 | W7         | Sprint 4       | Containerisation                                            |                                                                                                                        |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_                                                  | _No Class_                                                                                                             |
 | 08/04/2024 | W8         | Sprint 4       | Model Pipeline                                              |                                                                                                                        |
+| 15/04/2024 - 17/04/2024 | (To be confirmed !) [MS 2 presentations](#project)                                                                                                                       |
 | 15/04/2024 | W9         | Sprint 5       | Monitoring & dashboarding                                   |                                                                                                                        |
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_                                                  | _No Class_                                                                                                             |
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_                                                  | _No Class_                                                                                                             |
 | 06/05/2024 | W10        | Sprint 5       | CICD                                                        |                                                                                                                        |
 | 13/05/2024 | W11        | Closing sprint | Ethics & Real world use cases                               |                                                                                                                        |
+| (Dates to be confirmed) | [MS 3 presentations](#project)                                                                                                                       |
 
 ## Course culture
 
