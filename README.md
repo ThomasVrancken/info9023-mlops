@@ -29,7 +29,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 26/02/2024 | W3         | Sprint 2       | Data processing<br/> Lab YData-profiling                    | [lecture slides](lectures/03_data_preparation.pdf) <br/> [labo slides](labs/03_lab_ydata_profiling.pdf) - [labo notebook](labs/ydata_tuto.ipynb) |
 | 26/02/2024 | W3         | Sprint 2       | Data processing                                             |                                                                                                                        |
 | 04/03/2024 | W4         | Sprint 2       | Model development              (_class in B28 R.75 (0/75)_) |                                                                                                                        |
-| 11/03/2024 - 13/03/2024 | [MS 1 presentations](#project)                                                                                                                       |
+| 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)                                                                                                                       |
 | 11/03/2024 | W5         | Sprint 3       | API implementation                                          |                                                                                                                        |
 | 18/03/2024 | W6         | Sprint 3       | Model serving & Cloud infrastructure                        |                                                                                                                        |
 | 25/03/2024 | W7         | Sprint 4       | Containerisation                                            |                                                                                                                        |
@@ -72,7 +72,7 @@ Important to highlight that you are the **decision makers for the design of your
 
 For example, if you implement a computer vision model you might spend more time on the model serving rather than the data exploration. Or conversely, if you need to get tabular data from external APIs you might want to spend more time on the data construction rather than on model serving optimisation. Those are design choices you need to make depending on your project - and as always make sure to ask questions to the teaching staff if you have any (ideally at the end of lectures).  
 
-**Milestones:**
+#### Milestones
 
 The main way to handover the results of your projects will be during the 3 **milestones**.
 
@@ -82,19 +82,22 @@ The main purpose of the Milestones is to provide feedback and guidance on the pr
 
 Make it your own! Focus on what is relevant and interesting. You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
 
-**Handovers:**
-1. At each milestone, you will set an **online meeting** with the teaching staff where you will spend **10 minutes presenting your results** so far and 5 minutes for QA from the teaching staff. 
-1. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
+#### Handovers
+1. At each milestone, you will show your results through a **10 minutes presentation** followed by a 5 minutes QA from the teaching staff. There are two options for those presentations:
+2. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
 Make sure to clearly document what is important in the code base for the teaching staff to look at. By default, the teaching staff will focus on the README and the pull request description.
 
-**Practicals:**
-- :warning: Each team needs **to book an online meeting** slot to present their Milestone
-  - You can book the online meeting via a Google Meets link *shared by email*. If a group has no students in the mailing list please let the teaching staff know.
-- Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Notifications on Github are not the single point.
-- You can present your project [ML Canvas](https://madewithml.com/courses/mlops/product-design) during the first Milestone presentation.
+#### Practicals
+:warning: Each team needs **to book a meeting** slot to present their Milestone. Link will be *shared by email* (if a group has no students in the mailing list please let the teaching staff know.). There are two options for those meetings:
+1. You can book an online meeting via a Google Meets between 13:00 and 17:00 in the days available for each specific milestone (for exact days see calendar invite and [timing section](#timing))
+2. You can present it in the classroom from 11:30 to 12:30 right after the lectures in the two weeks following the closing sprint of a milestone (for exact days see calendar invite and [timing section](#timing))
 
-**Timing:**
-- Milestone 1 presentations can be booked between the 11/03/2024 and the 13/03/2024 (included) from 13:00 to 16:30. Link will be sent by email.
+Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Notifications on Github are not the single point.
+
+You can present your project [ML Canvas](https://madewithml.com/courses/mlops/product-design) during the first Milestone presentation.
+
+#### Timing
+- Milestone 1 presentations will happen between the 11/03/2024 and the 18/03/2024
 - Milestone 2 and 3 timing still needs to be set.
 
 ## Exam 
