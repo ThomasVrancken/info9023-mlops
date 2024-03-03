@@ -90,7 +90,8 @@ Make sure to clearly document what is important in the code base for the teachin
 #### Practicals
 :warning: Each team needs **to book a meeting** slot to present their Milestone. Link will be *shared by email* (if a group has no students in the mailing list please let the teaching staff know.). There are two options for those meetings:
 1. You can book an online meeting via a Google Meets between 13:00 and 17:00 in the days available for each specific milestone (for exact days see calendar invite and [timing section](#timing))
-2. You can present it in the classroom from 11:30 to 12:30 right after the lectures in the two weeks following the closing sprint of a milestone (for exact days see calendar invite and [timing section](#timing))
+2. You can present it in the classroom from 11:30 to 12:30 right after the lectures in the two weeks following the closing sprint of a milestone (for exact days see calendar invite and [timing section](#timing)). As the class will be busy with presentations after the course those weeks, it means that other teams can still use the time to work on their projects but from another location. Support on the project will then be more ad-hoc those weeks. You can still raise questions by email, Discord or during the open office hours every Monday till 18:00 in office 77B in building B28.
+
 
 Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Notifications on Github are not the single point.
 
