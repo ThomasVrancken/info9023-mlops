@@ -50,7 +50,7 @@ Before we dive into Docker, let's create a super simple app and run it locally.
 Now we will create a docker container for our app, build it and run it locally.
 
 1. Make sure to have [Docker Desktop](https://docs.docker.com/desktop/) installed and running
-2. Create an empty file called `Dockerfile` in your current working repository
+2. Create an empty file called `Dockerfile` in your current working repository: `touch Dockerfile`
 3. Write the following lines of codes in it:
    1. `FROM python:3.12` - To start from the publicly available base image running python 3.12. Otherwise you would have to install it too (an image starts from nothing).
    2. `COPY hello_world.py .` and `COPY requirements.txt .` - To copy the files needed for the application to run (note that more simply you could have used `COPY . .` but this would have also included other files such as your venv or this markdown file).
@@ -58,7 +58,7 @@ Now we will create a docker container for our app, build it and run it locally.
    4. `RUN pip install -r requirements.txt` - To run a command to install the dependencies in the container.
    5. `ENV FLASK_APP=hello_world.py` - To define the environment variable to run that specific flask app.
    6. `CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]` - To run the command that will actually run the flask app on the exposed port.
-   7. Your file should now have the same commands as the `Dockerfile` in this directory :bulb:
+   7. Your `Dockerfile` file should now have the same content as the one in this Github directory :bulb:
 4. You will now build your container by running in your terminal: `docker build -t mlsd-hello-world .` . Breaking down this command:
    1. The `-t` (tag) argument let's you name and optionally tag your image (to have different versions). Note that you could name it anything else than `mlsd-hello-world`
    2. The `.` just specifies the location of your `Dockerfile` (should be in the directory you are currently running your terminal from).
@@ -66,7 +66,7 @@ Now we will create a docker container for our app, build it and run it locally.
    1. The `-p 9090:8080` argument is to do a port mapping from the container's port 8080 to your local port 9090.
 6. Check that your container is running by entering this url in any of your web browser (e.g. chrome): `http://localhost:9090`. Note that it has a different port (9090) than our local flask app (8080), showing that indeed this is now running from our local container.
 
-:raised_hands: You ran your local continer!
+:raised_hands: You ran your local container!
 
 ## 4. Kubernetes
 
