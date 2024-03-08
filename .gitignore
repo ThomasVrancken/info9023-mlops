@@ -2,3 +2,9 @@
 examples/
 **/.venv/
 my_labs/
+
+labs/05_flask/__pycache__
+labs/05_flask/.ipynb_checkpoints
+labs/05_flask/.DS_Store
+labs/05_flask/src/api_ml.py
+labs/05_flask/src/gemma.py
