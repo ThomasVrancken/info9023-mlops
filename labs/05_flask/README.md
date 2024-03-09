@@ -2,6 +2,24 @@
 
 In this lab, you will learn the basics of Flask. Flask is a lightweight and flexible web framework for Python designed to make building web applications quick and easy. It provides the tools and libraries needed to create web applications with minimal boilerplate code, allowing developers to focus on the core logic of their applications.
 
+## 0. Set your environment
+
+Create a virtual environment and install the dependencies. You can also re-use the venv from last week as the dependencies are the same.
+
+For bash/zsh:
+```bash
+python -m venv {your_env_name}
+source {your_env_name}/bin/activate
+pip install -r requirements.txt
+```
+
+For PowerShell:
+```bash
+python -m venv {your_env_name}
+PS C:\> {your_env_name}\Scripts\Activate.ps1
+pip install -r requirements.txt
+```
+
 ## 1. Flask Installation Test
 
 To test Flask installation, follow these steps:
@@ -23,7 +41,7 @@ To test Flask installation, follow these steps:
 2. Save the file and execute it from your terminal:
 
     ```bash
-    python Hello.py
+    python hello.py
     ```
 
 3. After running the script, you will see a message in your Python shell indicating that the Flask application is running:
