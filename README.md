@@ -31,7 +31,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)                                              |
 | 11/03/2024 | W5         | Sprint 3       | API implementation      |                |
 | 18/03/2024 | W6         | Sprint 3       | Model serving & Cloud infrastructure                        |                           |
-| 25/03/2024 | W7         | Sprint 4       | Containerisation      |           |
+| 25/03/2024 | W7         | Sprint 4       | Serving & training optimisation      |           |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_          | _No Class_                          |
 | 08/04/2024 | W8         | Sprint 4       | Model Pipeline                                              |                                               |
 | 15/04/2024 - 17/04/2024 | (To be confirmed !) [MS 2 presentations](#project)                                              |
