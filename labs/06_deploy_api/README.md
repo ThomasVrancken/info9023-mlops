@@ -229,11 +229,17 @@ You can now visit the URL `https://flask-app-...-uc.a.run.app` in your web brows
 11. Click on `Manage` and then click on `Disable` to disable the API
 ![Disable](img/12.png)
 
-## 6. Conclusion
+## 6. About pricing
 
-In this lab, you learned how to deploy a basic Python Flask API to the Google Cloud Platform (GCP) using the Google Cloud SDK. You also learned how to monitor the API logs and usage in Google Cloud. You also learned how to clean up the resources you created in GCP not to be charged for them :money_with_wings::money_with_wings::money_with_wings:. 
+Here we built a small app and deployed it to GCP. We used the `Cloud Run` service which is a serverless platform that allows you to run stateless containers that are invocable via HTTP requests. The pricing of `Cloud Run` is based on the number of requests and the amount of memory used by the app. You can find more information about the pricing of `Cloud Run` [here](https://cloud.google.com/run/pricing). But to give you an idea, in terms of processing power, the first 240k vCPU-seconds per months are free. A vCPU-second is a unit of time that represents the processing power of a single virtual CPU running for one second. After the first 240k vCPU-seconds, you will be charged 0,00001800\$ per vCPU-seconde. So for example if you have an app that uses 1 vCPU for 1 second, you will be charged 0,00001800\$ after the first 240k vCPU-seconde. This [website](https://phoenixnap.com/kb/what-is-a-vcpu) explains what is a vCPU and how you can calculate vCPU requirements for your app..
 
-## 7. References
+In terms of memory, the first 450k Gio-seconde per month are free. After that, you will be charged 0,00000200\$ per Gio-seconde. A Gio-seconde is a unit of time that represents the amount of memory used by the app for one second. So for example if you have an app that uses 1 Gio of memory for 1 second, you will be charged 0,00000200\$ after the first 450k Gio-seconde.
+
+## 7. Conclusion
+
+In this lab, you learned how to deploy a basic `Hello World!` Python Flask API to the Google Cloud Platform (GCP) using the Google Cloud SDK. You also learned how to monitor the API logs and usage in Google Cloud. You also learned how to clean up the resources you created in GCP not to be charged for them :money_with_wings::money_with_wings::money_with_wings:. But you can do way more with more complex Flask APIs and other services of GCP. You can test this tuto and try to deploy more complex APIs that you created in the previous labs. 
+
+## 8. References
 
 - [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 - [Google Cloud Run](https://cloud.google.com/run/docs/deploying)
