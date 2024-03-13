@@ -276,6 +276,9 @@ CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
 ```
 
 ### 6.2 Building the Docker Image
+
+Open Docker Desktop and make sure that the Docker daemon is running.
+
 To build the Docker image, navigate to the directory containing your `Dockerfile` and run the following command:
 
 ```bash
