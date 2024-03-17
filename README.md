@@ -21,26 +21,26 @@ This course and material contained in this repo aims at closing that technical d
 
 Note that links to the lecture and labs slides will always be provided shortly before the actual date.
 
-| Date       | Week #     | Sprint #       | Description                                                 | Material (gradually added)                    |
+| Date       | Week #     | Sprint #       | Description       | Material (gradually added)      |
 |------------|------------|----------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| 05/02/2024 | W0         | Sprint 0       | Course introduction                                         | [lecture slides](lectures/00_course_introduction.pdf)                                                                  |
-| 12/02/2024 | W1         | Sprint 1       | Use case definition                                         | [lecture slides](lectures/01_use_case_definition.pdf)                                                                  |
-| 19/02/2024 | W2         | Sprint 1       | Project organisation<br/> Lab git code versioning           | [lecture slides](lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)              |
-| 26/02/2024 | W3         | Sprint 2       | Data processing<br/> Lab YData-profiling                    | [lecture slides](lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
-| 04/03/2024 | W4         | Sprint 2       | Model development              (_class in B28 R.75 (0/75)_) | [lecture slides](lectures/04_model_experimentation_and_containerisation.pdf) <br/> [lab folder](labs/04_containerisation)    | 
-| 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)                                              |
-| 11/03/2024 | W5         | Sprint 3       | API implementation      | [lecture slides](lectures/05_api_implementation.pdf) <br/> [guest lecture](lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
-| 18/03/2024 | W6         | Sprint 3       | Model serving & Cloud infrastructure                        |                           |
-| 25/03/2024 | W7         | Sprint 4       | Serving & training optimisation      |           |
-| 01/04/2024 | _No Class_ | _No Class_     | _No Class_          | _No Class_                          |
-| 08/04/2024 | W8         | Sprint 4       | Model Pipeline                                              |                                               |
-| 15/04/2024 - 17/04/2024 | (To be confirmed !) [MS 2 presentations](#project)                                              |
-| 15/04/2024 | W9         | Sprint 5       | Monitoring & dashboarding                                   |                                               |
-| 22/04/2024 | _No Class_ | _No Class_     | _No Class_                                                  | _No Class_                                    |
-| 29/04/2024 | _No Class_ | _No Class_     | _No Class_                                                  | _No Class_                                    |
-| 06/05/2024 | W10        | Sprint 5       | CICD                                                        |                                               |
-| 13/05/2024 | W11        | Closing sprint | Ethics & Real world use cases                               |                                               |
-| (Dates to be confirmed) | [MS 3 presentations](#project)                                              |
+| 05/02/2024 | W0 | Sprint 0       | Course introduction  | [lecture slides](lectures/00_course_introduction.pdf)  |
+| 12/02/2024 | W1 | Sprint 1       | Use case definition  | [lecture slides](lectures/01_use_case_definition.pdf)  |
+| 19/02/2024 | W2 | Sprint 1       | Project organisation<br/> Lab git code versioning| [lecture slides](lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)|
+| 26/02/2024 | W3 | Sprint 2       | Data processing<br/> Lab YData-profiling      | [lecture slides](lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
+| 04/03/2024 | W4 | Sprint 2       | Model development(_class in B28 R.75 (0/75)_) | [lecture slides](lectures/04_model_experimentation_and_containerisation.pdf) <br/> [lab folder](labs/04_containerisation)    | 
+| 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)    |
+| 11/03/2024 | W5 | Sprint 3       | API implementation      | [lecture slides](lectures/05_api_implementation.pdf) <br/> [guest lecture](lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
+| 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
+| 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      ||
+| 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
+| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    |     |
+| 15/04/2024 - 17/04/2024 | (To be confirmed !) [MS 2 presentations](#project)    |
+| 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       |     |
+| 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
+| 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
+| 06/05/2024 | W10| Sprint 5       | CICD|     |
+| 13/05/2024 | W11| Closing sprint | Ethics & Real world use cases   |     |
+| (To be confirmed !)  | (To be confirmed !) [MS 3 presentations](#project)    |
 
 ## Course culture
 
