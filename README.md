@@ -135,6 +135,7 @@ Many people helped and supported through the preparation of this course. Special
 - Filippo Lanubile
 - Luigi Quaranta
 - Robbe Sneyders
+- Philippe Modard
 - Sebastian Wehkamp
 - Ruwan Lambrichts
 - Jason Li
