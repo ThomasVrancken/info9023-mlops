@@ -31,7 +31,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)    |
 | 11/03/2024 | W5 | Sprint 3       | API implementation      | [lecture slides](lectures/05_api_implementation.pdf) <br/> [guest lecture](lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
 | 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
-| 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      ||
+| 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](lectures/07_serving_and_training_optimisation.pdf) |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
 | 08/04/2024 | W8 | Sprint 4       | Model Pipeline    |     |
 | 15/04/2024 - 17/04/2024 | (To be confirmed !) [MS 2 presentations](#project)    |
