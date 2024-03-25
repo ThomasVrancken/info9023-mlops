@@ -90,7 +90,7 @@ HTTP_P=8000:8000
 GRPC_P=8001:8001
 PROM_P=8002:8002
 IMAGE=nvcr.io/nvidia/tritonserver:22.04-py3
-MODEL_REPOSITORY=./model_repo
+MODEL_REPOSITORY=model_repo
 ```
 
 ### 5. Start you Triton server as a Docker container
