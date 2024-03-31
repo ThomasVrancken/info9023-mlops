@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sentiment Analysis</title>
+</head>
+<body>
+  <h1>Sentiment Analysis</h1>
+  <form action="/" method="POST">
+    <label for="txt1">Enter your sentence:</label>
+    <input type="text" id="txt1" name="txt1" value="{{ sentiment }}">
+    <br>
+    <button type="submit">Predict Sentiment</button>
+  </form>
+  {% if sentiment %}
+    <p>Sentiment: {{ sentiment }}</p>
+  {% endif %}
+  <h2>Previous Queries</h2>
+  {% if past_sentences %}
+    <table>
+      <thead>
+        <tr>
+          <th>Sentence</th>
+          <th>Sentiment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for sentence in past_sentences %}
+          <tr>
+            <td>{{ sentence.sentence }}</td>
+            <td>{{ sentence.sentiment }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No previous queries found.</p>
+  {% endif %}
+</body>
+</html>

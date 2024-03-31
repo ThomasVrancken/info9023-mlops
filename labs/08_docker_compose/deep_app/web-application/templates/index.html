@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body>
+  <h1>Machine Learning Pipeline</h1>
+  <form action="/preprocess_data" method="post">
+    <button type="submit">Process Data</button>
+  </form>
+  <form action="/train_model" method="post">
+    <button type="submit">Train Model</button>
+  </form>
+  <h2>Make a prediction</h2>
+
+<form id="predictionForm">
+    <label for="inputData">Input data:</label><br>
+    <input type="text" id="inputData" name="inputData"><br>
+    <input type="submit" value="Predict">
+</form>
+
+<script>
+document.getElementById('predictionForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    const inputData = document.getElementById('inputData').value.split(',').map(Number);
+
+    const response = await fetch('/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({input: inputData})
+    });
+    const prediction = await response.json();
+    alert('Prediction: ' + prediction);
+});
+</script>
+</body>
+</html>

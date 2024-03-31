@@ -1,0 +1,5 @@
+flask
+sqlalchemy
+flask_sqlalchemy
+torch
+transformers

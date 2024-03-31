@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  data-processing:
+    build: 
+      context: .  # Build from data-processing directory
+      dockerfile: data-preprocessing/Dockerfile
+    volumes:
+      - data_vol:/data  # Mount data directory from host
+  model-training:
+    build:
+      context: .  # Build from model-training directory
+      dockerfile: model-training/Dockerfile
+    volumes:
+      - data_vol:/data  # Mount data directory from host
+      - model_vol:/model  # Mount output model directory from host (optional)
+  model-serving:
+    build:
+      context: .  # Build from model-serving directory
+      dockerfile: model-serving/Dockerfile
+    depends_on:
+      - model-training  # Wait for model training before starting serving
+    ports:
+      - "5001:5001"  # Expose model serving port
+    command: gunicorn model-serving.model_server:app 
+  web-app:
+    build:
+      context: .
+      dockerfile: web-application/Dockerfile # Build from current directory (containing app.py)
+    ports:
+      - "5002:5002"  # Expose Flask app port
+    volumes:
+      - model_vol:/model  # Mount model directory for predictions
+    command: gunicorn -b :5002 web-application.app:app
+
+volumes:
+  data_vol:
+  model_vol:
