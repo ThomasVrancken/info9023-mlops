@@ -1,37 +1,78 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        label, input {
+            margin: 5px 0;
+        }
+    </style>
+</head>
 <body>
-  <h1>Machine Learning Pipeline</h1>
-  <form action="/preprocess_data" method="post">
-    <button type="submit">Process Data</button>
-  </form>
-  <form action="/train_model" method="post">
-    <button type="submit">Train Model</button>
-  </form>
-  <h2>Make a prediction</h2>
+    <div class="container">
+        <h1>Machine Learning Pipeline</h1>
+        <form action="/preprocess_data" method="post">
+            <button type="submit">Process Data</button>
+        </form>
+        <form action="/train_model" method="post">
+            <button type="submit">Train Model</button>
+        </form>
+        <h2>Make a prediction</h2>
 
-<form id="predictionForm">
-    <label for="inputData">Input data:</label><br>
-    <input type="text" id="inputData" name="inputData"><br>
-    <input type="submit" value="Predict">
-</form>
+        <form id="predictionForm">
+            <label for="inputData">Input data:</label><br>
+            <input type="text" id="inputData" name="inputData"><br>
+            <input type="submit" value="Predict">
+        </form>
+    </div>
 
-<script>
-document.getElementById('predictionForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+    <script>
+    document.getElementById('predictionForm').addEventListener('submit', async function(event) {
+        event.preventDefault();
 
-    const inputData = document.getElementById('inputData').value.split(',').map(Number);
+        const inputData = document.getElementById('inputData').value.split(',').map(Number);
 
-    const response = await fetch('/predict', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({input: inputData})
+        const response = await fetch('/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({input: inputData})
+        });
+        const prediction = await response.json();
+        alert('Prediction: ' + prediction);
     });
-    const prediction = await response.json();
-    alert('Prediction: ' + prediction);
-});
-</script>
+    </script>
 </body>
 </html>

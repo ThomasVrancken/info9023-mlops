@@ -31,14 +31,11 @@ def train_model():
 def predict():
     # Get the data from the POST request.
     data = request.get_json(force=True)
-
+    X = torch.tensor(data['input'], dtype=torch.float32)
     # Make prediction using model loaded from disk as per the data.
-    prediction = model(torch.tensor(data['input']))
-
-    # Take the first value of prediction
-    output = prediction.item()
-
-    return jsonify(output)
+    with torch.no_grad():
+        prediction = model(X)
+    return jsonify(prediction.item())
 
 # Home page
 @app.route('/')
