@@ -12,4 +12,4 @@ RUN pip install -r web-application/requirements.txt
 #EXPOSE 5002
 
 # Run the Flask app using Gunicorn (production server)
-CMD ["gunicorn", "--bind", "0.0.0.0:5002", "web-application.app:app"]
+#CMD ["gunicorn", "--bind", "0.0.0.0:5002", "web-application.app:app"]

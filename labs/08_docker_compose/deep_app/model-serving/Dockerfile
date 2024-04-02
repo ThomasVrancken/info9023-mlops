@@ -7,4 +7,4 @@ COPY . .
 
 RUN pip install -r /deep_app/model-serving/requirements.txt
 
-CMD ["gunicorn", "--bind", "0.0.0.0:5001", "model_server:app"]
+#CMD ["gunicorn", "model_server:app"]

@@ -22,7 +22,7 @@ services:
       - model-training  # Wait for model training before starting serving
     ports:
       - "5001:5001"  # Expose model serving port
-    command: gunicorn model-serving.model_server:app 
+    command: gunicorn -b :5001 model-serving.model_server:app 
   web-app:
     build:
       context: .
