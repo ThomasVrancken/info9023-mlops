@@ -1,3 +1,4 @@
+import requests
 import sys
 import torch
 
@@ -18,8 +19,12 @@ model.eval()
 #Data preprocessing endpoint (triggeres preprocessing.py)
 @app.route('/preprocess_data', methods=['POST'])
 def process_data():
-    run(['python', 'data-preprocessing/data_preprocessing.py'])
-    return "Data preprocessing done"
+    response = requests.post('http://data-processing:5004/preprocess')  # replace with the correct URL
+    if response.status_code == 200:
+        result = response.json()['result']  # get the result from the JSON response
+        return "Data preprocessing done. Result: " + str(result)
+    else:
+        return "Data preprocessing failed", 500
 
 #Model training endpoint (triggeres model_training.py)
 @app.route('/train_model', methods=['POST'])

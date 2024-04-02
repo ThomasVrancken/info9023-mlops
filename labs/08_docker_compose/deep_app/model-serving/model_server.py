@@ -20,6 +20,7 @@ def predict():
     X = torch.tensor(data['X'], dtype=torch.float32)
     with torch.no_grad():
         output = model(X)
+    print('Prediction:', output.item())
     return jsonify({'prediction': output.item()})
 
 if __name__ == '__main__':

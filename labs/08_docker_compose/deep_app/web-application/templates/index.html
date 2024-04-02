@@ -51,17 +51,45 @@
         <h2>Make a prediction</h2>
 
         <form id="predictionForm">
-            <label for="inputData">Input data:</label><br>
-            <input type="text" id="inputData" name="inputData"><br>
-            <input type="submit" value="Predict">
-        </form>
+          <label for="inputData1">Feature 1:</label><br>
+          <input type="text" id="inputData1" name="inputData1"><br>
+          <!-- Repeat the above two lines for inputData2 through inputData13 -->
+          <label for="inputData2">Feature 2:</label><br>
+          <input type="text" id="inputData2" name="inputData2"><br>
+          <label for="inputData3">Feature 3:</label><br>
+          <input type="text" id="inputData3" name="inputData3"><br>
+          <label for="inputData4">Feature 4:</label><br>
+          <input type="text" id="inputData4" name="inputData4"><br>
+          <label for="inputData5">Feature 5:</label><br>
+          <input type="text" id="inputData5" name="inputData5"><br>
+          <label for="inputData6">Feature 6:</label><br>
+          <input type="text" id="inputData6" name="inputData6"><br>
+          <label for="inputData7">Feature 7:</label><br>
+          <input type="text" id="inputData7" name="inputData7"><br>
+          <label for="inputData8">Feature 8:</label><br>
+          <input type="text" id="inputData8" name="inputData8"><br>
+          <label for="inputData9">Feature 9:</label><br>
+          <input type="text" id="inputData9" name="inputData9"><br>
+          <label for="inputData10">Feature 10:</label><br>
+          <input type="text" id="inputData10" name="inputData10"><br>
+          <label for="inputData11">Feature 11:</label><br>
+          <input type="text" id="inputData11" name="inputData11"><br>
+          <label for="inputData12">Feature 12:</label><br>
+          <input type="text" id="inputData12" name="inputData12"><br>
+          <label for="inputData13">Feature 13:</label><br>
+          <input type="text" id="inputData13" name="inputData13"><br>
+          <input type="submit" value="Predict">
+      </form>
     </div>
 
     <script>
     document.getElementById('predictionForm').addEventListener('submit', async function(event) {
         event.preventDefault();
 
-        const inputData = document.getElementById('inputData').value.split(',').map(Number);
+        let inputData = [];
+        for (let i = 1; i <= 13; i++) {
+            inputData.push(parseFloat(document.getElementById('inputData' + i).value));
+        }
 
         const response = await fetch('/predict', {
             method: 'POST',

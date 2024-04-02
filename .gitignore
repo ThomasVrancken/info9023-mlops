@@ -12,6 +12,9 @@ labs/05_flask/src/gemma.py
 labs/05_flask_bis
 labs/08_docker_compose/.lab08/
 labs/08_docker_compose/test/
+labs/08_docker_compose/.DS_Store
+labs/08_docker_compose/ml_app/
+labs/08_docker_compose/deep_app/data/*
 labs/test/
 
 **/triton_sample_project
