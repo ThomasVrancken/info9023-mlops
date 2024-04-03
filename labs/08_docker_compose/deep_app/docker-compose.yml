@@ -19,6 +19,7 @@ services:
     volumes:
       - ./data:/data  # Mount data directory from host
       - ./model:/model  # Mount output model directory from host (optional)
+    command: gunicorn -b :5003 model-training.model_training:app --access-logfile - --error-logfile -
   model-serving:
     build:
       context: .  # Build from model-serving directory

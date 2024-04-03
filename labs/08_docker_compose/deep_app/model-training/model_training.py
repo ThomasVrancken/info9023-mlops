@@ -1,49 +1,49 @@
 # this code is used to train the model with pytorch
 
-import pickle
+import pandas as pd
 import sys
 import torch
 import torch.nn as nn
 import torch.optim as optim
+
+from flask import Flask, request, jsonify
 from torch.utils.data import DataLoader, TensorDataset
 
 # adding Folder_2 to the system path
 sys.path.insert(0, '/deep_app/model/')
 from model import Model
 
-# Open the .pkl file for reading in binary mode
-with open('data/X_train.pkl', 'rb') as f:
-    # Load the object from the file
-    X_train = pickle.load(f)
+app = Flask(__name__)
 
-with open('data/y_train.pkl', 'rb') as f:
-    y_train = pickle.load(f)
+@app.route('/train', methods=['POST'])
+def train_model():
+    # Get the learning rate and number of epochs from the request data
+    learning_rate = request.json.get('learning_rate', 0.001)  # Default to 0.001 if not provided
+    num_epochs = request.json.get('num_epochs', 10)  # Default to 10 if not provided    
+    # Open the .csv files
+    X_train = pd.read_csv('/data/X_train.csv')
+    X_test = pd.read_csv('/data/X_test.csv')
+    y_train = pd.read_csv('/data/y_train.csv')
+    y_test = pd.read_csv('/data/y_test.csv')
 
-with open('data/X_test.pkl', 'rb') as f:
-    X_test = pickle.load(f)
 
-with open('data/y_test.pkl', 'rb') as f:
-    y_test = pickle.load(f)
+    # Convert the dataframe to PyTorch tensors
+    X_train = torch.tensor(X_train.values, dtype=torch.float32)
+    X_test = torch.tensor(X_test.values, dtype=torch.float32)
+    y_train = torch.tensor(y_train.values, dtype=torch.float32).view(-1, 1)
+    y_test = torch.tensor(y_test.values, dtype=torch.float32).view(-1, 1)
 
+    # Create a DataLoader for the training data
+    train_data = TensorDataset(X_train, y_train)
+    train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
 
-# Convert the data to PyTorch tensors
-X_train = torch.tensor(X_train, dtype=torch.float32)
-X_test = torch.tensor(X_test, dtype=torch.float32)
-y_train = torch.tensor(y_train.values, dtype=torch.float32).view(-1, 1)
-y_test = torch.tensor(y_test.values, dtype=torch.float32).view(-1, 1)
+    # Create the model
+    model = Model(X_train.shape[1])
 
-# Create a DataLoader for the training data
-train_data = TensorDataset(X_train, y_train)
-train_loader = DataLoader(train_data, batch_size=32, shuffle=True)
+    # Define the loss function and optimizer
+    criterion = nn.MSELoss()
+    optimizer = optim.Adam(model.parameters(), learning_rate)
 
-# Create the model
-model = Model(X_train.shape[1])
-
-# Define the loss function and optimizer
-criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.001)
-
-def train_model(model, train_loader, criterion, optimizer, num_epochs=100):
     # Train the model
     for epoch in range(num_epochs):
         for i, (inputs, labels) in enumerate(train_loader):
@@ -56,7 +56,7 @@ def train_model(model, train_loader, criterion, optimizer, num_epochs=100):
 
     # Save the trained model
     torch.save(model.state_dict(), 'model/model.pth')
-    return model
+    return jsonify({'result': 'Model trained'})
 
 if __name__ == "__main__":
-    train_model(model, train_loader, criterion, optimizer, num_epochs=10)
+    app.run(debug=True)

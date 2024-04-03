@@ -16,7 +16,7 @@ model.eval()
 
 @app.route('/predict', methods=['POST'])
 def predict():
-    data = request.get_json()
+    data = request.get_json(force=True)
     X = torch.tensor(data['X'], dtype=torch.float32)
     with torch.no_grad():
         output = model(X)

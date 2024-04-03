@@ -2,8 +2,6 @@ FROM python:3.9-slim
 
 WORKDIR /deep_app
 
-ENV FLASK_APP=data_preprocessing.py
-
 # Copy the data-preprocessing folder which is in the parent directory into the container
 COPY . .
 

@@ -43,9 +43,13 @@
     <div class="container">
         <h1>Machine Learning Pipeline</h1>
         <form action="/preprocess_data" method="post">
-            <button type="submit">Process Data</button>
+            <button type="submit">Process Data</button><br>
         </form>
         <form action="/train_model" method="post">
+            <label for="learning_rate">Learning Rate:</label><br>
+            <input type="text" id="learning_rate" name="learning_rate"><br>
+            <label for="num_epochs">Number of Epochs:</label><br>
+            <input type="text" id="num_epochs" name="num_epochs"><br>
             <button type="submit">Train Model</button>
         </form>
         <h2>Make a prediction</h2>
@@ -96,10 +100,10 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({input: inputData})
+            body: JSON.stringify({X: inputData}) // Changed 'input' to 'X'
         });
         const prediction = await response.json();
-        alert('Prediction: ' + prediction);
+        alert('Prediction: ' + JSON.stringify(prediction)); // Use JSON.stringify to convert prediction object to string
     });
     </script>
 </body>
