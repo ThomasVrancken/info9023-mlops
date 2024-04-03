@@ -6,14 +6,14 @@ from flask import Flask, request, jsonify, render_template
 from subprocess import run
 
 # adding Folder_2 to the system path
-sys.path.insert(0, '/deep_app/model/')
-from model import Model
+#sys.path.insert(0, '/deep_app/model/')
+from model.model import Model
 
 app = Flask(__name__)
 
 # Load the model
 model = Model(13)  # replace with the number of input features
-model.load_state_dict(torch.load('/deep_app/model/model.pth'))
+model.load_state_dict(torch.load('./model/model.pth'))
 model.eval()
 
 #Data preprocessing endpoint (triggeres preprocessing.py)

@@ -2,11 +2,13 @@
 FROM python:3.9-slim
 
 # Set working directory
-WORKDIR /deep_app
+WORKDIR /app
 
-COPY . .
+COPY ./web-application/ .
+COPY ./model/ ./model
+COPY ./data/ ./data
 
-RUN pip install -r web-application/requirements.txt
+RUN pip install -r requirements.txt
 
 # Expose the port where the Flask app runs (usually 5000)
 #EXPOSE 5002

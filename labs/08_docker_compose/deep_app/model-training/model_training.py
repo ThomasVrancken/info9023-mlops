@@ -9,9 +9,8 @@ import torch.optim as optim
 from flask import Flask, request, jsonify
 from torch.utils.data import DataLoader, TensorDataset
 
-# adding Folder_2 to the system path
-sys.path.insert(0, '/deep_app/model/')
-from model import Model
+
+from model.model import Model
 
 app = Flask(__name__)
 
@@ -55,7 +54,7 @@ def train_model():
         print(f'Epoch {epoch+1}, Loss: {loss.item()}')
 
     # Save the trained model
-    torch.save(model.state_dict(), 'model/model.pth')
+    torch.save(model.state_dict(), './model/model.pth')
     return jsonify({'result': 'Model trained'})
 
 if __name__ == "__main__":

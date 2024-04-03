@@ -3,15 +3,13 @@ import torch
 import torch.nn as nn
 from flask import Flask, request, jsonify
 
-# adding Folder_2 to the system path
-sys.path.insert(0, '/deep_app/model/')
-from model import Model
+from model.model import Model
 
 app = Flask(__name__)
 
 # Load the trained model
 model = Model(input_dim=13)
-model.load_state_dict(torch.load('/deep_app/model/model.pth'))
+model.load_state_dict(torch.load('./model/model.pth'))
 model.eval()
 
 @app.route('/predict', methods=['POST'])
