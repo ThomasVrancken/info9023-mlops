@@ -2,9 +2,9 @@ FROM pytorch/pytorch:latest
 
 WORKDIR /app
 
-COPY ./model-training/ .
-COPY ./model/ ./model
-COPY ./data/ ./data
+COPY ./services/model-training/ .
+COPY ../../model/ ./model
+COPY ../../data/ ./data
 
 RUN pip install -r requirements.txt
 

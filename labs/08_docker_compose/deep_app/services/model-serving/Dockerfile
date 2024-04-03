@@ -3,8 +3,8 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY ./model-serving/ .
-COPY ./model/ ./model
+COPY ./services/model-serving/ .
+COPY ../../model/ ./model
 
 RUN pip install -r requirements.txt
 

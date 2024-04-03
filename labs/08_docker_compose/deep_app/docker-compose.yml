@@ -4,7 +4,7 @@ services:
   data-processing:
     build: 
       context: .  # Build from data-processing directory
-      dockerfile: data-preprocessing/Dockerfile
+      dockerfile: services/data-preprocessing/Dockerfile
     ports:
       - "5004:5004"  # Expose data processing port
     volumes:
@@ -13,7 +13,7 @@ services:
   model-training:
     build:
       context: .  # Build from model-training directory
-      dockerfile: model-training/Dockerfile
+      dockerfile: services/model-training/Dockerfile
     ports:
       - "5003:5003"  # Expose model training port
     volumes:
@@ -23,7 +23,7 @@ services:
   model-serving:
     build:
       context: .  # Build from model-serving directory
-      dockerfile: model-serving/Dockerfile
+      dockerfile: services/model-serving/Dockerfile
     depends_on:
       - model-training  # Wait for model training before starting serving
     ports:
@@ -32,7 +32,7 @@ services:
   web-app:
     build:
       context: .
-      dockerfile: web-application/Dockerfile # Build from current directory (containing app.py)
+      dockerfile: services/web-application/Dockerfile # Build from current directory (containing app.py)
     ports:
       - "5002:5002"  # Expose Flask app port
     volumes:
