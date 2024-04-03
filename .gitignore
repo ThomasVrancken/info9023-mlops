@@ -3,6 +3,8 @@ examples/
 **/.venv/
 my_labs/
 
+__pycache__/
+
 
 labs/05_flask/__pycache__
 labs/05_flask/.ipynb_checkpoints
