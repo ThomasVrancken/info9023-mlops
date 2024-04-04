@@ -1,5 +1,3 @@
-# this code is used to train the model with pytorch
-
 import pandas as pd
 import sys
 import torch

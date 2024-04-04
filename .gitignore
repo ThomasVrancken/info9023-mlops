@@ -18,5 +18,6 @@ labs/08_docker_compose/.DS_Store
 labs/08_docker_compose/ml_app/
 labs/08_docker_compose/deep_app/data/*
 labs/test/
+labs/08_test/
 
 **/triton_sample_project

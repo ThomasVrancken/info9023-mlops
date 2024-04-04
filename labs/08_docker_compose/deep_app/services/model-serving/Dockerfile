@@ -7,5 +7,3 @@ COPY ./services/model-serving/ .
 COPY ../../model/ ./model
 
 RUN pip install -r requirements.txt
-
-#CMD ["gunicorn", "model_server:app"]
