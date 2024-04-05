@@ -812,7 +812,7 @@ Once you are done, you can stop the services with the following command:
 ```bash
 docker-compose down
 ```
-If you don't use this command, the containers will keep running in the background even if you close the terminal. This is a problem because it takes up resources on your machine. So this command will stop the containers created from the `docker-compose up` command and remove the containers defined in the `docker-compose.yml` file. What we mean by remove is that the containers are stopped and removed. The images are not removed. If you want to remove the images you can use the `docker rmi` command.
+If you don't use this command, the containers will still be in use and keep running in the background even if you close the terminal. This is a problem because it takes up resources on your machine. So this command will stop the containers created from the `docker-compose up` command and remove the containers defined in the `docker-compose.yml` file. What we mean by remove is that the containers are stopped and removed. The images are not removed. If you want to remove the images you can use the `docker rmi` command.
 
 
 
