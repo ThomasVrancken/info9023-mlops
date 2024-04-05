@@ -1,4 +1,4 @@
-# Lab W05: Deploy API in Google Cloud Platform (GCP)
+# Lab W06: Deploy API in Google Cloud Platform (GCP)
 
 The goal of this lab is to deploy a basic Python Flask API we created in the previous lab to the Google Cloud Platform (GCP).
 
