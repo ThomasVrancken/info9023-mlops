@@ -33,14 +33,13 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
 | 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](lectures/07_serving_and_training_optimisation.pdf) |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
-| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    |     |
-| 15/04/2024 - 17/04/2024 | (To be confirmed !) [MS 2 presentations](#project)    |
+| 08/04/2024 | W8 | Sprint 4       | Microservices & Model Pipelines    |     |
+| 15/04/2024 - 17/04/2024 | (To be confirmed !)     |
 | 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       |     |
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 06/05/2024 | W10| Sprint 5       | CICD|     |
-| 13/05/2024 | W11| Closing sprint | Ethics & Real world use cases   |     |
-| (To be confirmed !)  | (To be confirmed !) [MS 3 presentations](#project)    |
+| 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#project)  |     |
 
 ## Course culture
 
@@ -65,6 +64,8 @@ Here is an overview of how the sprints are organised:
 
 ## Project 
 
+:warning: EDIT: The format was updated for the first year to have only **2 milestone presentations** in total. See the [milestones](#milestones) section.
+
 All the project info can be found in the [project/project_description.pdf](project/project_description.pdf) document.
 
 Important to highlight that you are the **decision makers for the design of your project** :open_hands: Design it in a coherent way. Spend time on features that **make sense**. Don't see the workpackages as a long checklist, rather on possible points to implement.
@@ -73,32 +74,40 @@ For example, if you implement a computer vision model you might spend more time 
 
 #### Milestones
 
-The main way to handover the results of your projects will be during the 3 **milestones**.
+The main way to handover the results of your projects will be during the 2 **milestones**.
 
-The first Milestone will be used to present the work you did during sprint 1 & 2, the second Milestone for the work you did in sprint 3 & 4 and the final milestone will be used to present the overall project outcome and work from sprint 5.
+The first Milestone will be used to present the work you did during sprint 1 & 2.
+The main purpose of the first Milestone is to provide feedback and guidance on the project. The final project grade will be determined at the end of the project. If there are any issues highlighted during the milestone there is room for fixing it in the later development of the project.
 
-The main purpose of the Milestones is to provide feedback and guidance on the project. The final project grade will be determined at the end of the project. If there are any issues highlighted during the milestone there is room for fixing it in the later development of the project.
+The second and final Milestone will be used to present the overall project once completed. It will be held  during the last class of the semester, in the classroom, instead of a lecture. Teams are welcomed to attend other project presentations.
 
 Make it your own! Focus on what is relevant and interesting. You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
 
 #### Handovers
-1. At each milestone, you will show your results through a **10 minutes presentation** followed by a 5 minutes QA from the teaching staff. There are two options for those presentations:
+1. At each milestone, you will show your results through a **10 minutes presentation** followed by a 5 minutes QA from the teaching staff.
 2. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
 Make sure to clearly document what is important in the code base for the teaching staff to look at. By default, the teaching staff will focus on the README and the pull request description.
+Send your codes **before the milestone meeting** and **by an email with a link to the pull request** to the teaching staff (t.vrancken@uliege.be and Matthias.Pirlet@uliege.be)
 
-#### Practicals
+Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Just tagging the teaching staff on Github is not enough.
+
+#### Practicals Milestone 1
+
+Milestone 1 presentations will happen between the 11/03/2024 and the 18/03/2024.
+
 :warning: Each team needs **to book a meeting** slot to present their Milestone. Link will be *shared by email* (if a group has no students in the mailing list please let the teaching staff know.). There are two options for those meetings:
+
 1. You can book an online meeting via a Google Meets between 13:00 and 17:00 in the days available for each specific milestone (for exact days see calendar invite and [timing section](#timing))
 2. You can present it in the classroom from 11:30 to 12:30 right after the lectures in the two weeks following the closing sprint of a milestone (for exact days see calendar invite and [timing section](#timing)). As the class will be busy with presentations after the course those weeks, it means that other teams can still use the time to work on their projects but from another location. Support on the project will then be more ad-hoc those weeks. You can still raise questions by email, Discord or during the open office hours every Monday till 18:00 in office 77B in building B28.
 
+#### Practicals Milestone 2
 
-Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Notifications on Github are not the single point.
+Milestone 2 presentations will happen in the classroom during the last class on the 13/05/2024.
 
-You can present your project [ML Canvas](https://madewithml.com/courses/mlops/product-design) during the first Milestone presentation.
+The schedule for the presentations can be found in this [sheet](https://docs.google.com/spreadsheets/d/1X48eAJbuepFOx-5c_502nvXD53BJw6cp3cwoyJjOsCo/edit#gid=0). If your group is not in there or if the time does not work for your group please let the teaching staff know.
 
-#### Timing
-- Milestone 1 presentations will happen between the 11/03/2024 and the 18/03/2024
-- Milestone 2 and 3 timing still needs to be set.
+*Attendace*: Note that it is fine if one of your team member can really not attend the presentation. 
+If it is not possible for a more people of your team to present that day you can also request to do it another day in an online meeting presentation.
 
 ## Exam 
 
