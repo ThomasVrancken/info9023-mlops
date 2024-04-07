@@ -137,7 +137,7 @@ In the `docker-compose.yml` file, you can define multiple services for your appl
 
 - **Build** : The build configuration allows you to build a custom image for the service using a Dockerfile. You can specify the path to the Dockerfile and the context for the build. Here the `Dockerfile` and the `docker-compose.yml` file are in the same directory, so we use `.` for the build path.
 
-- **Image** : The image to use for the service. You can use an existing image from Docker Hub or a custom image built from a Dockerfile. If we our machine learning pipeline to use a pre-built image from Docker Hub for the data processing service we could write in the `docker-compose.yml` file:
+- **Image** : The image to use for the service. You can use an existing image from Docker Hub or a custom image built from a Dockerfile. If we want our machine learning pipeline to use a pre-built image from Docker Hub for the data processing service we could write in the `docker-compose.yml` file:
 
 ```yaml
 version: '3.9'
