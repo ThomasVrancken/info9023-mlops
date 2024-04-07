@@ -38,7 +38,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 06/05/2024 | W10| Sprint 5       | CICD|     |
-| 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#project)  |     |
+| 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#practicals-milestone-2)  |     |
 
 ## Course culture
 
@@ -101,7 +101,7 @@ Milestone 1 presentations will happen between the 11/03/2024 and the 18/03/2024.
 
 #### Practicals Milestone 2
 
-Milestone 2 presentations will happen in the classroom during the last class on the 13/05/2024.
+:warning: Milestone 2 presentations will happen in the classroom during the last class on the 13/05/2024.
 
 The schedule for the presentations can be found in this [sheet](https://docs.google.com/spreadsheets/d/1X48eAJbuepFOx-5c_502nvXD53BJw6cp3cwoyJjOsCo/edit#gid=0). If your group is not in there or if the time does not work for your group please let the teaching staff know.
 
