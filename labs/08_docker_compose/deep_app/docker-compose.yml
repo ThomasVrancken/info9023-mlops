@@ -1,0 +1,42 @@
+version: "3.9"
+
+services:
+  data-processing:
+    build: 
+      context: .  # Build from data-processing directory
+      dockerfile: services/data-preprocessing/Dockerfile
+    ports:
+      - "5004:5004"  # Expose data processing port
+    volumes:
+      - ./data:/data  # Mount data directory from host (read-write)
+    command: gunicorn -b :5004 data_preprocessing:app --access-logfile - --error-logfile -
+  model-training:
+    build:
+      context: .  # Build from model-training directory
+      dockerfile: services/model-training/Dockerfile
+    ports:
+      - "5003:5003"  # Expose model training port
+    volumes:
+      - ./data:/data  # Mount data directory from host
+      - ./model:/model  # Mount output model directory from host (optional)
+    command: gunicorn -b :5003 model_training:app --access-logfile - --error-logfile -
+  model-serving:
+    build:
+      context: .  # Build from model-serving directory
+      dockerfile: services/model-serving/Dockerfile
+    depends_on:
+      - model-training  # Wait for model training before starting serving
+    ports:
+      - "5001:5001"  # Expose model serving port
+    command: gunicorn -b :5001 model_server:app --access-logfile - --error-logfile - 
+  web-app:
+    build:
+      context: .
+      dockerfile: services/web-application/Dockerfile # Build from current directory (containing app.py)
+    ports:
+      - "5002:5002"  # Expose Flask app port
+    volumes:
+      - ./model:/model  # Mount model directory for predictions
+      - ./data:/data  # Mount data directory for predictions
+    command: gunicorn -b :5002 app:app --access-logfile - --error-logfile -
+    
