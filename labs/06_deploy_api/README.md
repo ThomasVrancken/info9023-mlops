@@ -1,4 +1,4 @@
-# Lab W05: Deploy API in Google Cloud Platform (GCP)
+# Lab W06: Deploy API in Google Cloud Platform (GCP)
 
 The goal of this lab is to deploy a basic Python Flask API we created in the previous lab to the Google Cloud Platform (GCP).
 
@@ -160,6 +160,29 @@ Pick cloud project to use:
 Please enter numeric choice or text value (must exactly match list item):
 ```
 3. Select the project you just created.
+
+### 2.4 Change the project
+If you want to work in another project, you can see the list of your projects by running the following command in your terminal:
+
+```bash
+> gcloud projects list
+```
+
+This should give you something like this:
+
+```bash
+PROJECT_ID                NAME                  PROJECT_NUMBER
+something-staging-2587    something-staging     804012817122
+something-production-24   something-production  392181605736
+```
+
+Now if you want to change the project you are working on, you can change the project by running the following command in your terminal:
+
+```bash
+> gcloud config set project something-staging-2587
+```
+
+where `something-staging-2587` is the `PROJECT_ID` of the project you want to work on.
 
 ## 3. Deploy the app to GCP
 

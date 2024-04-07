@@ -1,4 +1,4 @@
-# Lab 5: Introduction to Flask
+# Lab W05: Introduction to Flask
 
 In this lab, you will learn the basics of Flask. Flask is a lightweight and flexible web framework for Python designed to make building web applications quick and easy. It provides the tools and libraries needed to create web applications with minimal boilerplate code, allowing developers to focus on the core logic of their applications.
 
