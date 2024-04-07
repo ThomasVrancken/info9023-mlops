@@ -333,7 +333,6 @@ Once again, this is a simple example of model training. The aim is to show how t
 
 ```python
 import pandas as pd
-import sys
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -433,7 +432,6 @@ In the `model-serving` directory, we modify the `model_serving.py` file. This se
 #### 2.4.1 Model serving service code
 
 ```python
-import sys
 import torch
 import torch.nn as nn
 from flask import Flask, request, jsonify
@@ -504,7 +502,6 @@ The web application will have a home page with buttons to trigger the data proce
 
 ```python
 import requests
-import sys
 import torch
 
 from flask import Flask, request, jsonify, render_template
