@@ -23,7 +23,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description       | Material (gradually added)      |
 |------------|------------|----------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| 05/02/2024 | W0 | Sprint 0       | Course introduction  | [lecture slides](lectures/00_course_introduction.pdf)  |
+| 05/02/2024 | W0 | Sprint 0       | Course introduction  | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/00_course_introduction.pdf)  |
 | 12/02/2024 | W1 | Sprint 1       | Use case definition  | [lecture slides](lectures/01_use_case_definition.pdf)  |
 | 19/02/2024 | W2 | Sprint 1       | Project organisation<br/> Lab git code versioning| [lecture slides](lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)|
 | 26/02/2024 | W3 | Sprint 2       | Data processing<br/> Lab YData-profiling      | [lecture slides](lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
