@@ -2,11 +2,6 @@ import os
 import requests
 
 from flask import Flask, request, jsonify, render_template
-from subprocess import run
-
-# adding Folder_2 to the system path
-#sys.path.insert(0, '/deep_app/model/')
-from model.model import Model
 
 app = Flask(__name__)
 

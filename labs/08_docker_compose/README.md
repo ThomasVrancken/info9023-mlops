@@ -385,7 +385,7 @@ def train_model():
         print(f'Epoch {epoch+1}, Loss: {loss.item()}')
 
     # Save the trained model
-    torch.save(model.state_dict(), './model/model.pth')
+    torch.save(model.state_dict(), '/model/model.pth')
     return jsonify({'result': 'Model trained'})
 
 if __name__ == "__main__":
@@ -433,7 +433,6 @@ In the `model-serving` directory, we modify the `model_serving.py` file. This se
 
 ```python
 import torch
-import torch.nn as nn
 from flask import Flask, request, jsonify
 
 from model.model import Model
@@ -443,7 +442,7 @@ app = Flask(__name__)
 @app.route('/predict', methods=['POST'])
 def predict():
     # Load the trained model
-    model = Model(input_dim=13)
+    model = Model(13)
     model.load_state_dict(torch.load('./model/model.pth'))
     model.eval()
     data = request.get_json(force=True)
@@ -501,15 +500,10 @@ The web application will have a home page with buttons to trigger the data proce
 #### 2.5.1 Web application service code
 
 ```python
+import os
 import requests
-import torch
 
 from flask import Flask, request, jsonify, render_template
-from subprocess import run
-
-# adding Folder_2 to the system path
-#sys.path.insert(0, '/deep_app/model/')
-from model.model import Model
 
 app = Flask(__name__)
 
@@ -791,6 +785,10 @@ services:
       - ./model:/model  # Mount model directory for predictions
       - ./data:/data  # Mount data directory for predictions
     command: gunicorn -b :5002 app:app --access-logfile - --error-logfile -
+
+volumes:
+  data:
+  model:
 ```
 
 In this `docker-compose.yml` file:
