@@ -33,7 +33,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
 | 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](lectures/07_serving_and_training_optimisation.pdf) <br/> [lab folder](labs/07_triton) |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
-| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    |     |
+| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    | [lecture slides](lectures/08_microservices_and_model_pipelines.pdf) <br/> [lab folder](labs/08_docker_compose)    |
 | 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       |     |
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
