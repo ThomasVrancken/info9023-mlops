@@ -137,7 +137,7 @@ In the `docker-compose.yml` file, you can define multiple services for your appl
 
 - **Build** : The build configuration allows you to build a custom image for the service using a Dockerfile. You can specify the path to the Dockerfile and the context for the build. Here the `Dockerfile` and the `docker-compose.yml` file are in the same directory, so we use `.` for the build path.
 
-- **Image** : The image to use for the service. You can use an existing image from Docker Hub or a custom image built from a Dockerfile. If we our machine learning pipeline to use a pre-built image from Docker Hub for the data processing service we could write in the `docker-compose.yml` file:
+- **Image** : The image to use for the service. You can use an existing image from Docker Hub or a custom image built from a Dockerfile. If we want our machine learning pipeline to use a pre-built image from Docker Hub for the data processing service we could write in the `docker-compose.yml` file:
 
 ```yaml
 version: '3.9'
@@ -333,7 +333,6 @@ Once again, this is a simple example of model training. The aim is to show how t
 
 ```python
 import pandas as pd
-import sys
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -433,7 +432,6 @@ In the `model-serving` directory, we modify the `model_serving.py` file. This se
 #### 2.4.1 Model serving service code
 
 ```python
-import sys
 import torch
 import torch.nn as nn
 from flask import Flask, request, jsonify
@@ -504,7 +502,6 @@ The web application will have a home page with buttons to trigger the data proce
 
 ```python
 import requests
-import sys
 import torch
 
 from flask import Flask, request, jsonify, render_template
