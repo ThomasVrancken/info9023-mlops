@@ -30,7 +30,7 @@ We will then create a Service Account key to be used locally.
 1. Go to the [service accounts](https://console.cloud.google.com/iam-admin/serviceaccounts) tab in the IAM & Admin page
 2. Click "create service account"
    1. Give it a name and description (e.g. `gcs-access`)
-   2. In "Grant this service account access to project", give it the `Storage Object Admin` role.
+   2. In "Grant this service account access to project". Go to the `Select a role` drop-down list, in `By product or service` choose `Cloud Storage` and give it the `Storage Object Admin` role.
    3. Once created, click on the service account and go to the `KEYS` tab
    4. Click on `ADD KEY` and select JSON. That will download a service account key locally which has access to GCS :smiley:
    5. Save that JSON file locally and **make sure to not upload it to git!**
