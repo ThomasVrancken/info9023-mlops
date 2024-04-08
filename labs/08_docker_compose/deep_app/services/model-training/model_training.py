@@ -14,8 +14,8 @@ app = Flask(__name__)
 @app.route('/train', methods=['POST'])
 def train_model():
     # Get the learning rate and number of epochs from the request data
-    learning_rate = request.json.get('learning_rate', 0.001)  # Default to 0.001 if not provided
-    num_epochs = request.json.get('num_epochs', 10)  # Default to 10 if not provided    
+    learning_rate = request.json.get('learning_rate')
+    num_epochs = request.json.get('num_epochs') 
     # Open the .csv files
     X_train = pd.read_csv('/data/X_train.csv')
     X_test = pd.read_csv('/data/X_test.csv')
@@ -51,7 +51,7 @@ def train_model():
         print(f'Epoch {epoch+1}, Loss: {loss.item()}')
 
     # Save the trained model
-    torch.save(model.state_dict(), './model/model.pth')
+    torch.save(model.state_dict(), '/model/model.pth')
     return jsonify({'result': 'Model trained'})
 
 if __name__ == "__main__":
