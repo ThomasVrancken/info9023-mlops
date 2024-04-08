@@ -19,5 +19,7 @@ labs/08_docker_compose/ml_app/
 labs/08_docker_compose/deep_app/data/*
 labs/test/
 labs/08_test/
+labs/08_bis/
+labs/08_docker_compose/model/model.pth
 
 **/triton_sample_project

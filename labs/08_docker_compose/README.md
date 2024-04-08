@@ -348,8 +348,8 @@ app = Flask(__name__)
 @app.route('/train', methods=['POST'])
 def train_model():
     # Get the learning rate and number of epochs from the request data
-    learning_rate = request.json.get('learning_rate', 0.001)  # Default to 0.001 if not provided
-    num_epochs = request.json.get('num_epochs', 10)  # Default to 10 if not provided    
+    learning_rate = request.json.get('learning_rate')
+    num_epochs = request.json.get('num_epochs')   
     # Open the .csv files
     X_train = pd.read_csv('/data/X_train.csv')
     X_test = pd.read_csv('/data/X_test.csv')
@@ -440,13 +440,12 @@ from model.model import Model
 
 app = Flask(__name__)
 
-# Load the trained model
-model = Model(input_dim=13)
-model.load_state_dict(torch.load('./model/model.pth'))
-model.eval()
-
 @app.route('/predict', methods=['POST'])
 def predict():
+    # Load the trained model
+    model = Model(input_dim=13)
+    model.load_state_dict(torch.load('./model/model.pth'))
+    model.eval()
     data = request.get_json(force=True)
     X = torch.tensor(data['X'], dtype=torch.float32)
     with torch.no_grad():
@@ -463,9 +462,10 @@ if __name__ == '__main__':
 We modify the `requirements.txt` file to specify the dependencies for the model serving service.
 
 ```txt
-torch
 flask
 gunicorn
+numpy
+torch
 ```
 
 #### 2.4.3 Model serving service Dockerfile
@@ -531,10 +531,17 @@ def process_data():
 #Model training endpoint (triggeres model_training.py)
 @app.route('/train_model', methods=['POST'])
 def train_model():
+    # Check if the preprocessed data exists
+    if not os.path.exists('/data/X_train.csv'):
+        return jsonify({'error': 
+                        'Data is not ready. Please preprocess data first.'}
+                        ), 400
     #get learning rate provided by the user. Default to 0.001 if not provided
-    learning_rate = float(request.form.get('learning_rate', 0.001))
+    learning_rate = request.form.get('learning_rate')
+    learning_rate = float(learning_rate) if learning_rate else 0.001
     #get number of epochs provided by the user. Default to 10 if not provided
-    num_epochs = int(request.form.get('num_epochs', 10))
+    num_epochs = request.form.get('num_epochs')
+    num_epochs = int(num_epochs) if num_epochs else 10
 
     # Make a POST request to the /train route in model_training.py 
     #       with the learning rate and number of epochs
@@ -551,6 +558,12 @@ def train_model():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    # Check if the model exists
+    if not os.path.exists('/model/model.pth'):
+        return jsonify({'error': 
+                        'Model is not ready. Please train the model first.'}
+                        ),400
+    
     # Get the data from the POST request.
     data = request.get_json(force=True)
     # Make a POST request to the /predict route in another Flask app
@@ -767,7 +780,7 @@ services:
       - model-training  # Wait for model training before starting serving
     ports:
       - "5001:5001"  # Expose model serving port
-    command: gunicorn -b :5001 model_server:app --access-logfile - --error-logfile - 
+    command: gunicorn -b :5001 model_serving:app --access-logfile - --error-logfile - 
   web-app:
     build:
       context: .
