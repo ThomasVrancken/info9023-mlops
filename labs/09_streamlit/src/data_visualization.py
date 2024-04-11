@@ -7,13 +7,15 @@ import streamlit as st
 
 from sklearn.preprocessing import MinMaxScaler
 
-SERVICE_ACCOUNT_PATH = '{your_svc_path}'
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = SERVICE_ACCOUNT_PATH
 # Load the datasets
-housing = pd.read_csv('gs://bucket-lab9/housing.csv')
-iris = pd.read_csv('gs://bucket-lab9/iris.csv')
-stocks = pd.read_csv('gs://bucket-lab9/all_stocks_5yr.csv')
-wine = pd.read_csv('gs://bucket-lab9/winequality-red.csv')
+housing = pd.read_csv(
+    'https://storage.googleapis.com/bucket-lab9/housing.csv')
+iris = pd.read_csv(
+    'https://storage.googleapis.com/bucket-lab9/iris.csv')
+stocks = pd.read_csv(
+    'https://storage.googleapis.com/bucket-lab9/all_stocks_5yr.csv')
+wine = pd.read_csv(
+    'https://storage.googleapis.com/bucket-lab9/winequality-red.csv')
 
 # Sidebar
 dataset = st.sidebar.selectbox('Select dataset', ['California House Price', 
@@ -54,7 +56,8 @@ if dataset == 'California House Price':
 
     # Create a histogram for the 'median_house_value' column with seaborn
     fig, ax = plt.subplots()
-    sns.histplot(housing['median_house_value'], bins=50, ax=ax, edgecolor='black')
+    sns.histplot(housing['median_house_value'], bins=50, ax=ax, 
+                 edgecolor='black')
     ax.set_xlabel('Median House Value')
     ax.set_ylabel('Number of Houses')
     ax.set_title('Histogram of Median House Values')
@@ -71,10 +74,11 @@ elif dataset == 'S&P 500 stock data':
     # Add visualizations for S&P 500 stock data dataset
 
     #Add a box to select a stock symbol
-    stock_symbol = st.selectbox('Select a stock symbol', stocks['Name'].unique())
+    stock_symbol = st.selectbox('Select a stock symbol',
+                                stocks['Name'].unique())
     #get a subset of the dataset for the selected stock
     stock_data = stocks[stocks['Name'] == stock_symbol]
-    #plot the stock volume and close price over time on the same plot with 2 y-axes
+    #plot the stock close price over time 
     st.line_chart(stock_data['close'])
 
     # Scatter plot of stock price vs volume
