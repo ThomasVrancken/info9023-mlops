@@ -22,5 +22,6 @@ labs/test/
 labs/08_test/
 labs/08_bis/
 labs/08_docker_compose/deep_app/model/model.pth
+labs/09_streamlit/data/
 
 **/triton_sample_project

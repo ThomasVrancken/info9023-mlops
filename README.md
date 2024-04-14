@@ -39,6 +39,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 06/05/2024 | W10| Sprint 5       | CICD|     |
 | 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#practicals-milestone-2)  |     |
+| 31/05/2024 | Exam |     |  | See [exam section](#exam) |
 
 ## Course culture
 
@@ -110,9 +111,11 @@ If it is not possible for a more people of your team to present that day you can
 
 ## Exam 
 
-You can find a practice exam in the [exams/practice_exam_june_2024.pdf](exams/practice_exam_june_2024.pdf) document.
+The exam will take the form of an oral exam in whih you will have to answer a series of 4-5 questions based on a case study. You will have 30 minutes to prepare your answer and then 20 minutes to present them. The questions will be based on the course material and tools you used during the project. You can see what you need to know and what is not needed at the end of each lecture. You can also find a practice exam in the [exams/practice_exam_june_2024.pdf](exams/practice_exam_june_2024.pdf) document.
 
-The PhD students are exempted from the exam. They will be graded on the project only.
+You will receive an email with a Doodle link to select your preferred exam slot. It will be **first come first serve**. The exam will take place on **31/05/2024**.
+
+The PhD students are exempt from the exam. They will be graded on the project only.
 
 ## Resources
 
