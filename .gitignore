@@ -2,6 +2,7 @@
 examples/
 **/.venv/
 my_labs/
+secrets/
 
 __pycache__/
 

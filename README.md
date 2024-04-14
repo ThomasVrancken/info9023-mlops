@@ -23,15 +23,15 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description       | Material (gradually added)      |
 |------------|------------|----------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| 05/02/2024 | W0 | Sprint 0       | Course introduction  | [lecture slides](lectures/00_course_introduction.pdf)  |
-| 12/02/2024 | W1 | Sprint 1       | Use case definition  | [lecture slides](lectures/01_use_case_definition.pdf)  |
-| 19/02/2024 | W2 | Sprint 1       | Project organisation<br/> Lab git code versioning| [lecture slides](lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)|
-| 26/02/2024 | W3 | Sprint 2       | Data processing<br/> Lab YData-profiling      | [lecture slides](lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
-| 04/03/2024 | W4 | Sprint 2       | Model development(_class in B28 R.75 (0/75)_) | [lecture slides](lectures/04_model_experimentation_and_containerisation.pdf) <br/> [lab folder](labs/04_containerisation)    | 
+| 05/02/2024 | W0 | Sprint 0       | Course introduction  | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/00_course_introduction.pdf)  |
+| 12/02/2024 | W1 | Sprint 1       | Use case definition  | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/01_use_case_definition.pdf)  |
+| 19/02/2024 | W2 | Sprint 1       | Project organisation<br/> Lab git code versioning| [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)|
+| 26/02/2024 | W3 | Sprint 2       | Data processing<br/> Lab YData-profiling      | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
+| 04/03/2024 | W4 | Sprint 2       | Model development(_class in B28 R.75 (0/75)_) | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/04_model_experimentation_and_containerisation.pdf) <br/> [lab folder](labs/04_containerisation)    | 
 | 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)    |
-| 11/03/2024 | W5 | Sprint 3       | API implementation      | [lecture slides](lectures/05_api_implementation.pdf) <br/> [guest lecture](lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
-| 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
-| 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](lectures/07_serving_and_training_optimisation.pdf) <br/> [lab folder](labs/07_triton) |
+| 11/03/2024 | W5 | Sprint 3       | API implementation      | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/05_api_implementation.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
+| 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
+| 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/07_serving_and_training_optimisation.pdf) <br/> [lab folder](labs/07_triton) |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
 | 08/04/2024 | W8 | Sprint 4       | Model Pipeline    | [lecture slides](lectures/08_microservices_and_model_pipelines.pdf) <br/> [lab folder](labs/08_docker_compose)    |
 | 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       |     |
@@ -111,6 +111,8 @@ If it is not possible for a more people of your team to present that day you can
 ## Exam 
 
 You can find a practice exam in the [exams/practice_exam_june_2024.pdf](exams/practice_exam_june_2024.pdf) document.
+
+The PhD students are exempted from the exam. They will be graded on the project only.
 
 ## Resources
 
