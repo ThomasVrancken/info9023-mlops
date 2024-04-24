@@ -247,10 +247,15 @@ After integrating the linters, formatter, and Pytest in your workflow, you can n
 
 Again we will use GCP to deploy our application.
 
-### Your turn
+### 5.1 Your turn
 
 You are now asked to deploy your application to Google Cloud Platform (GCP) as part of the workflow.
 
+## Resources
+
+- https://docs.github.com/en/actions/quickstart
+- https://pypi.org/project/pylint
+- https://docs.astral.sh/ruff
 
 
 
