@@ -37,7 +37,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       |     |
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
-| 06/05/2024 | W10| Sprint 5       | CICD|     |
+| 06/05/2024 | W10| Sprint 5       | CICD| [lecture slides](lectures/10_cicd.pdf)  |
 | 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#practicals-milestone-2)  |     |
 | 31/05/2024 | Exam |     |  | See [exam section](#exam) |
 
