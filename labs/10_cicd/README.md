@@ -141,9 +141,6 @@ A job is a set of steps in a workflow that is executed on the same runner. You c
 
 An action is a custom application for GitHub Actions that can be run in a workflow. Actions are the smallest portable building block of a workflow. You can use actions defined in the GitHub Marketplace or create your own actions.
 
-
-Here is an example of a simple workflow that builds and tests a Python project using Ruff to lint the code:
-
 ```yaml
 name: Python CI
 
