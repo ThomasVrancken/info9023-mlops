@@ -113,9 +113,13 @@ If it is not possible for a more people of your team to present that day you can
 
 The exam will take the form of an oral exam in whih you will have to answer a series of 4-5 questions based on a case study. You will have 30 minutes to prepare your answer and then 20 minutes to present them. The questions will be based on the course material and tools you used during the project. You can see what you need to know and what is not needed at the end of each lecture. You can also find a practice exam in the [exams/practice_exam_june_2024.pdf](exams/practice_exam_june_2024.pdf) document.
 
-You will receive an email with a Doodle link to select your preferred exam slot. It will be **first come first serve**. The exam will take place on **31/05/2024**.
-
 The PhD students are exempt from the exam. They will be graded on the project only.
+
+You will receive an email with a Doodle link to select your preferred exam slot. It will be **first come first serve**. The exam will take place on **31/05/2024**. 
+
+You can first go to the "preparation room" (B28 R.18 (0/18) [Liège Sart-Tilman - Polytech]), where you will be handed your exam page and some paper to take notes. You will have 30 minutes to prepare it, before going to the room where you will actually take the exame (office 77B in B28).
+
+:warning: You are **not allowed to use your computer or smartphone once you received your exam assignment, nor can you use extra notes or material**.
 
 ## Resources
 
