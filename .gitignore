@@ -23,5 +23,10 @@ labs/08_test/
 labs/08_bis/
 labs/08_docker_compose/deep_app/model/model.pth
 labs/09_streamlit/data/
+labs/09_streamlit/deep_app/data/
+labs/09_streamlit/deep_app/model/
+labs/10_cicd/bad_code.py
 
 **/triton_sample_project
+
+.gitignore
