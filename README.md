@@ -33,11 +33,11 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
 | 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/07_serving_and_training_optimisation.pdf) <br/> [lab folder](labs/07_triton) |
 | 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
-| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    | [lecture slides](lectures/08_microservices_and_model_pipelines.pdf) <br/> [lab folder](labs/08_docker_compose)    |
-| 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       |     |
+| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/08_microservices_and_model_pipelines.pdf) <br/> [lab folder](labs/08_docker_compose)    |
+| 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/09_monitoring_and_dashboarding.pdf) <br/> [lab folder](labs/09_streamlit)    |
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
-| 06/05/2024 | W10| Sprint 5       | CICD| [lecture slides](lectures/10_cicd.pdf)  |
+| 06/05/2024 | W10| Sprint 5       | CICD| [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/10_cicd.pdf)  <br/> [lab folder](labs/10_cicd) |
 | 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#practicals-milestone-2)  |     |
 | 31/05/2024 | Exam |     |  | See [exam section](#exam) |
 
@@ -83,6 +83,8 @@ The second and final Milestone will be used to present the overall project once 
 
 Make it your own! Focus on what is relevant and interesting. You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
 
+The project counts for 70% of the final grade, while the exam counts for the remaining 30%.
+
 #### Handovers
 1. At each milestone, you will show your results through a **10 minutes presentation** followed by a 5 minutes QA from the teaching staff.
 2. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
@@ -120,6 +122,8 @@ You will receive an email with a Doodle link to select your preferred exam slot.
 You can first go to the "preparation room" (B28 R.18 (0/18) [Liège Sart-Tilman - Polytech]), where you will be handed your exam page and some paper to take notes. You will have 30 minutes to prepare it, before going to the room where you will actually take the exame (office 77B in B28).
 
 :warning: You are **not allowed to use your computer or smartphone once you received your exam assignment, nor can you use extra notes or material**.
+
+The exam counts for 30% of the final grade, while the project counts for the remaining 70%.
 
 ## Resources
 
