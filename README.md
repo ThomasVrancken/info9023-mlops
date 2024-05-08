@@ -81,7 +81,7 @@ Here is a list of all topics covered during this course (and links):
 | [Lecture W09](lectures/09_monitoring_and_dashboarding.pdf) - Monitoring & dashboarding | Logging vs monitoring <br/> Resource vs performance monitoring  <br/> Model performance monitoring  <br/> Drift types: data, target and concept |
 | [Lab W09](labs/09_gcs) - Google Cloud Storage | Download and upload files using Google Cloud storage |
 | [Lab W09](labs/09_streamlit) - Streamlit | Create an ML oriented dashboard using Streamlit and deploy it to Cloud Run |
-| [Lecture W10](lectures/10_cicd.pdf) - CICD | Continuous integration, Continuous development & Continuous deployment <br/> Code testing (unit, integration, system & acceptance)  <br/> Multi-environment management (dev, tst, acc, prd) <br/> Infrastructure as code <br/> Terraform AI <br/> AI Legislation <br/> A guide to Trustworthy |
+| [Lecture W10](lectures/10_cicd.pdf) - CICD | Continuous integration, Continuous development & Continuous deployment <br/> Code testing (unit, integration, system & acceptance)  <br/> Pytest & pylint <br/> Multi-environment management (dev, tst, acc, prd) <br/> Infrastructure as code <br/> Terraform AI <br/> AI Legislation <br/> A guide to Trustworthy |
 | [Lab W10](labs/10_cicd) - Gihub Actions | Use Gihub Actions for CICD |
 
 And here is an overview of how the sprints are organised:
