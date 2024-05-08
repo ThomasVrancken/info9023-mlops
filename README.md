@@ -28,7 +28,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 19/02/2024 | W2 | Sprint 1       | Project organisation<br/> Lab git code versioning| [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)|
 | 26/02/2024 | W3 | Sprint 2       | Data processing<br/> Lab YData-profiling      | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
 | 04/03/2024 | W4 | Sprint 2       | Model development(_class in B28 R.75 (0/75)_) | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/04_model_experimentation_and_containerisation.pdf) <br/> [lab folder](labs/04_containerisation)    | 
-| 11/03/2024 - 18/03/2024 | [MS 1 presentations](#project)    |
+| 11/03/2024 - 18/03/2024 | W4 | Sprint 2       | **MS 1 presentations**    | See [project section](#project) |
 | 11/03/2024 | W5 | Sprint 3       | API implementation      | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/05_api_implementation.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
 | 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
 | 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/07_serving_and_training_optimisation.pdf) <br/> [lab folder](labs/07_triton) |
@@ -38,7 +38,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
 | 06/05/2024 | W10| Sprint 5       | CICD| [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/10_cicd.pdf)  <br/> [lab folder](labs/10_cicd) |
-| 13/05/2024 | W11| Closing sprint | [MS 2 presentations](#practicals-milestone-2)  |     |
+| 13/05/2024 | W11| Closing sprint | **MS 2 presentations**    | See [project section](#project) |
 | 31/05/2024 | Exam |     |  | See [exam section](#exam) |
 
 ## Course culture
@@ -56,9 +56,35 @@ There are 3 points of learnings for students following this course:
 
 ## Topics covered
 
-You can find a full view of the topics in the "`Course Introduction`" lecture.
+Here is a list of all topics covered during this course (and links):
 
-Here is an overview of how the sprints are organised:
+| Week & material        | Topics      |
+|------------|------------|
+| [Lecture W0](lectures/00_course_introduction.pdf) - Course introduction  | Key concepts of ML Systems Design <br/> Roles & organisation of ML projects |
+| [Lecture W01](lectures/01_use_case_definition.pdf) - Use case definition  | Deep dive in real world use cases (Real estate valuation assistant, Rug cutting detection & Data driven sales)  <br/> Project phases & challenges <br/> ML Canvas (project definition) |
+| [Lecture W02](lectures/02_project_organization.pdf) - Project organization  | Waterfall, Agile, Scrum & Kanban way of working <br/> Data sources types & identification (internal & external) <br/> Data labelling techniques <br/> Git flow & trunk based code versioning <br/> PEP8 |
+| [Lab W02](labs/02_lab_git_code_versioning) - Git code versioning  | Introduction to Git and basic commands <br/> GitFlow <br/> ohshitgit <br/> VSCode|
+| [Lecture W03](lectures/02_project_organization.pdf) - Data preparation | Basic data format and models <br/> Databases (OLTP & OLAP) <br/> Exploratory Data Analysis (EDA)  <br/> Data cleaning & feature engineering |
+| [Lab W03](labs/03_ydata_profiling) - YData Profiling | Basic EDA using YDataProfiling |
+| [Lecture W04](lectures/04_model_experimentation_and_containerisation.pdf) - Model experimentation & containerisation | Model testing (offline & online) <br/> Virtual environments  <br/> Virtual machines  <br/> Docker  <br/> Kubernetes |
+| [Lab W04](labs/04_containerisation) - Containerisation | Hands-on for Virtual environments <br/> Virtual machines  <br/> Docker <br/> Kubernetes |
+| [Lecture W05](lectures/05_api_implementation.pdf) - API Implementation | API, REST & RPC |
+| [Guest lecture W05](lectures/05_connexion_guest_lecture.pdf) - Connexion | Connexion <br/> Concurrency, parallelism & async <br/> WSGI, ASGI & middleware  <br/> Working open source |
+| [Lab W05](labs/05_flask) - Flask | Build a simple local Flask API |
+| [Lecture W06](lectures/06_model_serving_and_cloud_infrastructure.pdf) - Model serving & Cloud infrastructure | Batch vs real-time serving <br/> Asynchronous vs synchronous serving <br/> Cloud vs on-prem deployment |
+| [Guest lecture W06](lectures/06_guest_lecture_google_cloud_infrastructure.pdf) - Cloud Infrastructure | Kaggle platform <br/> Cloud computing <br/> GCP services <br/> Vertex AI |
+| [Lab W06](labs/06_deploy_api) - Cloud Run | Deploy an API in the Cloud using Cloud Run |
+| [Lecture W07](lectures/07_serving_and_training_optimisation.pdf) - Serving & training optimisation | Model serving optimisation <br/> Parallel and distributed training (data, model and pipeline) <br/> Triton Inference Server <br/> Model complexity optimisation|
+| [Lab W07](labs/07_triton) - Triton Inference Server | Deploying a local Triton Inference Server |
+| [Lecture W08](lectures/08_microservices_and_model_pipelines.pdf) - Model pipelines | Microservice architecture <br/> ML Model pipeline <br/> Pipeline orchestrators |
+| [Lab W08](labs/08_docker_compose) - Docker compose | Create an ML oriented microservice system with Docker Compose |
+| [Lecture W09](lectures/09_monitoring_and_dashboarding.pdf) - Monitoring & dashboarding | Logging vs monitoring <br/> Resource vs performance monitoring  <br/> Model performance monitoring  <br/> Drift types: data, target and concept |
+| [Lab W09](labs/09_gcs) - Google Cloud Storage | Download and upload files using Google Cloud storage |
+| [Lab W09](labs/09_streamlit) - Streamlit | Create an ML oriented dashboard using Streamlit and deploy it to Cloud Run |
+| [Lecture W10](lectures/10_cicd.pdf) - CICD | Continuous integration, Continuous development & Continuous deployment <br/> Code testing (unit, integration, system & acceptance)  <br/> Multi-environment management (dev, tst, acc, prd) <br/> Infrastructure as code <br/> Terraform AI <br/> AI Legislation <br/> A guide to Trustworthy |
+| [Lab W10](labs/10_cicd) - Gihub Actions | Use Gihub Actions for CICD |
+
+And here is an overview of how the sprints are organised:
 
 ![Topics overview](figures/classes_overview.png)
 
