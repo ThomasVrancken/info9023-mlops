@@ -69,10 +69,10 @@ Here is a list of all topics covered during this course (and links):
 | [Lecture W04](lectures/04_model_experimentation_and_containerisation.pdf) - Model experimentation & containerisation | Model testing (offline & online) <br/> Virtual environments  <br/> Virtual machines  <br/> Docker  <br/> Kubernetes |
 | [Lab W04](labs/04_containerisation) - Containerisation | Hands-on for Virtual environments <br/> Virtual machines  <br/> Docker <br/> Kubernetes |
 | [Lecture W05](lectures/05_api_implementation.pdf) - API Implementation | API, REST & RPC |
-| [Guest lecture W05](lectures/05_connexion_guest_lecture.pdf) - Connexion | Connexion <br/> Concurrency, parallelism & async <br/> WSGI, ASGI & middleware  <br/> Working open source |
+| [Guest lecture W05](lectures/05_connexion_guest_lecture.pdf) - Connexion (Robbe Sneyders) | Connexion <br/> Concurrency, parallelism & async <br/> WSGI, ASGI & middleware  <br/> Working open source |
 | [Lab W05](labs/05_flask) - Flask | Build a simple local Flask API |
 | [Lecture W06](lectures/06_model_serving_and_cloud_infrastructure.pdf) - Model serving & Cloud infrastructure | Batch vs real-time serving <br/> Asynchronous vs synchronous serving <br/> Cloud vs on-prem deployment |
-| [Guest lecture W06](lectures/06_guest_lecture_google_cloud_infrastructure.pdf) - Cloud Infrastructure | Kaggle platform <br/> Cloud computing <br/> GCP services <br/> Vertex AI |
+| [Guest lecture W06](lectures/06_guest_lecture_google_cloud_infrastructure.pdf) - Cloud Infrastructure (Philippe Modard) | Kaggle platform <br/> Cloud computing <br/> GCP services <br/> Vertex AI |
 | [Lab W06](labs/06_deploy_api) - Cloud Run | Deploy an API in the Cloud using Cloud Run |
 | [Lecture W07](lectures/07_serving_and_training_optimisation.pdf) - Serving & training optimisation | Model serving optimisation <br/> Parallel and distributed training (data, model and pipeline) <br/> Triton Inference Server <br/> Model complexity optimisation|
 | [Lab W07](labs/07_triton) - Triton Inference Server | Deploying a local Triton Inference Server |
