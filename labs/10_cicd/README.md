@@ -122,6 +122,27 @@ You have other options than Black to format your code like `autopep8` or `yapf`.
 
 Finally, you can use a tool like `MyPy` to check the types in your Python code. MyPy is a static type checker for Python that can help you find type errors in your code before you run it.
 
+### 1.4 Ruff versus Black
+Ruff and Black are among the most popular Python tools used for code quality and are often pitted against each other, but they serve different purposes and have unique characteristics. So let's make an objective comparison. Here's a brief overview of the differences between both:
+
+1. Purpose
+   * **Ruff**: primarily a linter with some formatting features
+   * **Black**: code formatter
+2. Configuration
+   * **Ruff**: highly configurable (enable or disable linting rules)
+   * **Black**: strongly opinionated with very few configuration options
+3. Ecosystem
+   * **Ruff**: designed to replace multiple other tools (e.g. `flake8`, `isort`, `pylint`) and relatively new
+   * **Black**: widely adopted in the Python community and integrates with most IDE and CI/CD pipelines
+
+Because Ruff and Black each have their own purposes, strengths and philosophies it is not uncommon to get the best of both worlds by combining them:
+- **Use Black** if your primary concern is enforcing consistent, unopinionated code formatting
+- **Use Ruff** if you're looking for a fast, versatile linter that also handles minor formatting tasks and integrates multiple types of checks
+- **Combine Black and Ruff** for a comprehensive code quality solution, leveraging Black for strict formatting and Ruff for efficient linting and minor fixes
+
+### 1.5 Linter speed comparison
+![linter speed comparison](../../figures/linter_speed_comparison.svg)
+
 ## 2. Overview of GitHub Actions
 ### 2.1. What is GitHub Actions?
 
