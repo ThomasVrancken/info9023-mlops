@@ -40,6 +40,8 @@ When new files are added or when you finished modifying files, you can commit yo
 
     + Note: You can also use the command `git commit -am "your message"` to add all the files in the working directory to the staging area and commit them in one command.
 
+    + Note: A nice practice is to write a commit message with emojis. Here is a list of emojis that you can use in your commit messages: https://gitmoji.dev/. For example, if you add a new feature, you can use the emoji :sparkles: in your commit message. If you fix a bug, you can use the emoji :bug: in your commit message, etc.
+
    Finally you can push your changes to the remote repository. The following instruction `git push origin <branch-name>` pushes the changes from the local repository to the remote repository.\
    When you work on your branch and you want to update the main branch with all the changes you made, you can create a pull request. A pull request is a request to merge the changes from your branch to the main branch. You can create a pull request on GitHub. Here is a tutorial for that: https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request?tool=codespaces. 
    
