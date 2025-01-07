@@ -1,4 +1,4 @@
-# INFO9023 - Machine Learning Systems Design [spring 2024]
+# INFO9023 - Machine Learning Systems Design [spring 2025]
 
 The course of Machine Learning System Designs (or MLOps) aims at enabling students to truly build fully functional "user-ready" ML systems. It will look at the whole lifecycle of building a real world ML application. At the end of the course, students will be familiar with key tools and frameworks of MLOps.
 
@@ -12,85 +12,46 @@ This course and material contained in this repo aims at closing that technical d
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor): t.vrancken@uliege.be
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
-- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday in B37 S.42 (-1/42) [Liège Sart-Tilman - Polytech]
+- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday. Location TBD.
   - Note that it was changed from the original room B28 R.75 (0/75) as we were a too large group for it.
-  - The new room is *not available on the 04/03/2024*. That day we will be back in room B28 R.75 (0/75).- **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
-- **Communication**: Main communication point will be Discord ([link](https://discord.gg/4jsySN4z)). Official communication might also come by email.
+  - The new room is *not available on the 04/03/2024*. That day we will be back in room B28 R.75 (0/75).
+- **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
+- **Communication**: Main communication point will be [Discord](https://discord.gg/HzQymqH3). Official communication might also come by email.
 
 ## Agenda
 
 Note that links to the lecture and labs slides will always be provided shortly before the actual date.
 
 | Date       | Week #     | Sprint #       | Description       | Material (gradually added)      |
-|------------|------------|----------------|-------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
-| 05/02/2024 | W0 | Sprint 0       | Course introduction  | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/00_course_introduction.pdf)  |
-| 12/02/2024 | W1 | Sprint 1       | Use case definition  | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/01_use_case_definition.pdf)  |
-| 19/02/2024 | W2 | Sprint 1       | Project organisation<br/> Lab git code versioning| [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/02_project_organization.pdf) <br/> [lab slides](labs/02_lab_git_code_versioning.pdf)|
-| 26/02/2024 | W3 | Sprint 2       | Data processing<br/> Lab YData-profiling      | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/03_data_preparation.pdf) <br/> [lab slides](labs/03_lab_ydata_profiling.pdf) - [lab notebook](labs/ydata_tuto.ipynb) |
-| 04/03/2024 | W4 | Sprint 2       | Model development(_class in B28 R.75 (0/75)_) | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/04_model_experimentation_and_containerisation.pdf) <br/> [lab folder](labs/04_containerisation)    | 
-| 11/03/2024 - 18/03/2024 | W4 | Sprint 2       | **MS 1 presentations**    | See [project section](#project) |
-| 11/03/2024 | W5 | Sprint 3       | API implementation      | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/05_api_implementation.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/05_connexion_guest_lecture.pdf)  <br/> [lab folder](labs/05_flask) |
-| 18/03/2024 | W6 | Sprint 3       | Model serving & Cloud infrastructure   | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_model_serving_and_cloud_infrastructure.pdf) <br/> [guest lecture](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/06_guest_lecture_google_cloud_infrastructure.pdf)  <br/> [lab folder](labs/06_deploy_api)  |
-| 25/03/2024 | W7 | Sprint 4       | Serving & training optimisation      |[lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/07_serving_and_training_optimisation.pdf) <br/> [lab folder](labs/07_triton) |
-| 01/04/2024 | _No Class_ | _No Class_     | _No Class_  | _No Class_ |
-| 08/04/2024 | W8 | Sprint 4       | Model Pipeline    | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/08_microservices_and_model_pipelines.pdf) <br/> [lab folder](labs/08_docker_compose)    |
-| 15/04/2024 | W9 | Sprint 5       | Monitoring & dashboarding       | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/09_monitoring_and_dashboarding.pdf) <br/> [lab folder](labs/09_streamlit)    |
-| 22/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
-| 29/04/2024 | _No Class_ | _No Class_     | _No Class_| _No Class_|
-| 06/05/2024 | W10| Sprint 5       | CICD| [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/10_cicd.pdf)  <br/> [lab folder](labs/10_cicd) |
-| 13/05/2024 | W11| Closing sprint | **MS 2 presentations**    | See [project section](#project) |
-| 31/05/2024 | Exam |     |  | See [exam section](#exam) |
+|------------|------------|----------------|-------------------|---------------------------------|
+| 03/02/2024 | W1  | Sprint 1 | Course introduction | []()  |
+| 10/02/2024 | W2  | Sprint 1 | Project organisation | []()  |
+| 17/02/2024 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | []()  |
+| 24/02/2024 | W4  | Sprint 2 | Containerisation | []()  |
+| 03/02/2024 | W5  | Sprint 3 | API implementation | []()  |
+| 03/02/2024 | W6  | Sprint 3 | Microservices  | []()  |
+| 03/02/2024 | W7  | Sprint 4 | Model serving | []()  |
+| 03/02/2024 | W8  | Sprint 4 | Model pipeline | []()  |
+| 03/02/2024 | W9  | Sprint 5 | Serving & training optimisation | []()  |
+| 03/02/2024 | W10 | Sprint 5 | Monitoring & dashboarding | []()  |
+| 03/02/2024 | W11 | Sprint 6 | CICD | []()  |
+| 03/02/2024 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []()  |
+
+![Topics overview](figures/classes_overview.png)
 
 ## Course culture
 
 #### Pillars
 1. **Relevant**: Focused on core concepts of building ML applications. Tailored choice of current best practices.
 2. **Practical**: Concrete Labs, resources, real life examples, time to experiment, support line, …
-3. **Engagin**: Interactive class session. Healthy tempo (break out exercises, QA, …). … And lots of memes.
+3. **Engagin**: Interactive class session. Healthy tempo (break out exercises, QA, …). 
 
 #### Learning Streams
-There are 3 points of learnings for students following this course:
 1. **Lectures**: Present theoretical concepts and practices. Usually the first part of each class.
 2. **Labs**: Labs are there to learn how to use key tools widely used to build ML systems. They've been cherry picked based on usability, performance, popularity and accessibility. 
 3. **Project**: You will apply the theoretical and technical learnings in one large group project. You will build a ML application in an engaging way - you're in the driving seat.
 
-## Topics covered
-
-Here is a list of all topics covered during this course (and links):
-
-| Week & material        | Topics      |
-|------------|------------|
-| [Lecture W0](lectures/00_course_introduction.pdf) - Course introduction  | Key concepts of ML Systems Design <br/> Roles & organisation of ML projects |
-| [Lecture W01](lectures/01_use_case_definition.pdf) - Use case definition  | Deep dive in real world use cases (Real estate valuation assistant, Rug cutting detection & Data driven sales)  <br/> Project phases & challenges <br/> ML Canvas (project definition) |
-| [Lecture W02](lectures/02_project_organization.pdf) - Project organization  | Waterfall, Agile, Scrum & Kanban way of working <br/> Data sources types & identification (internal & external) <br/> Data labelling techniques <br/> Git flow & trunk based code versioning <br/> PEP8 |
-| [Lab W02](labs/02_lab_git_code_versioning) - Git code versioning  | Introduction to Git and basic commands <br/> GitFlow <br/> ohshitgit <br/> VSCode|
-| [Lecture W03](lectures/02_project_organization.pdf) - Data preparation | Basic data format and models <br/> Databases (OLTP & OLAP) <br/> Exploratory Data Analysis (EDA)  <br/> Data cleaning & feature engineering |
-| [Lab W03](labs/03_ydata_profiling) - YData Profiling | Basic EDA using YDataProfiling |
-| [Lecture W04](lectures/04_model_experimentation_and_containerisation.pdf) - Model experimentation & containerisation | Model testing (offline & online) <br/> Virtual environments  <br/> Virtual machines  <br/> Docker  <br/> Kubernetes |
-| [Lab W04](labs/04_containerisation) - Containerisation | Hands-on for Virtual environments <br/> Virtual machines  <br/> Docker <br/> Kubernetes |
-| [Lecture W05](lectures/05_api_implementation.pdf) - API Implementation | API, REST & RPC |
-| [Guest lecture W05](lectures/05_connexion_guest_lecture.pdf) - Connexion (Robbe Sneyders) | Connexion <br/> Concurrency, parallelism & async <br/> WSGI, ASGI & middleware  <br/> Working open source |
-| [Lab W05](labs/05_flask) - Flask | Build a simple local Flask API |
-| [Lecture W06](lectures/06_model_serving_and_cloud_infrastructure.pdf) - Model serving & Cloud infrastructure | Batch vs real-time serving <br/> Asynchronous vs synchronous serving <br/> Cloud vs on-prem deployment |
-| [Guest lecture W06](lectures/06_guest_lecture_google_cloud_infrastructure.pdf) - Cloud Infrastructure (Philippe Modard) | Kaggle platform <br/> Cloud computing <br/> GCP services <br/> Vertex AI |
-| [Lab W06](labs/06_deploy_api) - Cloud Run | Deploy an API in the Cloud using Cloud Run |
-| [Lecture W07](lectures/07_serving_and_training_optimisation.pdf) - Serving & training optimisation | Model serving optimisation <br/> Parallel and distributed training (data, model and pipeline) <br/> Triton Inference Server <br/> Model complexity optimisation|
-| [Lab W07](labs/07_triton) - Triton Inference Server | Deploying a local Triton Inference Server |
-| [Lecture W08](lectures/08_microservices_and_model_pipelines.pdf) - Model pipelines | Microservice architecture <br/> ML Model pipeline <br/> Pipeline orchestrators |
-| [Lab W08](labs/08_docker_compose) - Docker compose | Create an ML oriented microservice system with Docker Compose |
-| [Lecture W09](lectures/09_monitoring_and_dashboarding.pdf) - Monitoring & dashboarding | Logging vs monitoring <br/> Resource vs performance monitoring  <br/> Model performance monitoring  <br/> Drift types: data, target and concept |
-| [Lab W09](labs/09_gcs) - Google Cloud Storage | Download and upload files using Google Cloud storage |
-| [Lab W09](labs/09_streamlit) - Streamlit | Create an ML oriented dashboard using Streamlit and deploy it to Cloud Run |
-| [Lecture W10](lectures/10_cicd.pdf) - CICD | Continuous integration, Continuous development & Continuous deployment <br/> Code testing (unit, integration, system & acceptance)  <br/> Pytest & pylint <br/> Multi-environment management (dev, tst, acc, prd) <br/> Infrastructure as code <br/> Terraform AI <br/> AI Legislation <br/> A guide to Trustworthy |
-| [Lab W10](labs/10_cicd) - Gihub Actions | Use Gihub Actions for CICD |
-
-And here is an overview of how the sprints are organised:
-
-![Topics overview](figures/classes_overview.png)
-
 ## Project 
-
-:warning: EDIT: The format was updated for the first year to have only **2 milestone presentations** in total. See the [milestones](#milestones) section.
 
 All the project info can be found in the [project/project_description.pdf](project/project_description.pdf) document.
 
@@ -98,58 +59,11 @@ Important to highlight that you are the **decision makers for the design of your
 
 For example, if you implement a computer vision model you might spend more time on the model serving rather than the data exploration. Or conversely, if you need to get tabular data from external APIs you might want to spend more time on the data construction rather than on model serving optimisation. Those are design choices you need to make depending on your project - and as always make sure to ask questions to the teaching staff if you have any (ideally at the end of lectures).  
 
-#### Milestones
-
-The main way to handover the results of your projects will be during the 2 **milestones**.
-
-The first Milestone will be used to present the work you did during sprint 1 & 2.
-The main purpose of the first Milestone is to provide feedback and guidance on the project. The final project grade will be determined at the end of the project. If there are any issues highlighted during the milestone there is room for fixing it in the later development of the project.
-
-The second and final Milestone will be used to present the overall project once completed. It will be held  during the last class of the semester, in the classroom, instead of a lecture. Teams are welcomed to attend other project presentations.
-
-Make it your own! Focus on what is relevant and interesting. You are free to decide which material (if any) you will use to present your results (short slide deck, demo, show codes, ...).
-
-The project counts for 70% of the final grade, while the exam counts for the remaining 30%.
-
-#### Handovers
-1. At each milestone, you will show your results through a **10 minutes presentation** followed by a 5 minutes QA from the teaching staff.
-2. Next to that, you will **submit the codes** you implemented so far by creating a pull requests in Github and asking the teaching staff to review it.
-Make sure to clearly document what is important in the code base for the teaching staff to look at. By default, the teaching staff will focus on the README and the pull request description.
-Send your codes **before the milestone meeting** and **by an email with a link to the pull request** to the teaching staff (t.vrancken@uliege.be and Matthias.Pirlet@uliege.be)
-
-Make sure to send an email with a **link to the pull request** to the teaching staff when it is ready. Just tagging the teaching staff on Github is not enough.
-
-#### Practicals Milestone 1
-
-Milestone 1 presentations will happen between the 11/03/2024 and the 18/03/2024.
-
-:warning: Each team needs **to book a meeting** slot to present their Milestone. Link will be *shared by email* (if a group has no students in the mailing list please let the teaching staff know.). There are two options for those meetings:
-
-1. You can book an online meeting via a Google Meets between 13:00 and 17:00 in the days available for each specific milestone (for exact days see calendar invite and [timing section](#timing))
-2. You can present it in the classroom from 11:30 to 12:30 right after the lectures in the two weeks following the closing sprint of a milestone (for exact days see calendar invite and [timing section](#timing)). As the class will be busy with presentations after the course those weeks, it means that other teams can still use the time to work on their projects but from another location. Support on the project will then be more ad-hoc those weeks. You can still raise questions by email, Discord or during the open office hours every Monday till 18:00 in office 77B in building B28.
-
-#### Practicals Milestone 2
-
-:warning: Milestone 2 presentations will happen in the classroom during the last class on the 13/05/2024.
-
-The schedule for the presentations can be found in this [sheet](https://docs.google.com/spreadsheets/d/1X48eAJbuepFOx-5c_502nvXD53BJw6cp3cwoyJjOsCo/edit#gid=0). If your group is not in there or if the time does not work for your group please let the teaching staff know.
-
-*Attendace*: Note that it is fine if one of your team member can really not attend the presentation. 
-If it is not possible for a more people of your team to present that day you can also request to do it another day in an online meeting presentation.
-
 ## Exam 
 
-The exam will take the form of an oral exam in whih you will have to answer a series of 4-5 questions based on a case study. You will have 30 minutes to prepare your answer and then 20 minutes to present them. The questions will be based on the course material and tools you used during the project. You can see what you need to know and what is not needed at the end of each lecture. You can also find a practice exam in the [exams/practice_exam_june_2024.pdf](exams/practice_exam_june_2024.pdf) document.
+The exam will take the form of an oral exam in whih you will have to answer a series of 4-5 questions based on a case study. The case study will be give a hypothetical ML application use case and you will have to answer different design questions based on the concept thought during this course.
 
-The PhD students are exempt from the exam. They will be graded on the project only.
-
-You will receive an email with a Doodle link to select your preferred exam slot. It will be **first come first serve**. The exam will take place on **31/05/2024**. 
-
-You can first go to the "preparation room" (B28 R.18 (0/18) [Liège Sart-Tilman - Polytech]), where you will be handed your exam page and some paper to take notes. You will have 30 minutes to prepare it, before going to the room where you will actually take the exame (office 77B in B28).
-
-:warning: You are **not allowed to use your computer or smartphone once you received your exam assignment, nor can you use extra notes or material**.
-
-The exam counts for 30% of the final grade, while the project counts for the remaining 70%.
+More information as well as a practice exam will be provided in due time.
 
 ## Resources
 
