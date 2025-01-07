@@ -1,4 +1,4 @@
-# INFO9023 - Machine Learning Systems Design
+# INFO9023 - Machine Learning Systems Design [spring 2023]
 
 The course of Machine Learning System Designs (or MLOps) aims at enabling students to truly build fully functional "user-ready" ML systems. It will look at the whole lifecycle of building a real world ML application. At the end of the course, students will be familiar with key tools and frameworks of MLOps.
 
