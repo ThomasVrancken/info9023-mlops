@@ -13,8 +13,7 @@ This course and material contained in this repo aims at closing that technical d
   - Thomas Vrancken (Instructor): t.vrancken@uliege.be
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
 - **Class time & place**: Classes are held from **9:00** to **12:30** every Monday. Location TBD.
-  - Note that it was changed from the original room B28 R.75 (0/75) as we were a too large group for it.
-  - The new room is *not available on the 04/03/2024*. That day we will be back in room B28 R.75 (0/75).
+  - First class on the 3rd of Februar 2025 will **still be at 8:30am** to align with the schedule in your calendars. 
 - **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
 - **Communication**: Main communication point will be [Discord](https://discord.gg/HzQymqH3). Official communication might also come by email.
 
