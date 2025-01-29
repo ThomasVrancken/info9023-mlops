@@ -12,7 +12,7 @@ This course and material contained in this repo aims at closing that technical d
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor): t.vrancken@uliege.be
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
-- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday. Location TBD.
+- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday, at B37 S.39 (-1/39).
   - First class on the 3rd of Februar 2025 will **still be at 8:30am** to align with the schedule in your calendars. 
 - **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
 - **Communication**: Main communication point will be [Discord](https://discord.gg/kY6B3cchkr). Official communication might also come by email.
@@ -62,7 +62,7 @@ For example, if you implement a computer vision model you might spend more time 
 
 The exam will take the form of an oral exam in whih you will have to answer a series of 4-5 questions based on a case study. The case study will be give a hypothetical ML application use case and you will have to answer different design questions based on the concept thought during this course.
 
-More information as well as a practice exam will be provided in due time.
+A practice exam can already be found in [exams/practice_exam_1.pdf](exams/practice_exam_1.pdf). :warning: The actual exam might deviate from this format, the purpose of this practice exam is to give an inspiration of what the exam might be looking like.
 
 ## Resources
 
