@@ -143,6 +143,13 @@ During your project, you need to choose the strategy that best fits your needs.
 - Gitflow: one release per milestone (MS). This is great because you can do a clean PR per MS and tag us on it for a review.
 - Trunk based development: frequent merges to the main branch. Easier for you but you need to be careful to find a clean way to show us the important codes at each MS.
 
+
+For example on the GitHub of this course, we use the Trunk based development strategy. Why? 
+- 1. Only two developers on this project (i.e., small team).
+- 2. Small project with very few codes.
+- 3. Isolated changes (i.e., my labs will not affect Thomas' lectures because we work on different parts of the "project").
+- 4. Fast release cycle (i.e., we release a new lab/lecture every week).
+
 A great application to see your branches and commits is [GitKraken](https://www.gitkraken.com/).
 
 
@@ -189,5 +196,8 @@ or run Ruff formatter on your code using the following command:
 ruff format <file_name>
 ```
 
+## 6. Conclusion
+
+In short, Git is a powerful tool that allows you to manage your code versioning and collaborate with other developers. By following the best practices and using code quality tools, you can ensure that your code is clean, maintainable, and easy to work with. You are also ready to work on your first project and collaborate with other developers.
 
 
