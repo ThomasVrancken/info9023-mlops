@@ -1,5 +1,8 @@
 # Lab 1 [Sprint 1, W2] : Git code versioning and code quality
 
+
+![Git Drake Hotline Bling Meme](./img/git.jpg)
+
 ## 0. Introduction
 
 This lab is designed to introduce you to the fundamentals of Git and GitHub. You will learn how to:
@@ -9,8 +12,6 @@ This lab is designed to introduce you to the fundamentals of Git and GitHub. You
 - Understand basic Git commands and workflows.
 
 If you're already familiar with Git and GitHub, you can use this lab to refresh your knowledge and practice your skills.
-
-![Git Drake Hotline Bling Meme](./img/git.jpg)
 
 ## 1. Prerequisites
 
@@ -40,7 +41,7 @@ The image below illustrates Git's structure and workflow.
 git clone <repository_url>
 ```
 
-3. **Branch management**: create a new branch, switch between branches, and delete branches.
+3. **Branch management**: create a new branch and switch between branches.
 - Create a new branch:
     ```bash
     git checkout -b <branch_name>
@@ -52,10 +53,6 @@ git clone <repository_url>
 - Shortcut to create and switch to a new branch:
     ```bash
     git checkout -b <branch_name>
-    ```
-- Delete a branch:
-    ```bash
-    git branch -d <branch_name>
     ```
 
 4. **Staging and commiting changes**:
@@ -71,7 +68,7 @@ git clone <repository_url>
     ```bash
     git commit -m "Your commit message"
     ```
-- Commit all changes (staged and unstaged):
+- Commit **all changes** (staged and unstaged):
     ```bash
     git commit -am "Your commit message"
     ```
@@ -88,6 +85,109 @@ To create a pull request, you can [use the GitHub interface](https://docs.github
     + Note: A nice way to make pull requests funier is to use emojis in your pull request titles. Here is a [list of emojis that you can use](https://gitmoji.dev/). For example, if you add a new feature, you can use the emoji :sparkles: in your commit message. If you fix a bug, you can use the emoji :bug:, etc.
 
 
+7. **Update local repository**: when you work on a project with other developers, you will have to update your local repository with the changes made by others on the remote repository.
+
+- Update your local repository with the changes made on the remote repository, use the following command:
+```bash
+git pull origin <branch_name>
+```
+- A safer way to review changes before merging them is to use the following command:
+```bash
+git fetch origin <branch_name>
+```
+This allows you to see the changes made on the remote repository without merging them into your local repository.
+
+- Compare the differences between your local repository and the remote repository:
+```bash
+git diff <branch_name> origin/<branch_name>
+```
+Finally, you can merge the changes into your local repository using the following command:
+```bash
+git merge origin/<branch_name>
+```
+
+8. **Delete branches**: when you have finished working on a branch i.e., you have merged your changes, the pull request has been accepted and the branch is no longer needed, you can delete it using the following command:
+```bash
+git branch -d <branch_name>
+```
+
+- if you have not merged your changes and you want to delete the branch, you can use the following command:
+```bash
+git branch -D <branch_name>
+```
+
+## 3. Additional ressources 
+
+- Here is a [cheat sheet](https://education.github.com/git-cheat-sheet-education.pdf) made by GitHub that you can use to remember the most common Git commands.
+
+- You can use, as previously mentioned, emojis in your commit messages. Here is a [list of emojis](https://gitmoji.dev/) that you can use to make your commit messages more fun.
+
+- Here is a [Spotify playlist](https://open.spotify.com/playlist/1wNirTC24xxOGVDAKf9sXu?si=3bb49395f1314925) of music to remember the most common Git commands.
+
+In the event of false manipulation of error, visit this [website](https://ohshitgit.com/) to find the solution to your problem.
+
+![Git meme](./img/nervous-sweating-sweating-bullets.gif)
+
+## 4. Trunk based development vs. Git Flow
+
+There are two main strategies for managing branches in a project: Trunk based development and Git Flow.
+
+- **Trunk based development**: In this strategy, developers work on a single branch, the main branch, and create feature branches when they need to work on a new feature. Once the feature is complete, they merge it into the main branch. This strategy is simple and efficient, but it can be challenging to manage in large projects with many developers.
+
+- **Git Flow**: In this strategy, developers work on one branch: the develop branch. The main branch only contains the stable version of the code i.e., the version that is deployed to production. The main branch is protected, meaning that developers cannot push directly to it. Instead, they create feature branches from the develop branch, work on the feature, and then merge it back into the develop branch. Once the develop branch is stable, it is merged into the main branch. This strategy is more complex but provides more control over the codebase.
+
+![Gitflow](./img/gitflow.svg)
+credits: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+
+During your project, you need to choose the strategy that best fits your needs. 
+- Gitflow: one release per milestone (MS). This is great because you can do a clean PR per MS and tag us on it for a review.
+- Trunk based development: frequent merges to the main branch. Easier for you but you need to be careful to find a clean way to show us the important codes at each MS.
+
+A great application to see your branches and commits is [GitKraken](https://www.gitkraken.com/).
+
+
+## 5. Code quality checks
+
+When you work on a project, it's important to maintain code quality. You saw during the lesson that there are standards to follow when writing code like PEP8 for Python. To help you maintain code quality, you can use code linters and formatters.
+Linters are tools that analyze your code and report any errors or warnings. Formatters are tools that automatically format your code according to a specific style guide. Examples of linters and formatters are: Pylint, Black, Ruff, etc.
+
+Ruff and Black are among the most popular Python tools used for code quality and are often pitted against each other, but they serve different purposes and have unique characteristics. So let's make an objective comparison. Here's a brief overview of the differences between both:
+
+1. Purpose:
+   * **Ruff**: primarily a linter with some formatting features.
+   * **Black**: code formatter.
+2. Configuration:
+   * **Ruff**: highly configurable (enable or disable linting rules).
+   * **Black**: strongly opinionated with very few configuration options.
+3. Ecosystem:
+   * **Ruff**: designed to replace multiple other tools (e.g. `flake8`, `isort`, `pylint`) and relatively new.
+   * **Black**: widely adopted in the Python community and integrates with most IDE and CI/CD pipelines.
+
+Because Ruff and Black each have their own purposes, strengths and philosophies it is not uncommon to get the best of both worlds by combining them:
+- **Use Black** if your primary concern is enforcing consistent, unopinionated code formatting
+- **Use Ruff** if you're looking for a fast, versatile linter that also handles minor formatting tasks and integrates multiple types of checks
+- **Combine Black and Ruff** for a comprehensive code quality solution, leveraging Black for strict formatting and Ruff for efficient linting and minor fixes
+
+
+An example of a Ruff configuration file can be found [here](https://docs.astral.sh/ruff/configuration/).
+
+### Linter speed comparison
+![linter speed comparison](./img/linter_speed_comparison.svg)
+
+To use these tools, you can install them using pip:
+```bash
+pip install black pylint ruff
+```
+
+Then you can run Ruff linter on your code using the following command:
+```bash
+ruff check <file_name>
+```
+
+or run Ruff formatter on your code using the following command:
+```bash
+ruff format <file_name>
+```
 
 
 
