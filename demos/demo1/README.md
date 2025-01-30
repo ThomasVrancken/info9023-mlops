@@ -122,6 +122,8 @@ git branch -d <branch_name>
 git branch -D <branch_name>
 ```
 
+9. **Include changes from develop branch to feature branch**: when you work on a feature branch and the develop branch has been updated, you can include the changes from the develop branch into your feature branch. 
+
 ## 3. Additional ressources 
 
 - Here is a [cheat sheet](https://education.github.com/git-cheat-sheet-education.pdf) made by GitHub that you can use to remember the most common Git commands.
@@ -201,6 +203,44 @@ or run Ruff formatter on your code using the following command:
 ```bash
 ruff format <file_name>
 ```
+
+## 5. Pre-commit hooks
+
+Pre-commit hooks are scripts that run before a commit is made. They can be used to check the code for errors, enforce code style guidelines, or run tests. Pre-commit hooks are a great way to ensure that your code is clean and error-free before you commit it. 
+
+To use pre-commit hooks, you need to install the pre-commit package:
+```bash
+pip install pre-commit
+```
+
+Then you need to create a `.pre-commit-config.yaml` file in the root of your project. An example configuration file is shown below:
+
+```yaml
+repos:
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.4.8
+  hooks:
+    - id: ruff
+      types_or: [python, jupyter]
+    - id: ruff-format
+      args: [--diff]
+      types_or: [python, jupyter]
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v4.5.0
+  hooks:
+    - id: check-added-large-files
+    - id: check-toml
+    - id: check-yaml
+    - id: end-of-file-fixer
+    - id: mixed-line-ending
+      args: [--fix=lf]
+    - id: trailing-whitespace
+```
+
+This configuration file specifies the pre-commit hooks that should be run before each commit. In this example, we are using the Ruff linter and formatter on python and jupyter files as well as some other pre-commit hooks provided by the pre-commit package such as checking for large files to be sure not to commit them, checking for toml and yaml files to be sure they are well formatted, fixing mixed line endings which means checking if the line endings are consistent and fixing them if they are not, and checking for trailing whitespace.
+
+
+
 
 ## 6. Conclusion
 
