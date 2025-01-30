@@ -1,4 +1,4 @@
-# Lab 1 [Sprint 1, W2] : Git code versioning and code quality
+# Demo 1 [Sprint 1, W2] : Git code versioning and code quality
 
 
 ![Git Drake Hotline Bling Meme](./img/git.jpg)
