@@ -204,7 +204,7 @@ or run Ruff formatter on your code using the following command:
 ruff format <file_name>
 ```
 
-## 5. Pre-commit hooks
+## 6. Pre-commit hooks
 
 Pre-commit hooks are scripts that run before a commit is made. They can be used to check the code for errors, enforce code style guidelines, or run tests. Pre-commit hooks are a great way to ensure that your code is clean and error-free before you commit it. 
 
@@ -242,7 +242,7 @@ This configuration file specifies the pre-commit hooks that should be run before
 
 
 
-## 6. Conclusion
+## 7. Conclusion
 
 In short, Git is a powerful tool that allows you to manage your code versioning and collaborate with other developers. By following the best practices and using code quality tools, you can ensure that your code is clean, maintainable, and easy to work with. You are also ready to work on your first project and collaborate with other developers.
 
