@@ -8,7 +8,8 @@ To do so, we will focus on two of its most basic and intuitive *data* services: 
 
 Make sure to have a GCP project you can use
 1. Visit the [Google Cloud Console](https://console.cloud.google.com/) and either select a project or create a new one.
-2. Make sure that you have credits through the billing management [page](https://console.cloud.google.com/billing/) (remember that you got an email where you can redeem 50$ of credits!)
+2. Make sure that you have credits through the billing management [page](https://console.cloud.google.com/billing/) (remember that you received an email from us where you can redeem 50$ of credits!)
+![GC_credits](./img/GC_credits.png)
 3. Select which **Google Cloud Project** you will be using, or create a new one (see [doc](https://cloud.google.com/resource-manager/docs/creating-managing-projects)). 
    1. Resources (databases, compute, ...) are attached to a specific project.
    2. Multiple developers can work in a single project.
