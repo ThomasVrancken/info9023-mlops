@@ -10,6 +10,9 @@ This lab is designed to introduce you to the fundamentals of Git and GitHub. You
 - Push changes to GitHub. 
 - Create and merge a pull request.
 - Understand basic Git commands and workflows.
+- Understand the difference between Trunk based development and Git Flow.
+- Use code quality tools like Ruff and Black.
+- Use pre-commit hooks to ensure code quality.
 
 If you're already familiar with Git and GitHub, you can use this lab to refresh your knowledge and practice your skills.
 
@@ -122,7 +125,42 @@ git branch -d <branch_name>
 git branch -D <branch_name>
 ```
 
-9. **Include changes from develop branch to feature branch**: when you work on a feature branch and the develop branch has been updated, you can include the changes from the develop branch into your feature branch. 
+
+9. **Keep your branch up to date**: when working on a long-lived feature branch, other branches (e.g., main or develop) may have received updates from colleagues. To incorporate those changes into your branch, you have two primary options: **merge** or **rebase**.
+
+**Option 1**: Merge (Recommended for Simplicity).\
+Merging integrates the latest changes from main into your branch, preserving the history of both branches.
+
+![merge](./img/merge.svg)
+source: https://www.atlassian.com/git/tutorials/merging-vs-rebasing
+
+```bash
+git switch <your-branch>
+git pull origin main  # Ensure main is up to date
+git merge main
+```
+This method is safe and retains a clear history, but it may create merge commits.
+
+**Option 2**: Rebase (For a Clean History)
+Rebasing rewrites your branch’s history so it appears as though your changes were made on top of the latest main branch.
+
+![rebase](./img/rebase.svg)
+source: https://www.atlassian.com/git/tutorials/merging-vs-rebasing
+
+```bash
+git checkout <your-branch>
+git pull origin main  # Ensure main is up to date
+git rebase main
+```
+This results in a linear history but can cause conflicts that must be resolved manually. 
+
+**The golden rule of rebasing**: the most important thing to learn is **when not to do it**. The golden rule of git rebase is to never use it on public branches. 
+
+If you rebase a branch that others are working on, you will create a mess for them. This is because rebasing rewrites the commit history, which can cause conflicts for other developers.
+When you rebase a branch, you are essentially creating a new branch with a new commit history. If someone else has already pulled the branch you rebased, they will have to deal with the conflicts that arise from the new commit history.
+
+If you want to learn more about rebasing, you can read this [article](https://www.atlassian.com/git/tutorials/merging-vs-rebasing).
+
 
 ## 3. Additional ressources 
 
