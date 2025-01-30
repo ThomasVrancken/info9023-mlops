@@ -44,11 +44,21 @@ git clone <repository_url>
 3. **Branch management**: create a new branch and switch between branches.
 - Create a new branch and switch to it:
     ```bash
-    git checkout -b <branch_name>
+    git switch -c <branch_name>
     ```
 - Switch to a branch:
     ```bash
-    git checkout <branch_name>
+    git switch <branch_name>
+    ```
+
+    + Note: you can choose between `git checkout`and `git switch` to switch and create branches. `git switch` is the **new command introduced in Git 2.23.0**. It is more intuitive and specifically designed for these tasks. \
+    Use `git checkout` if you need to perform additional tasks like checking out specific files or commits i.e., when you need to move to a specific commit in the history of your project for a reason (e.g., to fix a bug, to review the code at a specific point in time, etc.). You cando that with `git checkout <commit_hash>`.
+
+    
+
+- List all branches:
+    ```bash
+    git branch
     ```
 
 4. **Staging and commiting changes**:
