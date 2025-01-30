@@ -42,17 +42,13 @@ git clone <repository_url>
 ```
 
 3. **Branch management**: create a new branch and switch between branches.
-- Create a new branch:
+- Create a new branch and switch to it:
     ```bash
     git checkout -b <branch_name>
     ```
 - Switch to a branch:
     ```bash
     git checkout <branch_name>
-    ```
-- Shortcut to create and switch to a new branch:
-    ```bash
-    git checkout -b <branch_name>
     ```
 
 4. **Staging and commiting changes**:
