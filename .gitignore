@@ -1,32 +1,21 @@
-*.DS_Store
-examples/
-**/.venv/
-my_labs/
-secrets/
+# System files
+.DS_Store
 
-__pycache__/
+# Virtual environments
+.venv/
+venv/
 
+# Python cache and Jupyter checkpoints
+**/__pycache__/
+**/.ipynb_checkpoints/
 
-labs/05_flask/__pycache__
-labs/05_flask/.ipynb_checkpoints
-labs/05_flask/.DS_Store
-labs/05_flask/src/api_ml.py
-labs/05_flask/src/gemma.py
-labs/05_flask_bis
-labs/08_docker_compose/.lab08/
-labs/08_docker_compose/test/
-labs/08_docker_compose/.DS_Store
-labs/08_docker_compose/ml_app/
-labs/08_docker_compose/deep_app/data/*
-labs/test/
-labs/08_test/
-labs/08_bis/
-labs/08_docker_compose/deep_app/model/model.pth
-labs/09_streamlit/data/
-labs/09_streamlit/deep_app/data/
-labs/09_streamlit/deep_app/model/
-labs/10_cicd/bad_code.py
+# Common lab directories to be ignored
+# **/data/
+**/secrets/
+**/test/
+**/.DS_Store
+**/.ipynb_checkpoints
+**/__pycache__/
 
-**/triton_sample_project
-
-.gitignore
+# Lab specific directories to be ignored
+demos/04_gcs_bq/cloud_storage.ipynb
