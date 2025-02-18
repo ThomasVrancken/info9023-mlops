@@ -139,10 +139,16 @@ git switch <your-branch>
 git pull origin main  # Ensure main is up to date
 git merge main
 ```
-This method is safe and retains a clear history, but it may create merge commits.
+Drawbacks of merge method:
+Downsides of Merge:
+1. If you frequently merge branches, your Git history will have lots of merge commits that may not be meaningful.
 
-**Option 2**: Rebase (For a Clean History)
-Rebasing rewrites your branch’s history so it appears as though your changes were made on top of the latest main branch.
+2. It’s not always clear what changes were made in the feature branch since the commits remain separate.
+    
+3. `git bisect` (a tool to find which commit introduced a bug) is harder to use with a complex history.
+
+**Option 2**: Rebase (For a clean history).
+Rebasing rewrites your branch’s history so it appears as though your changes were made on top of the latest main branch. You don't have merge commits in your history.
 
 ![rebase](./img/rebase.svg)
 source: https://www.atlassian.com/git/tutorials/merging-vs-rebasing
@@ -190,7 +196,7 @@ During your project, you need to choose the strategy that best fits your needs.
 - Trunk based development: frequent merges to the main branch. Easier for you but you need to be careful to find a clean way to show us the important codes at each MS.
 
 
-For example on the GitHub of this course, we use the Trunk based development strategy. Why? 
+For example on the GitHub repo of this course, we use the Trunk based development strategy. Why? 
 - 1. Only two developers on this project (i.e., small team).
 - 2. Small project with very few codes.
 - 3. Isolated changes (i.e., my labs will not affect Thomas' lectures because we work on different parts of the "project").
@@ -226,6 +232,8 @@ An example of a Ruff configuration file can be found [here](https://docs.astral.
 
 ### Linter speed comparison
 ![linter speed comparison](./img/linter_speed_comparison.svg)
+
+Source: https://docs.astral.sh/ruff/
 
 To use these tools, you can install them using pip:
 ```bash
