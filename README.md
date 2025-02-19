@@ -14,8 +14,8 @@ This course and material contained in this repo aims at closing that technical d
   - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
 - **Class time & place**: Classes are held from **9:00** to **12:30** every Monday, at B37 S.39 (-1/39).
   - First class on the 3rd of Februar 2025 will **still be at 8:30am** to align with the schedule in your calendars. 
-- **Support**: You can ask any question by **email**, during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
 - **Communication**: Main communication point will be [Discord](https://discord.gg/kY6B3cchkr). Official communication might also come by email.
+- **Support**: You can ask any question on [Discord](https://discord.gg/kY6B3cchkr). Prefer this option instead of **email** so that everyone can benefit from the answer. You can also ask questions during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
 
 ## Agenda
 
@@ -23,9 +23,9 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description       | Material (gradually added)      |
 |------------|------------|----------------|-------------------|---------------------------------|
-| 03/02/2024 | W1  | Sprint 1 | Course introduction | [lecture slides](lectures/01_course_introduction.pdf)  |
-| 10/02/2024 | W2  | Sprint 1 | Project organisation | [lecture slides](lectures/02_project_organisation.pdf)  |
-| 17/02/2024 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
+| 03/02/2024 | W1  | Sprint 1 | Course introduction | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/01_course_introduction.pdf)  |
+| 10/02/2024 | W2  | Sprint 1 | Project organisation | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/02_project_organisation.pdf)  |
+| 17/02/2024 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](https://raw.githubusercontent.com/ThomasVrancken/info9023-mlops/main/lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
 | 24/02/2024 | W4  | Sprint 2 | Containerisation | []()  |
 | 03/02/2024 | W5  | Sprint 3 | API implementation | []()  |
 | 03/02/2024 | W6  | Sprint 3 | Microservices  | []()  |
