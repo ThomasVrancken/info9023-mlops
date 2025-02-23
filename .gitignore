@@ -5,11 +5,17 @@
 .venv/
 venv/
 
-# Common directories to be ignored
+# Python cache and Jupyter checkpoints
+**/__pycache__/
+**/.ipynb_checkpoints/
+
+# Common lab directories to be ignored
+# **/data/
 **/secrets/
 **/test/
-**/data/
 **/.DS_Store
 **/.ipynb_checkpoints
 **/__pycache__/
-**/cloud_storage.ipynb
+
+# Lab specific directories to be ignored
+demos/04_gcs_bq/cloud_storage.ipynb
