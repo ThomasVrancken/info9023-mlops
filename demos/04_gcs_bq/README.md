@@ -1,4 +1,4 @@
-# Demo Week 04: Google Cloud Storage (GCS) & BigQuery
+# Demo 2 [Sprint 2, W4]: Google Cloud Storage (GCS) & BigQuery
 
 Purpose of this demo is to give a lightweight introduction to Google Cloud.
 
@@ -60,10 +60,15 @@ We do so using Application Default Credentials (ADC).
 You can make sure you are properly logged in by running:
 
 ```sh
-gcloud auth list
+!gcloud auth list
 ```
+We then need to prepare a local file to be uploaded to GCS.
 
-We will now upload a local file by running the following code in a new cell:
+The example CSV file we're using here can be downloaded on kaggle ([link](https://www.kaggle.com/datasets/yadavhim/housing-csv)).
+
+Make sure to download it and store it on your local machine.
+
+We then run the following python snippet to upload the local CSV file to GCS:
 
 ```python
 from google.cloud import storage
@@ -170,13 +175,13 @@ We will do a short demo.
 To use the python sdk, run:
 
 ```sh
-pip install google-cloud-bigquery pandas
+!pip install google-cloud-bigquery pandas
 ```
 
 Make sure you are still correctly authenticated:
 
 ```sh
-gcloud auth application-default login
+!gcloud auth application-default login
 ```
 
 ### 3.2. Loading in data
@@ -238,6 +243,13 @@ print(df)
 
 ## 4. Conclusion
 
+You should now be comfortable with concepts of Google Cloud such as:
+- Setting up a Google Cloud project
+- Linking a billing account
+- Granting personal access through IAM
+- Google Cloud CLI and Python SDK
+- Basic data services such as GCS and BigQuery
+
 Here we showed a very simple for data reading/writing to GCS and BQ.
 
 Of course, BigQuery is better suited for structured data jobs. Its power relies in running analytical queries on huge amounts of data.
@@ -249,3 +261,5 @@ Another type of data storage on Google Cloud that was not covered here are **tra
 A couple of key examples are:
 - [CloudSQL](https://cloud.google.com/sql?hl=en): Postgres/My/SQL servers. Powerful for transactional operations. Enforces a data schema.
 - [Firestore](https://cloud.google.com/firestore?hl=en): NoSQL document transactional database. It allows you to perform CRUD operations on single datapoints real-time. Unlike CloudSQL, it does not enforce a data schema.
+
+In the coming weeks, we will look into **compute** offers on Google Cloud such as setting up VMs ([Compute Engine](https://cloud.google.com/products/compute?hl=en)) and hosting serverless APIs and microservices ([Cloud Run](https://cloud.google.com/run?hl=en)).
