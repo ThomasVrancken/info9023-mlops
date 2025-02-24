@@ -20,6 +20,9 @@ Make sure to have a GCP project you can use
 :bulb: Important to emphasis: For your group project you are recommended to create a single Google Cloud **Project**, using one of the team member's billing accounts - where the education credits should have been attributed.
 The owner of that project can then grant access to other team members through the [IAM page](https://console.cloud.google.com/iam-admin/).
 
+:eyes: You can verify that your Google Cloud project is correctly linked to your billing account by navigating to the billing tab and navigate to the `Cost table` page - your project should be listed (see screenshot).
+![GC_credits](./img/billing_project_linking.png)
+
 ## 2. Google Cloud Storage
 
 Google Cloud Storage (GCS) is a highly durable and highly available object storage service offered by Google Cloud.
