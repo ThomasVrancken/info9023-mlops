@@ -4,4 +4,4 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return "Welcome to the Simple Computation Flask App!"
+    return "Welcome to the MLSD course!"

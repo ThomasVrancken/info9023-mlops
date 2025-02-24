@@ -210,6 +210,9 @@ You need first to remove the container before removing the image even if the con
 
 ## 3. Your turn (ML container)
 
-The deliverable you need to provide is a Dockerfile that builds a container for a simple machine learning model. You should download a dataset, train a model on this dataset, and then make predictions with this model. You can use any machine learning library you want (scikit-learn, PyTorch, ...). 
+The deliverable you need to provide is a Dockerfile that builds a container for a simple machine learning model (:warning: this is not the most important part. We don't want you to spend too much time on it. Focus on the docker container configuration part). You should download a dataset, train a model on this dataset, and then make predictions with this model. You can use any machine learning library you want (scikit-learn, PyTorch, ...). 
 
 Flask is **not mandatory** here because this is the subject of the next lab but you can use it if you want to serve your model. Your docker can just output the training loss of your model and then the predictions on a test set.
+
+### 3.1. Deliverable
+You should upload your files to Gradescope. The **deadline** is sunday March 2 at 23:59. It is a Pass/Fail grade. You will get a Pass if you provide a Dockerfile that builds a container for a simple machine learning model. You will get a Fail if you don't provide a Dockerfile or if the Dockerfile doesn't build the container.
