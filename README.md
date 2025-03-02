@@ -21,13 +21,13 @@ This course and material contained in this repo aims at closing that technical d
 
 Note that links to the lecture and labs slides will always be provided shortly before the actual date.
 
-| Date       | Week #     | Sprint #       | Description       | Material (gradually added)      |
-|------------|------------|----------------|-------------------|---------------------------------|
-| 03/02/2024 | W1  | Sprint 1 | Course introduction | [lecture slides](lectures/01_course_introduction.pdf)  |
-| 10/02/2024 | W2  | Sprint 1 | Project organisation | [lecture slides](lectures/02_project_organisation.pdf)  |
+| Date       | Week #     | Sprint #       | Description       | Material (gradually added)      | Demo or directed work (gradually added) |
+|------------|------------|----------------|-------------------|---------------------------------|------------------------|
+| 03/02/2024 | W1  | Sprint 1 | Course introduction | [lecture slides](lectures/01_course_introduction.pdf)  | |
+| 10/02/2024 | W2  | Sprint 1 | Project organisation | [lecture slides](lectures/02_project_organisation.pdf)  | [demo git](demos/01_git/README.md) | 
 | 17/02/2024 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
-| 24/02/2024 | W4  | Sprint 2 | Containerisation | [lecture slides](lectures/04_containerisation.pdf) |
-| 03/02/2024 | W5  | Sprint 3 | API implementation | []()  |
+| 24/02/2024 | W4  | Sprint 2 | Containerisation | [lecture slides](lectures/04_containerisation.pdf) | [demo gcs & bq](demos/02_gcs_bq/README.md) [directed work Docker](directed_work/01_docker/README.md)|
+| 03/02/2024 | W5  | Sprint 3 | API implementation | []()  | [directed work Flask](directed_work/02_flask/README.md) |
 | 03/02/2024 | W6  | Sprint 3 | Microservices  | []()  |
 | 03/02/2024 | W7  | Sprint 4 | Model serving | []()  |
 | 03/02/2024 | W8  | Sprint 4 | Model pipeline | []()  |
