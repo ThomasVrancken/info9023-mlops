@@ -1,4 +1,4 @@
-# Directed work 2 [Sprint 3, W4] : Flask
+# Directed work 2 [Sprint 3, W5] : Flask
 
 ## 0. Introduction
 In this lab, you will learn the basics of Flask, a web framework for Python. You will learn how to create a simple web application that can be used to serve a machine learning model.
@@ -262,7 +262,7 @@ After running the above command, you should be able to access your Flask applica
 
 ## 5. Your turn - Inverted classroom
 ### 5.1. Explanation
-As explained last week, you are now asked to do the tasks explained in the follwing subsection. 
+As explained last week, you are now asked to do the tasks explained in the following subsection. 
 You are asked to do it by groups (same groups as for your project). You have approximately 1 hour to do it.
 Then 2 groups will present their work to the rest of the class. This will be followed by a debriefing with the teaching staff.
 
@@ -273,6 +273,7 @@ Strict instructions:
     - `/` : This route should return a welcome message. You should use a Jinja2 template to render the HTML content.
     - `/predict` : This route should accept a POST request with a JSON payload containing input data for a machine learning model. The route should return a JSON response with the predicted output of the model.
     - (optional) `/past_predictions` : This route should return a list of past predictions made by the model. You can store the past predictions in memory or in a file.
+    - (optional) `/modify_last_prediction` : This route should allow the user to modify the last past predictions. You can use a PUT request to update the last prediction.
 - Create a Dockerfile for your Flask application and build a Docker image.
 - Run a Docker container from the image and test the `/predict` route using Postman or `curl`.
 
