@@ -270,10 +270,11 @@ Then 2 groups will present their work to the rest of the class. This will be fol
 Strict instructions:
 - Create a **simple** machine learning model that takes input and returns a single output. You can use any model you like, such as a linear regression model or a decision tree model.
 - Create a new Flask application that has the following routes:
-    - `/` : This route should return a welcome message. You should use a Jinja2 template to render the HTML content.
-    - `/predict` : This route should accept a POST request with a JSON payload containing input data for a machine learning model. The route should return a JSON response with the predicted output of the model.
-    - (optional) `/past_predictions` : This route should return a list of past predictions made by the model. You can store the past predictions in memory or in a file.
-    - (optional) `/modify_last_prediction` : This route should allow the user to modify the last past predictions. You can use a PUT request to update the last prediction.
+    - GET `/` : Returns a welcome message. Use a Jinja2 template to render the HTML content.
+    - POST `/predict` : Accept a JSON payload containing input data and returns a JSON response with the model's predicted output.
+    - (optional) GET `/past_predictions` : Returns a list of past predictions. These can be stored in memory or in a file.
+    - (optional) PUT `/past_predictions/{id}` : Updates an existing past prediction by ID.
+    - (optional) PUT `/past_predictions/last` : Updates the most recent past prediction.
 - Create a Dockerfile for your Flask application and build a Docker image.
 - Run a Docker container from the image and test the `/predict` route using Postman or `curl`.
 
