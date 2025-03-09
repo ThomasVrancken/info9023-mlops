@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8-mlsd-hello-world
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: k8-mlsd-hello-world
+  template:
+    metadata:
+      labels:
+        app: k8-mlsd-hello-world
+    spec:
+      containers:
+      - name: k8-mlsd-hello-world
+        image: k8-mlsd-hello-world:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
