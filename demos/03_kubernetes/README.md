@@ -96,4 +96,25 @@ We will now run our application on a local kubernetes cluster.
     2.  `kubectl get pods`
 8.  Stop minikube by running: `minikube stop`
 
+## 5. Cleanup
+
+To completely remove everything and start fresh you can run the following commands.
+
+1. Delete the Kubernetes cluster:
+   ```bash
+   minikube delete
+   ```
+
+2. (Optional) To also remove the minikube configuration:
+   ```bash
+   rm -rf ~/.minikube
+   ```
+
+3. (Optional) If you want to remove Docker images and containers:
+   ```bash
+   docker system prune -a --volumes -f
+   ```
+   :warning: This will remove all unused containers, networks, images (both dangling and unreferenced), and optionally, volumes.
+   
+
 :muscle: This is the end, hope you learned something interesting!
