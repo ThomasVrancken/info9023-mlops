@@ -1,6 +1,6 @@
-# The following line will download a Docker image that already is set up with python 3.12, so that we can run our
-# simple application. 
-FROM python:3.12
+# Use the slim variant of Python 3.12 which is much smaller but still includes
+# essential Python functionality
+FROM python:3.12-slim
 
 # Copy our files over to the Docker container.
 COPY hello_world.py .
