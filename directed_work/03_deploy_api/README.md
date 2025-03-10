@@ -195,6 +195,8 @@ If you run now the following command in your terminal:
 gcloud run deploy flask-app --region=europe-west1 --source=$(pwd) --allow-unauthenticated
 ```
 
+:warning: More information on the scaling configuration (i.e. scaling to zero) can be found here: [https://cloud.google.com/run/docs/about-instance-autoscaling](https://cloud.google.com/run/docs/about-instance-autoscaling)
+
 You should get the following output:
 
 ```bash
