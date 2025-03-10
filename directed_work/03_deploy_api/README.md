@@ -111,7 +111,7 @@ And visit the following URL in your web browser: `http://localhost:5001/`. You s
 ## 2. Create a project in GCP
 
 ### 2.1. Prerequisites
-You should, as asked, have created a gmail address for your group and used your coupon to get your 50$ credit on GCP. If you haven't done so, please do it now. Once it is done you should see in the credits section of the billing page of your GCP console that you have 50$ of credit.
+You should, as asked, have used your coupon to get your 50$ credit on GCP see the [GCP demo](../../demos/02_gcs_bq/README.md) for more information on how to do it. If you haven't done so, please do it now. Once it is done you should see in the credits section of the billing page of your GCP console that you have 50$ of credit.
 ![Credits](img/7_bis.png)
 
 1. Go to the [GCP console](https://console.cloud.google.com/),
@@ -189,19 +189,10 @@ where `something-staging-2587` is the `PROJECT_ID` of the project you want to wo
 
 ## 3. Deploy the app to GCP
 
-[OLD COMMAND ?]
-
 If you run now the following command in your terminal:
 
 ```bash
-> gcloud run deploy flask-app --region=europe-west1 --source=$(pwd) --allow-unauthenticated
-```
-
-[NEW COMMAND ?]
-
-```bash
-gcloud builds submit --tag [IMAGE] /path/to/your/folder
-gcloud run deploy flask-app --image [IMAGE]
+gcloud run deploy flask-app --region=europe-west1 --source=$(pwd) --allow-unauthenticated
 ```
 
 You should get the following output:
@@ -296,11 +287,11 @@ In terms of memory, the first 450k Gio-seconde per month are free. After that, y
 
 You should now deploy the API you created in the previous lab to GCP. All optional features should be implemented. 
 
+For a small project as this one, you won't be charged too much for the use of GCP even by letting the app run for a few days. Thanks to [scaling to zero](https://cloud.google.com/run/docs/about-instance-autoscaling), which is a feature of `Cloud Run` that allows you to run your app with no instances when there is no traffic. But if you want to be sure you are not charged, you can delete the resources you created in GCP as explained in the `Clean up` section.
+
 You should send me by email:
 - object of the mail: `[INFO9023] DW3 - Group <group name>`
-- the link of your deployed API by email on **Monday 17 March 2025 at 9 a.m.** at the latest. I will then test your API. If it works as expected, you will get the full mark for this lab. If it doesn't work as expected, you will get a fail mark for this lab.
-
-For a small project as this one you should not be charged for the use of GCP even if you let it run for a few days. But if you want to be sure you are not charged, you can delete the resources you created in GCP as explained in the `Clean up` section. 
+- the link of your deployed API by email on **Monday 17 March 2025 at 9 a.m.** at the latest. I will then test your API. If it works as expected, you will get the full mark for this lab. If it doesn't work as expected, you will get a fail mark for this lab. 
 
 **BE SURE THAT YOUR APP IS ACCESSIBLE ON MONDAY 17 MARCH 2025 AT 9 A.M.**
 
