@@ -1,0 +1,69 @@
+# 🔄 Deployment Configuration
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vllm-gemma-deployment  # Name of the deployment
+spec:
+  replicas: 1  # Number of pod replicas to maintain
+  selector:
+    matchLabels:
+      app: gemma-server  # Label to select the pods
+  template:
+    metadata:
+      labels:  # Pod labels for identification and selection
+        app: gemma-server  
+        ai.gke.io/model: gemma-2-2b-it
+        ai.gke.io/inference-server: vllm
+        examples.ai.gke.io/source: user-guide
+    spec:
+      containers:
+      - name: inference-server
+        image: us-docker.pkg.dev/vertex-ai/vertex-vision-model-garden-dockers/pytorch-vllm-serve:20240930_0945_RC00  # Container image
+        resources:  # Resource requirements
+          requests:  # Minimum resources needed
+            cpu: "2"
+            memory: "10Gi"
+            ephemeral-storage: "10Gi"
+            nvidia.com/gpu: "1"
+          limits:    # Maximum resources allowed
+            cpu: "2"
+            memory: "10Gi"
+            ephemeral-storage: "10Gi"
+            nvidia.com/gpu: "1"
+        command: ["python3", "-m", "vllm.entrypoints.api_server"]  # Container startup command
+        args:  # Command arguments
+        - --model=$(MODEL_ID)
+        - --tensor-parallel-size=1
+        env:  # Environment variables
+        - name: MODEL_ID
+          value: google/gemma-2-2b-it
+        - name: HUGGING_FACE_HUB_TOKEN  # HuggingFace authentication
+          valueFrom:
+            secretKeyRef:
+              name: hf-secret
+              key: hf_api_token
+        volumeMounts:  # Mount points for volumes
+        - mountPath: /dev/shm
+          name: dshm
+      volumes:  # Volume definitions
+      - name: dshm
+        emptyDir:
+            medium: Memory
+      nodeSelector:  # Node selection criteria
+        cloud.google.com/gke-accelerator: nvidia-l4
+        cloud.google.com/gke-gpu-driver-version: latest
+
+# 🌐 Service Configuration
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: llm-service  # Name of the service
+spec:
+  selector:
+    app: gemma-server  # Selects pods with this label
+  type: ClusterIP     # Internal cluster IP service type
+  ports:
+    - protocol: TCP   # Port configuration
+      port: 8000      # Service port
+      targetPort: 8000  # Container port
