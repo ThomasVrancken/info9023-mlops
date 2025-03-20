@@ -19,3 +19,6 @@ venv/
 
 # Lab specific directories to be ignored
 demos/04_gcs_bq/cloud_storage.ipynb
+directed_work/04_vertex/data/*
+directed_work/04_vertex/Dockerfile
+directed_work/04_vertex/requirements.txt
