@@ -25,4 +25,4 @@ directed_work/04_vertex/Dockerfile
 directed_work/04_vertex/requirements.txt
 directed_work/04_vertex/house_prediction.ipynb
 directed_work/04_vertex/houseprice_pipeline.json
-directed_work/04_vertex/get_data.yaml
+directed_work/04_vertex/*.yaml

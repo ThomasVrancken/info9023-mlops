@@ -8,6 +8,7 @@ The goal of this directed work is to make you familiar with the Vertex AI platfo
 1. Have a working version of [python](https://www.python.org/downloads/)
 2. Have a working version of [Docker Desktop](https://docs.docker.com/desktop/)
 3. Docker daemon running.
+4. Enable Vertex AI API in your Google Cloud project.
 
 ## 2. Vertex AI
 
@@ -107,7 +108,6 @@ from kfp.v2.dsl import (
 from kfp.v2 import compiler
 from google.cloud.aiplatform import pipeline_jobs
 
-# Define the pipeline root for storing artifacts
 PIPELINE_ROOT = f"{BUCKET_NAME}/{PIPELINE_ROOT_FOLDER}"
 ```
 
@@ -144,15 +144,11 @@ Key points about this Dockerfile:
 
 2. Set up your environment variables:
 ```bash
-# Your Google Cloud project ID
+
 PROJECT_ID="your-project-id"
-# Region where you want to store your artifacts
 REGION="europe-west1"
-# Name for your Artifact Registry repository
 REPOSITORY="vertex-ai-pipeline-example"
-# Name for your Docker image
 IMAGE_NAME="training"
-# Tag for your image
 IMAGE_TAG="latest"
 ```
 
@@ -171,9 +167,7 @@ gcloud auth configure-docker $REGION-docker.pkg.dev
 
 5. Build and tag your Docker image:
 ```bash
-# Build the image
 docker build -t $IMAGE_NAME:$IMAGE_TAG .
-
 # Tag the image for Artifact Registry
 docker tag $IMAGE_NAME:$IMAGE_TAG \
     $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG
@@ -204,9 +198,9 @@ Important notes:
 
 ## 4. Understanding the Notebook Cells
 
-Let's go through each cell in the `house_prediction.ipynb` notebook and understand what they do:
+Let's go through each cell you should have in your notebook:
 
-### Cell 1: Import Dependencies
+### 4.1: Import Dependencies
 ```python
 from typing import Optional
 import google.auth
@@ -225,22 +219,25 @@ This cell imports all necessary libraries for working with Vertex AI:
 - `google.cloud.aiplatform`: The main Vertex AI SDK
 - Various data types from `kfp.v2.dsl` for handling artifacts, datasets, and pipeline components
 
-### Cell 2: Project Configuration
+### 4.2: Project Configuration
 ```python
-PROJECT_NAME = "flask-app-2025"
-LOCATION = "europe-west1"
-BUCKET_NAME = "gs://lab04-bucket"
+PROJECT_NAME = "PROJECT_NAME"
+REGION = "REGION"
+BUCKET_NAME = "gs://BUCKET_NAME"
 PIPELINE_ROOT = f"{BUCKET_NAME}/pipeline_root_houseprice/"
-BASE_IMAGE = "europe-west1-docker.pkg.dev/flask-app-2025/houseprice/training:latest"
+REPOSITORY= "REPOSITORY"
+IMAGE_NAME= "IMAGE_NAME"
+IMAGE_TAG= "IMAGE_TAG"
+BASE_IMAGE = f"{REGION}-docker.pkg.dev/{PROJECT_NAME}/{REPOSITORY}/{IMAGE_NAME}:{IMAGE_TAG}"
 ```
-This cell sets up the basic configuration for your Vertex AI project:
-- `PROJECT_NAME`: Your Google Cloud project ID
-- `LOCATION`: The region where your resources will be deployed
-- `BUCKET_NAME`: The Google Cloud Storage bucket for storing pipeline artifacts
-- `PIPELINE_ROOT`: The root directory in the bucket where pipeline artifacts will be stored
+This cell sets up the basic configuration for your Vertex AI project that you already defined in your terminal to push the image of the base image Docker to Artifact Registry:
+- `PROJECT_NAME`: Your Google Cloud project ID. e.g. "Vertex-AI-Pipeline"
+- `REGION`: The region where your resources will be deployed. e.g. "europe-west1"
+- `BUCKET_NAME`: The Google Cloud Storage bucket for storing pipeline artifacts. e.g. "gs://vertex-ai-pipeline-bucket"
+- `PIPELINE_ROOT`: The root directory in the bucket where pipeline artifacts will be stored. e.g. "gs://vertex-ai-pipeline-bucket/pipeline_root_houseprice/"
 - `BASE_IMAGE`: The Docker image that will be used to run your pipeline components
 
-### Cell 3: Component Definition
+### 4.3: Component Definition
 ```python
 @component(base_image=BASE_IMAGE)
 def your_component(param1: str, param2: int):
@@ -253,7 +250,7 @@ This cell shows the basic structure of a pipeline component:
 - The function parameters define the component's inputs
 - The function body contains the component's logic
 
-### Cell 4: Pipeline Definition
+### 4.4: Pipeline Definition
 ```python
 @pipeline(
     name="houseprice_pipeline",
@@ -269,7 +266,7 @@ This cell defines the main pipeline:
 - `pipeline_root` defines where pipeline artifacts will be stored
 - The function body defines the pipeline steps and their connections
 
-### Cell 5: Pipeline Compilation
+### 4.5: Pipeline Compilation
 ```python
 compiler.Compiler().compile(
     pipeline_func=houseprice_pipeline,
@@ -280,7 +277,7 @@ This cell compiles the pipeline into a JSON file:
 - The compiler converts the Python pipeline definition into a format Vertex AI can understand
 - The compiled pipeline is saved as 'houseprice_pipeline.json'
 
-### Cell 6: Vertex AI Initialization
+### 4.6: Vertex AI Initialization
 ```python
 aiplatform.init(project=PROJECT_NAME, location=LOCATION)
 ```
@@ -288,7 +285,7 @@ This cell initializes the Vertex AI SDK:
 - Sets up the connection to your Google Cloud project
 - Configures the region for Vertex AI services
 
-### Cell 7: Pipeline Execution
+### 4.7: Pipeline Execution
 ```python
 pipeline_job = aiplatform.PipelineJob(
     display_name="houseprice_pipeline_job",
@@ -304,7 +301,233 @@ This cell creates and runs the pipeline job:
 - `pipeline_root` specifies where to store job artifacts
 - `run()` starts the pipeline execution
 
-The error you see in the notebook is because the example component (`your_component`) is just a placeholder. In a real implementation, you would replace it with actual components for data ingestion, preprocessing, training, and evaluation as described in the previous sections.
+You will see 2 errors:
+
+1. `Failed to create pipeline job. Error: Vertex AI Service Agent service-{PROJECT_NUMBER}@gcp-sa-aiplatform-cc.iam.gserviceaccount.com does not have permission to access Artifact Registry repository projects/{PROJECT_NAME}/locations/{PROJECT_REGION}/repositories/{REPOSITORY}.`
+- This error occurs because the Vertex AI Service Agent does not have permission to access the Artifact Registry repository. You need to grant the Vertex AI Service Agent the necessary permissions. For this, you:
+  - Go to the IAM & Admin page in the Google Cloud Console and click on "grant access"
+  ![IAM & Admin](./img/2.png)
+  - Under the "New principals" you need to add the Vertex AI Service Agent. i.e. `service-{PROJECT_NUMBER}@gcp-sa-aiplatform-cc.iam.gserviceaccount.com`
+  - For the role, you need to add the `Artifact Registry Reader`. This is the role that allows the Vertex AI Service Agent to access the Artifact Registry repository.
+  ![IAM & Admin](./img/3.png)
+  - Click on "Save"
+
+Then if you run the pipeline again, you will see the following error:
+2. `The DAG failed because some tasks failed. The failed tasks are: ...`
+The error you see is because the example component (`your_component`) is just a placeholder. In a real implementation, you would replace it with actual components for data ingestion, preprocessing, training, and evaluation as described in the previous sections.
+
+
+Still you will be able to see the pipeline in the Vertex AI Pipelines UI.
+![Vertex AI Pipelines](./img/4.png)
+
+## 5. Your turn.
+
+Now that we have our environment set up, let's create the components for our ML pipeline. We'll create four main components: data ingestion, preprocessing, training, and evaluation.
+
+You need to submit 3 pictures as evidence of your work:
+- Screenshot of pipeline
+- Screenshot of output data
+- Screenshot of performance metrics
+
+You also need to provide the code for the components.
+You have until 06/04/2025 23:59 to submit your work.
+
+### 5.1. Data Ingestion Component
+
+Before doing this, be sure to have the dataset in your Google Cloud Storage bucket.
+
+To send the dataset to the bucket, you can use the following code:
+```bash
+gsutil -m cp -r data/* gs://vertex-ai-pipeline-bucket/data/
+```
+
+This component will download and prepare the initial dataset:
+
+```python
+@component(
+    base_image=BASE_IMAGE,
+    output_component_file="data_ingestion.yaml"
+)
+def data_ingestion(
+    dataset: Output[Dataset]
+):
+    """
+    Downloads and prepares the house price dataset.
+    
+    Args:
+        dataset: Output artifact to store the prepared dataset
+    """
+    import pandas as pd
+    import os
+    
+    # TODO: Implement the following steps:
+    # 1. Download the dataset from Kaggle or your preferred source
+    # 2. Load the data into a pandas DataFrame
+    # 3. Perform initial data validation
+    # 4. Save the dataset to the output path
+    # dataset.path will contain the path where to save the data
+```
+
+### 5.2. Data Preprocessing Component
+
+This component will clean and prepare the data for training:
+
+```python
+@component(
+    base_image=BASE_IMAGE,
+    output_component_file="preprocessing.yaml"
+)
+def preprocessing(
+    input_dataset: Input[Dataset],
+    preprocessed_dataset: Output[Dataset],
+):
+    """
+    Preprocesses the dataset for training.
+    
+    Args:
+        input_dataset: Input dataset from the data ingestion step
+        preprocessed_dataset: Output artifact for the preprocessed dataset
+    """
+    import pandas as pd
+    from sklearn.preprocessing import StandardScaler, OneHotEncoder
+    
+    # TODO: Implement the following steps:
+    # 1. Load the input dataset
+    # 2. Handle missing values
+    # 3. Do whatever you need to do to the data to prepare it for training
+
+    # 4. Save the preprocessed dataset to the output path
+    df.to_csv(dataset.path, index=False)
+    print(f"Dataset saved to: {dataset.path}")
+```
+
+### 5.3. Model Training Component
+
+This component will train the model using the preprocessed data:
+
+```python
+@component(
+    base_image=BASE_IMAGE,
+    output_component_file="training.yaml"
+)
+def training(
+    preprocessed_dataset: Input[Dataset],
+    model: Output[Model],
+    metrics: Output[Metrics],
+    hyperparameters: dict
+):
+    """
+    Trains the model on the preprocessed dataset.
+    
+    Args:
+        preprocessed_dataset: Input preprocessed dataset
+        model: Output artifact for the trained model
+        metrics: Output artifact for training metrics
+        hyperparameters: Dictionary of hyperparameters
+    """
+    import pandas as pd
+    from sklearn.model_selection import train_test_split
+    from sklearn.ensemble import RandomForestRegressor
+    from sklearn.metrics import mean_squared_error, r2_score
+    
+    # TODO: Implement the following steps:
+    # 1. Load the preprocessed dataset
+    # 2. Split into train and validation sets
+    # 3. Initialize and train the model
+    # 4. Evaluate the model
+    # 5. Save the model
+    # 6. Log metrics (MSE, R2, etc.)
+```
+
+### 5.4. Model Evaluation Component
+
+This component will evaluate the model's performance:
+
+```python
+@component(
+    base_image=BASE_IMAGE,
+    output_component_file="evaluation.yaml"
+)
+def evaluation(
+    model: Input[Model],
+    preprocessed_dataset: Input[Dataset],
+    metrics: Output[Metrics],
+    html: Output[HTML]
+):
+    """
+    Evaluates the model's performance and generates visualizations.
+    
+    Args:
+        model: Input trained model
+        preprocessed_dataset: Input preprocessed dataset
+        metrics: Output artifact for evaluation metrics
+        html: Output artifact for visualization HTML
+    """
+    import pandas as pd
+    import matplotlib.pyplot as plt
+    import seaborn as sns
+    from sklearn.metrics import mean_squared_error, r2_score
+    
+    # TODO: Implement the following steps:
+    # 1. Load the model and dataset
+    # 2. Make predictions
+    # 3. Calculate evaluation metrics
+    # 4. Create visualizations (residuals, feature importance, etc.)
+    # 5. Generate HTML report
+    # 6. Save metrics and visualizations
+```
+
+### 5.5. Assembling the Pipeline
+
+Now that we have all our components, let's assemble them into a pipeline:
+
+```python
+@pipeline(
+    name="houseprice_pipeline",
+    pipeline_root=PIPELINE_ROOT
+)
+def houseprice_pipeline():
+    # Define the components
+    ingestion_task = data_ingestion()
+    
+    preprocessing_task = preprocessing(
+        input_dataset=ingestion_task.outputs["dataset"],
+        numerical_features=["sqft_living", "sqft_lot", "sqft_above", "sqft_basement"],
+        categorical_features=["condition", "grade"]
+    )
+    
+    training_task = training(
+        preprocessed_dataset=preprocessing_task.outputs["preprocessed_dataset"],
+        hyperparameters={
+            "n_estimators": 100,
+            "max_depth": 10,
+            "random_state": 42
+        }
+    )
+    
+    evaluation_task = evaluation(
+        model=training_task.outputs["model"],
+        preprocessed_dataset=preprocessing_task.outputs["preprocessed_dataset"]
+    )
+```
+
+Key points about the pipeline:
+- Each component's output is connected to the next component's input
+- The pipeline defines the execution order
+- Hyperparameters can be passed to components
+- The pipeline will automatically handle artifact storage and versioning
+
+To use this pipeline:
+1. Implement the TODO sections in each component
+2. Compile the pipeline
+3. Run it using the Vertex AI Pipeline service
+
+The pipeline will execute each component in sequence, passing data between them and storing all artifacts in your specified Google Cloud Storage bucket.
+
+- Note: Here we used a BASE IMAGE that is used by each component. This is a good practice to avoid repeating the same dependencies in each component. It is also a good idea to have an image for each component when components are more complex and have different dependencies.
+
+
+
 
 
 
