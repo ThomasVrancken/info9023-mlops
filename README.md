@@ -23,18 +23,18 @@ Note that links to the lecture and labs slides will always be provided shortly b
 
 | Date       | Week #     | Sprint #       | Description       | Material (gradually added)      | Demo or directed work (gradually added) |
 |------------|------------|----------------|-------------------|---------------------------------|------------------------|
-| 03/02/2024 | W1  | Sprint 1 | Course introduction | [lecture slides](lectures/01_course_introduction.pdf)  | |
-| 10/02/2024 | W2  | Sprint 1 | Project organisation | [lecture slides](lectures/02_project_organisation.pdf)  | [demo git](demos/01_git/README.md) | 
-| 17/02/2024 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
-| 24/02/2024 | W4  | Sprint 2 | Containerisation | [lecture slides](lectures/04_containerisation.pdf) | [demo gcs & bq](demos/02_gcs_bq/README.md) [directed work Docker](directed_work/01_docker/README.md)|
-| 03/02/2024 | W5  | Sprint 3 | API implementation | [lecture slides](lectures/05_API_implementation.pdf) | [directed work Flask](directed_work/02_flask/README.md) |
-| 03/02/2024 | W6  | Sprint 3 | Microservices  | [lecture slides](lectures/06_microservices.pdf) | [Demo k8s](demos/03_kubernetes/) |
-| 03/02/2024 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [Demo vLLM](demos/04_vllm/) |
-| 03/02/2024 | W8  | Sprint 4 | Model pipeline | [lecture slides](lectures/08_model_pipeline.pdf)   |
-| 03/02/2024 | W9  | Sprint 5 | Serving & training optimisation | 
-| 03/02/2024 | W10 | Sprint 5 | Monitoring & dashboarding | []()  |
-| 03/02/2024 | W11 | Sprint 6 | CICD | []()  |
-| 03/02/2024 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []()  |
+| 03/02/2025 | W1  | Sprint 1 | Course introduction | [lecture slides](lectures/01_course_introduction.pdf)  | |
+| 10/02/2025 | W2  | Sprint 1 | Project organisation | [lecture slides](lectures/02_project_organisation.pdf)  | [demo git](demos/01_git/README.md) | 
+| 17/02/2025 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
+| 24/02/2025 | W4  | Sprint 2 | Containerisation | [lecture slides](lectures/04_containerisation.pdf) | [demo gcs & bq](demos/02_gcs_bq/README.md) [directed work Docker](directed_work/01_docker/README.md)|
+| 03/03/2025 | W5  | Sprint 3 | API implementation | [lecture slides](lectures/05_API_implementation.pdf) | [directed work Flask](directed_work/02_flask/README.md) |
+| 10/03/2025 | W6  | Sprint 3 | Microservices  | [lecture slides](lectures/06_microservices.pdf) | [Demo k8s](demos/03_kubernetes/) |
+| 17/03/2025 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [Demo vLLM](demos/04_vllm/) |
+| 24/03/2025 | W8  | Sprint 4 | Model pipeline | [lecture slides](lectures/08_model_pipeline.pdf)   |
+| 31/03/2025 | W9  | Sprint 5 | Serving & training optimisation | 
+| 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | []()  |
+| 14/04/2025 | W11 | Sprint 6 | CICD | []()  |
+| 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []()  |
 
 ![Topics overview](figures/classes_overview.png)
 
