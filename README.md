@@ -30,8 +30,8 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 03/02/2024 | W5  | Sprint 3 | API implementation | [lecture slides](lectures/05_API_implementation.pdf) | [directed work Flask](directed_work/02_flask/README.md) |
 | 03/02/2024 | W6  | Sprint 3 | Microservices  | [lecture slides](lectures/06_microservices.pdf) | [Demo k8s](demos/03_kubernetes/) |
 | 03/02/2024 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [Demo vLLM](demos/04_vllm/) |
-| 03/02/2024 | W8  | Sprint 4 | Model pipeline | []()  |
-| 03/02/2024 | W9  | Sprint 5 | Serving & training optimisation | []()  |
+| 03/02/2024 | W8  | Sprint 4 | Model pipeline | [lecture slides](lectures/08_model_pipeline.pdf)   |
+| 03/02/2024 | W9  | Sprint 5 | Serving & training optimisation | 
 | 03/02/2024 | W10 | Sprint 5 | Monitoring & dashboarding | []()  |
 | 03/02/2024 | W11 | Sprint 6 | CICD | []()  |
 | 03/02/2024 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []()  |
