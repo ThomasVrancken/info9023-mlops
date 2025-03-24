@@ -23,7 +23,7 @@ Vertex AI is Google Cloud's unified platform for building, training, and deployi
 
 The key advantage of Vertex AI is that it's a fully managed platform, meaning you can focus on the ML aspects rather than infrastructure management. It handles scaling, security, and maintenance automatically in a serverless way.
 
-### 2.2. Required IAM Permissions
+### 2.2. Required IAM permissions
 Before proceeding with the Docker image build and push, you need to ensure you have the correct IAM permissions:
 
 1. Go to the Google Cloud Console
@@ -74,11 +74,11 @@ The typical workflow in Vertex AI consists of several steps:
    - Manage model versions.
    - Handle model updates and rollbacks.
 
-## 3. Example with the House Price Prediction Dataset
+## 3. Example with the house price prediction dataset
 
-### 3.1. Dataset and Requirements Setup
+### 3.1. Dataset and requirements setup
 
-#### Dataset Overview
+#### Dataset overview
 We'll be using the [Housing Prices Dataset](https://www.kaggle.com/datasets/yasserh/housing-prices-dataset?resource=download) from Kaggle. This dataset contains information about house prices and various features including:
 - Square footage;
 - Number of bedrooms;
@@ -99,7 +99,7 @@ gsutil cp Housing.csv gs://lab04-bucket/data/
 
 The dataset will be accessed by the pipeline at `gs://lab04-bucket/data/Housing.csv`.
 
-#### Required Dependencies
+#### Required dependencies
 First, let's set up our Python environment with the necessary packages. Create a `requirements.txt` file with the following dependencies:
 
 ```txt
@@ -116,7 +116,7 @@ matplotlib==3.8.0
 seaborn==0.13.0
 ```
 
-#### Project Structure
+#### Project structure
 Create the following directory structure for your project:
 ```
 house_prediction/
@@ -131,7 +131,7 @@ house_prediction/
 └── run_pipeline.py
 ```
 
-#### Initial Setup Code
+#### Initial setup code
 Before we start building our pipeline components, we need to import the necessary libraries and set up our environment:
 
 ```python
@@ -162,7 +162,7 @@ Key points about the imports:
 
 The `PIPELINE_ROOT` constant defines where all pipeline artifacts (datasets, models, metrics) will be stored in Google Cloud Storage.
 
-### 3.2. Setting up the Docker Base Image
+### 3.2. Setting up the Docker base Image
 
 Before we can create our pipeline components, we need to set up a Docker image that will be used as a base image to run all our components. This image needs to be stored in Google Cloud's Artifact Registry. Here's how to do it step by step:
 
@@ -238,11 +238,11 @@ Important notes:
 - When building on macOS, use the `--platform linux/amd64` flag to ensure compatibility with Google Cloud
 - You can verify your image in the Google Cloud Console under Artifact Registry
 
-## 4. Understanding the Components
+## 4. Understanding the components
 
 Let's go through each component in our pipeline:
 
-### 4.1: Data Ingestion Component
+### 4.1: Data ingestion component
 This component downloads and prepares the initial dataset:
 
 ```python
@@ -277,7 +277,7 @@ def data_ingestion(
         df.to_csv(dataset.path, index=False)
 ```
 
-### 4.2: Data Preprocessing Component
+### 4.2: Data preprocessing component
 This component cleans and prepares the data for training:
 
 ```python
@@ -312,7 +312,7 @@ def preprocessing(
     print(f"Preprocessed dataset saved to: {preprocessed_dataset.path}")
 ```
 
-### 4.3: Model Training Component
+### 4.3: Model training component
 This component trains the model using the preprocessed data:
 
 ```python
@@ -359,7 +359,7 @@ def training(
 
 ```
 
-### 4.4: Model Evaluation Component
+### 4.4: Model evaluation component
 This component evaluates the model's performance:
 
 ```python
@@ -463,7 +463,7 @@ pipeline_job = aiplatform.PipelineJob(
 pipeline_job.run()
 ```
 
-## 6. Monitoring and Analyzing Results
+## 6. Monitoring and analyzing results
 
 After running your pipeline, you can:
 
@@ -484,7 +484,7 @@ After running your pipeline, you can:
    - You can find the trained model, evaluation metrics, and visualizations
    - Download and analyze these artifacts locally if needed
 
-## 7. Cleaning Up Resources
+## 7. Cleaning up resources
 
 To avoid unnecessary costs, clean up your resources when you're done:
 
