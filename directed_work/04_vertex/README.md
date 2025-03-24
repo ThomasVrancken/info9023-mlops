@@ -23,8 +23,33 @@ Vertex AI is Google Cloud's unified platform for building, training, and deployi
 
 The key advantage of Vertex AI is that it's a fully managed platform, meaning you can focus on the ML aspects rather than infrastructure management. It handles scaling, security, and maintenance automatically in a serverless way.
 
-How does it work?
+### 2.2. Required IAM Permissions
+Before proceeding with the Docker image build and push, you need to ensure you have the correct IAM permissions:
 
+1. Go to the Google Cloud Console
+2. Navigate to IAM & Admin > IAM and click on "Grant Access"
+    ![grant_access](img/2.png)
+3. Find your service account by typing the command:
+    ```bash
+    gcloud projects list
+    ```
+4. Find the PROJECT_NUMBER of your project
+5. Add the following roles:
+   - `Artifact Registry Reader` (roles/artifactregistry.reader)
+   to your project. In "New principals" add the following:
+   ```
+   {PROJECT_NUMBER}@gcp-sa-aiplatform-cc.iam.gserviceaccount.com
+   ```
+   ![add_role](img/3.png)
+6. Click on "Save"
+
+Without these permissions, you might encounter errors like:
+```
+ERROR: Failed to create pipeline job. Error: Vertex AI Service Agent 'XXXXX@gcp-sa-aiplatform-cc.iam.gserviceaccount.com' should be granted access to the image gcr.io/gcp-project-id/application:latest
+```
+
+
+### 2.3. How does Vertex AI Pipelines work?
 The typical workflow in Vertex AI consists of several steps:
 
 1. Components Definition: First, we define the individual steps of our ML workflow as components using the Kubeflow Pipelines SDK. These components can be:
@@ -438,12 +463,69 @@ pipeline_job = aiplatform.PipelineJob(
 pipeline_job.run()
 ```
 
-## 6. Your turn.
+## 6. Monitoring and Analyzing Results
+
+After running your pipeline, you can:
+
+1. Monitor pipeline execution in the Google Cloud Console:
+   - Navigate to Vertex AI > Pipelines
+   - Find your pipeline run and click on it
+   - View the DAG visualization and execution status
+   - Check logs for each component
+
+2. Analyze the results:
+   - Review the metrics logged by the training and evaluation components
+   - Examine the feature importance plots
+   - Check the model's R2 score and MSE
+   - Look at the actual vs predicted price comparisons
+
+3. Access artifacts:
+   - All artifacts are stored in your GCS bucket under the pipeline root
+   - You can find the trained model, evaluation metrics, and visualizations
+   - Download and analyze these artifacts locally if needed
+
+## 7. Cleaning Up Resources
+
+To avoid unnecessary costs, clean up your resources when you're done:
+
+1. Delete pipeline artifacts from GCS:
+```bash
+gsutil rm -r gs://lab04-bucket/pipeline_root_houseprice/
+```
+
+2. Delete the Docker image from Artifact Registry:
+```bash
+gcloud artifacts docker images delete \
+    $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG \
+    --quiet
+```
+
+3. Delete the Artifact Registry repository:
+```bash
+gcloud artifacts repositories delete $REPOSITORY \
+    --location=$REGION \
+    --quiet
+```
+
+4. Optional: Delete the entire GCS bucket if no longer needed:
+```bash
+gsutil rm -r gs://lab04-bucket
+```
+
+Important notes:
+- Always clean up resources when you're done to avoid unnecessary costs
+- Use `--quiet` flag to skip confirmation prompts
+- Some resources might take a few minutes to be fully deleted
+- Make sure you have the necessary permissions to delete resources
+- Consider implementing a cleanup script to automate this process
+
+## 8. Your turn.
 
 Now that we have our environment set up, you need to:
 
 1. Submit 3 pictures as evidence of your work:
    - Screenshot of pipeline
+   ![pipeline](img/4.png)
    - Screenshot of output data
    - Screenshot of performance metrics
 
