@@ -4,6 +4,7 @@
 
 # Virtual environments
 .venv/
+.venv_2/
 venv/
 
 # Python cache and Jupyter checkpoints

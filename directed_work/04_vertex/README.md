@@ -9,6 +9,8 @@ The goal of this directed work is to make you familiar with the Vertex AI platfo
 2. Have a working version of [Docker Desktop](https://docs.docker.com/desktop/)
 3. Docker daemon running.
 4. Enable Vertex AI API in your Google Cloud project.
+5. Have the gcloud CLI installed on your machine.
+6. Authenticate with gcloud CLI by running `gcloud auth application-default login`
 
 ## 2. Vertex AI
 
@@ -74,7 +76,7 @@ The typical workflow in Vertex AI consists of several steps:
    - Manage model versions.
    - Handle model updates and rollbacks.
 
-## 3. Example with the house price prediction dataset
+## 3. Preparing our environment & base image
 
 ### 3.1. Dataset and requirements setup
 
@@ -90,14 +92,21 @@ Before starting with the pipeline, you need to:
 1. Download the dataset from Kaggle
 2. Create a Google Cloud Storage bucket (if you don't have one already):
 ```bash
-gsutil mb -l europe-west1 gs://lab04-bucket
+export BUCKET_NAME="{replace_with_your_bucket_name}"
+gsutil mb -l europe-west1 gs://$BUCKET_NAME
 ```
-3. Upload the dataset to your bucket:
+3. Upload the dataset to your bucket.
+Download the dataset from Kaggle and put it in a corresponding folder to be picked by the following command.
+
+💡 In this repository specifically, there is a reason to drop it in a folder called `data`. It will be handled differently in an unrelated part of our codebase. Do you know which one?
+
 ```bash
-gsutil cp Housing.csv gs://lab04-bucket/data/
+gsutil cp data/Housing.csv gs://$BUCKET_NAME/data/
 ```
 
-The dataset will be accessed by the pipeline at `gs://lab04-bucket/data/Housing.csv`.
+You can navigate to the bucket in the console and check that the file is uploaded.
+
+The dataset will be accessed by the pipeline at `gs://$BUCKET_NAME/data/Housing.csv`.
 
 #### Required dependencies
 First, let's set up our Python environment with the necessary packages. Create a `requirements.txt` file with the following dependencies:
@@ -132,7 +141,9 @@ house_prediction/
 ```
 
 #### Initial setup code
-Before we start building our pipeline components, we need to import the necessary libraries and set up our environment:
+Before we start building our pipeline components, we need to import the necessary libraries and set up our environment.
+
+Some of these imports will need to be added to the different `src/{component_name}.py` files.
 
 ```python
 from kfp.v2 import dsl
@@ -166,7 +177,7 @@ The `PIPELINE_ROOT` constant defines where all pipeline artifacts (datasets, mod
 
 Before we can create our pipeline components, we need to set up a Docker image that will be used as a base image to run all our components. This image needs to be stored in Google Cloud's Artifact Registry. Here's how to do it step by step:
 
-1. First, create a Dockerfile that will serve as our base image for the components:
+1. Create a Dockerfile that will serve as our base image for the components:
 ```Dockerfile
 FROM mirror.gcr.io/library/python:3.9
 WORKDIR /app
@@ -178,7 +189,7 @@ ENTRYPOINT ["bash"]
 
 Key points about this Dockerfile:
 - We use `mirror.gcr.io/library/python:3.9` instead of `python:3.9` because:
-  - It's faster to pull as it's a Google Container Registry (GCR) mirror
+  - It's faster to pull as it's a Artifact Registry mirror
   - It reduces external dependencies
   - It's maintained by Google
 - `ENTRYPOINT ["bash"]` keeps the container running after component execution
@@ -238,9 +249,16 @@ Important notes:
 - When building on macOS, use the `--platform linux/amd64` flag to ensure compatibility with Google Cloud
 - You can verify your image in the Google Cloud Console under Artifact Registry
 
-## 4. Understanding the components
+## 4. Building each component
 
-Let's go through each component in our pipeline:
+We will go through each component in our pipeline.
+
+Each component is implemented in one of the `src/{component_name}.py` file.
+
+You will need to copy the codes provided here in each python file and fill in the missing parts. 
+Some variables are missing and need to be defined (e.g. `BASE_IMAGE`).
+
+Before implementing anything, read through the whole flow.
 
 ### 4.1: Data ingestion component
 This component downloads and prepares the initial dataset:
@@ -264,16 +282,17 @@ def data_ingestion(
     import sys
     import traceback
     import fsspec
+    import logging
     
     try:
-        print("Starting data ingestion...")
+        logging.info("Starting data ingestion...")
         
         # TO DO:
         # 1. Load the dataset from the GCS bucket.
         # 2. Save the dataset to the output artifact.
         
         # Save the dataset
-        print(f"Saving dataset to {dataset.path}...")
+        logging.info(f"Saving dataset to {dataset.path}...")
         df.to_csv(dataset.path, index=False)
 ```
 
@@ -298,6 +317,7 @@ def preprocessing(
     """
     import pandas as pd
     from sklearn.preprocessing import StandardScaler, OneHotEncoder
+    import logging
     
     # Load the dataset
     df = pd.read_csv(input_dataset.path)
@@ -308,8 +328,9 @@ def preprocessing(
     # 4. Save the preprocessed dataset to the output artifact.
     
     # Save preprocessed dataset
+    df_processed = pd.DataFrame(StandardScaler().fit_transform(df), columns=df.columns)
     df_processed.to_csv(preprocessed_dataset.path, index=False)
-    print(f"Preprocessed dataset saved to: {preprocessed_dataset.path}")
+    logging.info(f"Preprocessed dataset saved to: {preprocessed_dataset.path}")
 ```
 
 ### 4.3: Model training component
@@ -340,6 +361,7 @@ def training(
     from sklearn.model_selection import train_test_split
     from sklearn.ensemble import RandomForestRegressor
     from sklearn.metrics import mean_squared_error, r2_score
+    import logging
     
     # Load preprocessed dataset
     df = pd.read_csv(preprocessed_dataset.path)
@@ -353,9 +375,9 @@ def training(
     # 6. Save the model.
 
     joblib.dump(rf_model, model.path)
-    print(f"Model saved to: {model.path}")
-    print(f"Validation MSE: {mse:.2f}")
-    print(f"Validation R2: {r2:.2f}") 
+    logging.info(f"Model saved to: {model.path}")
+    logging.info(f"Validation MSE: {mse:.2f}")
+    logging.info(f"Validation R2: {r2:.2f}") 
 
 ```
 
@@ -387,6 +409,7 @@ def evaluation(
     import matplotlib.pyplot as plt
     import seaborn as sns
     from sklearn.metrics import mean_squared_error, r2_score
+    import logging
 
     # TO DO:
     # 1. Load the model and dataset.
@@ -404,11 +427,20 @@ def evaluation(
     with open(html.path, 'w') as f:
         f.write(html_content)
     
-    print(f"Evaluation report saved to: {html.path}")
+    logging.info(f"Evaluation report saved to: {html.path}")
 ```
 
-### 4.5: Assembling the Pipeline
-Now that we have all our components, let's assemble them into a pipeline:
+## 5: Building & compiling the pipeline
+
+Now that we have all our components, let's assemble them into a pipeline.
+
+We will provide key parts of the pipeline codes, which you need to organise in the `run_pipeline.py` file.
+
+You need to organise the code accordingly, as well as add the imports and static variables.
+
+The first and key part is the pipeline definition. In it, we define the components and their parameters.
+
+This can be added as a method in our file:
 
 ```python
 @pipeline(
@@ -438,7 +470,9 @@ def houseprice_pipeline():
     )
 ```
 
-## 5. Running the Pipeline
+We then need to add a pipeline compiler.
+
+This is the part of the code that will be run the different methods we previously defined:
 
 1. First, compile the pipeline:
 ```python
