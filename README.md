@@ -28,13 +28,13 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 17/02/2025 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
 | 24/02/2025 | W4  | Sprint 2 | Containerisation | [lecture slides](lectures/04_containerisation.pdf) | [demo gcs & bq](demos/02_gcs_bq/README.md) [directed work Docker](directed_work/01_docker/README.md)|
 | 03/03/2025 | W5  | Sprint 3 | API implementation | [lecture slides](lectures/05_API_implementation.pdf) | [directed work Flask](directed_work/02_flask/README.md) |
-| 10/03/2025 | W6  | Sprint 3 | Microservices  | [lecture slides](lectures/06_microservices.pdf) | [Demo k8s](demos/03_kubernetes/) |
-| 17/03/2025 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [Demo vLLM](demos/04_vllm/) |
-| 24/03/2025 | W8  | Sprint 4 | Model pipeline | [lecture slides](lectures/08_model_pipeline.pdf)   |
-| 31/03/2025 | W9  | Sprint 5 | Serving & training optimisation | 
-| 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | []()  |
-| 14/04/2025 | W11 | Sprint 6 | CICD | []()  |
-| 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []()  |
+| 10/03/2025 | W6  | Sprint 3 | Microservices  | [lecture slides](lectures/06_microservices.pdf) | [demo k8s](demos/03_kubernetes/) |
+| 17/03/2025 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [demo vLLM](demos/04_vllm/) |
+| 24/03/2025 | W8  | Sprint 4 | Serving & training optimisation (order swapped with ML Pipeline) | [lecture slides](lectures/08_serving_and_training_optimisation.pdf) |
+| 31/03/2025 | W9  | Sprint 5 | ML Pipeline | [lecture slides](lectures/09_model_pipeline.pdf) | [directed work vertex pipeline](directed_work/04_vertex) | 
+| 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | []() |
+| 14/04/2025 | W11 | Sprint 6 | CICD | []() |
+| 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []() |
 
 ![Topics overview](figures/classes_overview.png)
 
