@@ -255,3 +255,29 @@ gcloud container clusters delete $CLUSTER_NAME --region=$REGION
 - GKE provides other built in AI frameworks such as Ray, NVIDIA NIM or building a RAG with LangChain and CloudSQL pgvector: [https://console.cloud.google.com/kubernetes/aiml/overview](https://console.cloud.google.com/kubernetes/aiml/overview)
 
 - You can also use a DeepSeek R1 model or other models with similar capabilities (see this [tutorial](https://cloud.google.com/kubernetes-engine/docs/tutorials/serve-multihost-gpu)). However, due to the cheer size of DeepSeek models we will use Gemma 2 for this tutorial.
+
+## 🏠 Considerations when opting for self-hosting
+
+Before you decide to use self-hosting LLMs in production, it's important to understand the trade-offs compared to using commercial APIs like OpenAI's GPT models.
+
+### Pros of Self-Hosting 🟢
+- **Data Privacy**: Complete control over data, no external sharing
+- **Customization**: Full control over model selection and parameters
+- **No Internet Required**: Can run in air-gapped environments
+- **No Usage Limits**: No rate limiting or quota restrictions
+- **Cost Predictability**: Fixed infrastructure costs vs. per-token pricing
+
+### Cons of Self-Hosting 🔴
+- **Infrastructure Costs**: Significant upfront and ongoing hardware expenses
+- **Maintenance Overhead**: Regular updates, security patches, monitoring
+- **Performance Gap**: Most self-hosted models underperform compared to SOTA commercial API models
+- **Technical Expertise**: Requires MLOps knowledge and dedicated personnel
+- **Resource Intensive**: High RAM/GPU requirements, even for smaller models
+
+Generally speaking, self-hosting is more expensive than using commercial APIs. It is rather useful if you have really strict security or privacy requirements.
+
+The cost of hosting per request will decrease with the number of requests, as you make better use of the infrastructure and reduce cost of scale such as manual work required to setup and maintain the infrastructure. However, it takes a lot of requests to break even compared to using commercial APIs.
+
+The following graph illustrates this:
+
+![LLM Hosting Cost Comparison](assets/llm_hosting_costs.png)

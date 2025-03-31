@@ -6,6 +6,7 @@
 .venv/
 .venv_2/
 venv/
+vllm-env/
 
 # Python cache and Jupyter checkpoints
 **/__pycache__/
@@ -18,6 +19,8 @@ venv/
 **/.DS_Store
 **/.ipynb_checkpoints
 **/__pycache__/
+**/local_experimentation*
+
 
 # Lab specific directories to be ignored
 demos/04_gcs_bq/cloud_storage.ipynb
