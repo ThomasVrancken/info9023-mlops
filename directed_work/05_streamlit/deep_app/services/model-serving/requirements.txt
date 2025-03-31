@@ -1,0 +1,4 @@
+flask
+gunicorn
+numpy
+torch
