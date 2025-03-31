@@ -9,13 +9,13 @@ from sklearn.preprocessing import MinMaxScaler
 
 # Load the datasets
 housing = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/housing.csv')
+    'https://storage.googleapis.com/bucket-lab-streamlit/housing.csv')
 iris = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/iris.csv')
+    'https://storage.googleapis.com/bucket-lab-streamlit/iris.csv')
 stocks = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/all_stocks_5yr.csv')
+    'https://storage.googleapis.com/bucket-lab-streamlit/all_stocks_5yr.csv')
 wine = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/winequality-red.csv')
+    'https://storage.googleapis.com/bucket-lab-streamlit/winequality-red.csv')
 
 # Sidebar
 dataset = st.sidebar.selectbox('Select dataset', ['California House Price', 

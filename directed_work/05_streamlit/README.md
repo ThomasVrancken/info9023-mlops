@@ -1,4 +1,4 @@
-# Lab W09: Streamlit
+# Directed work 5 [Sprint 5, W09]: Streamlit
 
 ## 0. Description
 
@@ -36,13 +36,18 @@ In the lab:
 
     4. [Wine Quality](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009)
 
-- The second task will be to create an application with streamlit to predict the price of a house in California using a simple linear regression model. The user will be able to input the features of the house and the model will predict the price of the house.
+- The second task will be to create an application with streamlit either based on the app you used i, the 3rd directed work or based on your project.
 
 
 ## 1. Google Cloud Storage bucket
 
 ### 1.1. Create a Google Cloud Storage bucket
-As a first step, you need to create a Google Cloud Storage bucket to store the datasets. You can create go the previous lab and see how it has been done.
+As a first step, you need to create a Google Cloud Storage bucket to store the datasets.
+
+```bash
+export BUCKET_NAME="{replace_with_your_bucket_name}"
+gsutil mb -l europe-west1 gs://$BUCKET_NAME
+```
 
 ### 1.2. Upload the datasets to the bucket
 Now, you need to put the different datasets in a Google Cloud Storage bucket. You can use the code we saw in the previous lab to upload the datasets to a bucket:
@@ -82,7 +87,7 @@ Here, we'll show you how to make the data public to be able to access it from a 
 
 2. In the list of buckets, click the name of the bucket that you want to make public.
 
-3. Select the Permissions tab near the top of the page.
+3. Select the `Permissions` tab near the top of the page.
 
 4. In the Permissions section, click the `Grant access` button.
 
@@ -90,11 +95,11 @@ Here, we'll show you how to make the data public to be able to access it from a 
 
 6. In the New principals field, enter `allUsers`.
 
-7. In the Select a role drop down, enter `Storage Object Viewer` in the filter box and select the `Storage Object Viewer` from the filtered results.
+7. In the Select a role drop down, enter `Storage Bucket Viewer` in the filter box and select the `Storage Bucket Viewer` from the filtered results.
 
-8. Click Save.
+8. Click `Save`.
 
-9. Click Allow public access.
+9. Click `Allow public access`.
 
 Once public access has been granted, `Copy URL` appears for each object in the public access column. You can click this button to get the public URL for the object.
 
@@ -150,13 +155,13 @@ from sklearn.preprocessing import MinMaxScaler
 
 # Load the datasets
 housing = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/housing.csv')
+    'https://storage.googleapis.com/{BUCKET_NAME}/housing.csv')
 iris = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/iris.csv')
+    'https://storage.googleapis.com/{BUCKET_NAME}/iris.csv')
 stocks = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/all_stocks_5yr.csv')
+    'https://storage.googleapis.com/{BUCKET_NAME}/all_stocks_5yr.csv')
 wine = pd.read_csv(
-    'https://storage.googleapis.com/bucket-lab9/winequality-red.csv')
+    'https://storage.googleapis.com/{BUCKET_NAME}/winequality-red.csv')
 
 # Sidebar
 dataset = st.sidebar.selectbox('Select dataset', ['California House Price', 
@@ -272,7 +277,12 @@ streamlit
 To build the Docker container, run the following command:
 
 ```bash
-docker build -t streamlit-app .
+export IMAGE_NAME="{IMAGE_NAME}"
+export IMAGE_TAG="latest"
+```
+
+```bash
+docker build --platform linux/amd64-t $IMAGE_NAME:$IMAGE_TAG
 ```
 
 To run the Docker container, run the following command:
@@ -296,11 +306,10 @@ To set the project you want to work with, you can use the following command:
 ```bash
 gcloud config set project PROJECT_ID
 ```
-
-To deploy the Streamlit container to Google Cloud Run, you first have to tag your Docker image with a registry name. If you're using Google Container Registry (GCR) you need to first submit the docker image to Container Registry (Now Artifact Registry as Container Registry is deprecated).
+To deploy the Streamlit container to Google Cloud Run, you first have to tag your Docker image with a registry name. If you're using Google Artifact Registry you need to first submit the docker image to Artifact Registry as.
 
 ```bash
-gcloud builds submit --tag gcr.io/PROJECT_ID/IMAGE_NAME:TAG
+gcloud builds submit --tag PROJECT_ID/IMAGE_NAME:TAG
 ```
 
 You can verify if your docker image has been successfully submitted to the registry by running the following command:
@@ -312,255 +321,37 @@ gcloud container images list
 Then, you can deploy the Docker image to Google Cloud Run using the following command:
 
 ```bash
-gcloud run deploy CONTAINER_NAME --image gcr.io/PROJECT_ID/DOCKER_IMAGE_NAME:TAG --platform managed --region europe-west1 --allow-unauthenticated
+gcloud run deploy SERVICE_NAME --image PROJECT_ID/IMAGE_NAME:TAG --platform managed --region europe-west1 --allow-unauthenticated
 ```
 
 To get some information about your service, you can use the following command:
 
 ```bash
-gcloud run services describe CONTAINER_NAME --region europe-west1
+gcloud run services describe SERVICE_NAME --region europe-west1
 ```
 
 To delete your Google Cloud Run service, you can use the following command:
 
 ```bash
-gcloud run services delete CONTAINER_NAME --region europe-west1
+gcloud run services delete SERVICE_NAME --region europe-west1
 ```
 
 
-## 3. Create a Streamlit application to predict the price of a house in California
+## 3. Your turn
 
-Another thing we can do is to create a Streamlit application to use the microservices that we created in the previous lab about Docker Compose. We will not have a web-application flask app with Jinja2 templates but a Streamlit application that will use the microservices to preprocess data, train the model and predict the price of a house in California. So we will create a streamlit applcation that allows the user the same things as our web app from last week but with the following features:
+Create a Streamlit application to visualize the dataset of your choice. Either based on the app you used in the 3rd directed work or based on your project. You need to deploy the Streamlit application to Google Cloud Run. We will check the app and the deployment.
+What we ask you: 
+- Create a Dockerfile to build the Docker image.
+- Deploy the Docker image to Google Cloud Run.
+- Make sure the app is working as expected.
+- Make sure the app is deployed to Google Cloud Run.
+- Make sure the app is accessible from the web.
+- Your streamlit app should be VISUAL. We don't want to see a 'hello world' app. Make a cool dashboard with plots, maps, etc.
 
-- A sidebar that allows the user to input the features of the house (e.g., longitude, latitude, number of bedrooms, number of bathrooms, etc.).
-
-- A main panel that displays the predicted price of the house.
-
-So the code is the same as last week but we will use Streamlit to create the web application.
-
-### 3.1 Example code
-
-This is the code of `app.py` that we will use to create the Streamlit application:
-
-```python
-import os
-import requests
-import streamlit as st
-
-# Add a logo
-st.sidebar.image('./figures/uliege_faculte_sciencesappliquees_logo.svg', 
-                 width=300)
+We will check the app on Monday April 7th at 9:00 AM.
 
 
-
-# Data preprocessing endpoint (triggers preprocessing.py)
-def process_data():
-    response = requests.post('http://data-processing:5004/preprocess')  # replace with the correct URL
-    if response.status_code == 200:
-        result = response.json()['result']  # get the result from the JSON response
-        st.success("Data preprocessing done. Result: " + str(result))
-    else:
-        st.error("Data preprocessing failed")
-
-# Model training endpoint (triggers model_training.py)
-def train_model(learning_rate, num_epochs):
-    # Check if the preprocessed data exists
-    if not os.path.exists('/data/X_train.csv'):
-        st.error('Data is not ready. Please preprocess data first.')
-        return
-
-    
-    # Make a POST request to the /train route in another Flask app
-    response = requests.post('http://model-training:5003/train', 
-                             json={'learning_rate': learning_rate, 
-                                   'num_epochs': num_epochs})
-    # Check if the request was successful
-    if response.status_code == 200:
-        st.success('Model trained with learning rate {} and {} epochs'.format(learning_rate, num_epochs))
-    else:
-        st.error('Error: {}'.format(response.content))
-
-
-def serve_model(features_list):
-    # Load the model
-    if not os.path.exists('model/model.pth'):
-        st.error('Model is not ready. Please train the model first.')
-
-    # Make a POST request to the model serving endpoint
-    response = requests.post('http://model-serving:5001/predict', json={'X': features_list})
-
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse the prediction from the response
-        prediction = response.json()['prediction']
-
-        # Display the prediction
-        st.success(f'Prediction: {prediction}')
-    else:
-        st.error('Prediction failed.')
-
-# Main function to run the app
-def main():
-    st.title('California Housing Price application')
-
-    st.subheader('Data Preprocessing')
-
-    if st.button('Preprocess Data', key='preprocess_data'):
-        process_data()
-
-    st.subheader('Model Training')
-
-    # Add sliders for learning_rate and num_epochs
-    learning_rate = st.slider('Learning Rate', min_value=0.001, max_value=0.1, value=0.01, step=0.001)
-    num_epochs = st.slider('Number of Epochs', min_value=1, max_value=10, value=5, step=1)
-
-    if st.button('Train Model', key='train_model'):
-        train_model(learning_rate, num_epochs)
-
-    st.subheader('Model Serving')
-
-     # Create input fields for the features
-    feature1 = st.number_input('Longitude', value=1.0, step=1.0)
-    feature2 = st.number_input('Latitude', value=2.0, step=1.0)
-    feature3 = st.number_input('House Median Age', value=3.0, step=1.0)
-    feature4 = st.number_input('Total Rooms', value=4.0, step=1.0)
-    feature5 = st.number_input('Total Bedrooms', value=5.0, step=1.0)
-    feature6 = st.number_input('Population', value=6.0, step=1.0)
-    feature7 = st.number_input('Households', value=7.0, step=1.0)
-    feature8 = st.number_input('Median Income', value=8.0, step=1.0)
-    feature9 = st.number_input('oceam_proximity_<1H OCEAN', value=9.0, step=1.0)
-    feature10 = st.number_input('ocean_proximity_INLAND', value=10.0, step=1.0)
-    feature11 = st.number_input('oceam_proximity_ISLAND', value=11.0, step=1.0)
-    feature12 = st.number_input('oceam_proximity_NEAR BAY', value=12.0, step=1.0)
-    feature13 = st.number_input('oceam_proximity_NEAR OCEAN', value=13.0, step=1.0)
-
-    features_list = [feature1, feature2, feature3, feature4, feature5, 
-                     feature6, feature7, feature8, feature9, feature10, 
-                     feature11, feature12, feature13]
-
-    # Create a button to make predictions
-    if st.button('Predict', key='predict'):
-        serve_model(features_list)
-
-# Run the app
-if __name__ == "__main__":
-    main()
-```
-
-In this code, you see that the difference with the Flask app is that we use the `st` object from Streamlit to create the web application. We use the same endpoints as in the Flask app to preprocess the data, train the model and predict the price of a house in California.
-
-We can change a bit the page layout by adding a logo in the sidebar and changing the title of the page. So we added a folder `figures` in the root of the project and added the logo of the university in it. We also wanted our page to be a bit Uliège-like so we added in the `./streamlit/config.toml` file the following lines in the `[theme]` section:
-
-```toml
-[theme]
-# Primary accent for interactive elements
-primaryColor = "#F17C3B"
-# Background color for the main content area
-backgroundColor = "#FFFFFF"
-# Background color for sidebar and most interactive widgets
-secondaryBackgroundColor = "#8d8a83"
-
-# Font family for all text in the app, except code blocks
-# Accepted values (serif | sans serif | monospace) 
-# Default: "sans serif"
-font = "sans serif"
-```
-
-You can also add other configurations like the host and the port of the application in the `./streamlit/config.toml` but we will not use it in this lab.
-
-### 3.2 Docker file
-
-```Dockerfile
-FROM python:3.9-slim
-
-# Set working directory
-WORKDIR /app
-
-COPY ./services/web-application/ .
-COPY ./model/ ./model
-COPY ./data/ ./data
-COPY ./figures/ ./figures
-COPY ./services/web-application/.streamlit/ ./.streamlit/
-
-RUN pip install -r requirements.txt
-```
-
-### 3.3 Requirements file
-
-```txt
-flask
-pandas
-torch
-scikit-learn
-streamlit
-numpy
-requests
-```
-
-### 3.4 Build and run the application
-As wee have seen last week with docker-compose, we can build and run the application. Here is the modified `docker-compose.yml` file:
-
-```yml
-version: "3.9"
-
-services:
-  data-processing:
-    build: 
-      context: .  # Build from data-processing directory
-      dockerfile: services/data-preprocessing/Dockerfile
-    ports:
-      - "5004:5004"  # Expose data processing port
-    volumes:
-      - ./data:/data  # Mount data directory from host (read-write)
-    command: gunicorn -b :5004 data_preprocessing:app --access-logfile - --error-logfile -
-  model-training:
-    build:
-      context: .  # Build from model-training directory
-      dockerfile: services/model-training/Dockerfile
-    ports:
-      - "5003:5003"  # Expose model training port
-    volumes:
-      - ./data:/data  # Mount data directory from host
-      - ./model:/model  # Mount output model directory from host (optional)
-    command: gunicorn -b :5003 model_training:app --access-logfile - --error-logfile -
-  model-serving:
-    build:
-      context: .  # Build from model-serving directory
-      dockerfile: services/model-serving/Dockerfile
-    depends_on:
-      - model-training  # Wait for model training before starting serving
-    ports:
-      - "5001:5001"  # Expose model serving port
-    command: gunicorn -b :5001 model_serving:app --access-logfile - --error-logfile - 
-  web-app:
-    build:
-      context: .
-      dockerfile: services/web-application/Dockerfile # Build from current directory (containing app.py)
-    ports:
-      - "0.0.0.0:8501:8501"  # Expose Flask app port
-    volumes:
-      - ./model:/model  # Mount model directory for predictions
-      - ./data:/data  # Mount data directory for predictions
-    command: streamlit run app.py
-
-volumes:
-  data:
-  model: 
-```
-
-Then run it with the following commands:
-
-```bash
-docker build -t streamlit-app .
-```
-
-```bash
-docker run -p 8501:8501 streamlit-app
-```
-
-The Streamlit application should now be running in a Docker container. You can access it by opening a web browser and navigating to `http://localhost:8501`.
-
-### 3.5 Examples of Streamlit applications
+### 3.1 Examples of Streamlit applications
 
 You can find more examples of Streamlit applications in the [App galery](https://streamlit.io/gallery). 
 

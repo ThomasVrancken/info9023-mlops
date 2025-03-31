@@ -2,7 +2,7 @@ FROM python:3.9-slim
 
 WORKDIR /app
 
-COPY data_visualization.py /app/src/
+COPY src/data_visualization.py /app/src/
 COPY requirements.txt /app/src/
 
 ENV PORT=8501
