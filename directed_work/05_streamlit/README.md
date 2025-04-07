@@ -2,7 +2,7 @@
 
 ## 0. Description
 
-In this lab, you will learn how to create a simple web application using [Streamlit](https://streamlit.io/). Streamlit is a Python library that allows you to create web applications with minimal effort. You can use Streamlit to create interactive data visualizations, dashboards, and more.
+In this lab, you will learn how to create a simple web application using Streamlit. Streamlit is a Python library that allows you to create web applications with minimal effort. You can use Streamlit to create interactive data visualizations, dashboards, and more.
 
 ### 0.1. Objectives
 
@@ -36,7 +36,7 @@ In the lab:
 
     4. [Wine Quality](https://www.kaggle.com/datasets/uciml/red-wine-quality-cortez-et-al-2009)
 
-- The second task will be to create an application with streamlit either based on the app you used in the 3rd directed work or based on your project.
+- The second task will be to create an application with streamlit either based on the app you used i, the 3rd directed work or based on your project.
 
 
 ## 1. Google Cloud Storage bucket
@@ -137,6 +137,8 @@ Here are some examples of visualizations you can create for each dataset:
     - Line plot of the chosen stock prices over time.
     - Scatter plot of stock prices vs. trading volume.
 
+Exercise: create visualizations for the Iris and Wine Quality datasets.
+
 ### 2.2. Example code
 
 Here is an example of how you can create a Streamlit application that allows the user to select a dataset and visualize it.
@@ -156,10 +158,16 @@ housing = pd.read_csv(
     'https://storage.googleapis.com/{BUCKET_NAME}/housing.csv')
 iris = pd.read_csv(
     'https://storage.googleapis.com/{BUCKET_NAME}/iris.csv')
+stocks = pd.read_csv(
+    'https://storage.googleapis.com/{BUCKET_NAME}/all_stocks_5yr.csv')
+wine = pd.read_csv(
+    'https://storage.googleapis.com/{BUCKET_NAME}/winequality-red.csv')
 
 # Sidebar
 dataset = st.sidebar.selectbox('Select dataset', ['California House Price', 
-                                                  'S&P 500 stock data'])
+                                                  'S&P 500 stock data', 
+                                                  'Iris dataset', 
+                                                  'Wine Quality'])
 
 theme = st.sidebar.selectbox('Select theme', ['Dark', 'Light'])
 
@@ -221,6 +229,13 @@ elif dataset == 'S&P 500 stock data':
 
     # Scatter plot of stock price vs volume
     st.scatter_chart(stock_data[['close', 'volume']])
+
+elif dataset == 'Iris dataset':
+    st.write(iris)
+    # Add visualizations for Iris dataset
+elif dataset == 'Wine Quality':
+    st.write(wine)
+    # Add visualizations for Wine Quality dataset
 ``` 
 
 ### 2.3 Docker file
@@ -257,7 +272,7 @@ seaborn
 streamlit
 ```
 
-### 2.6 Build and run the Docker container
+### (OPTIONAL) 2.6 Build and run the Docker container
 
 To build the Docker container, run the following command:
 
@@ -324,33 +339,16 @@ gcloud run services delete SERVICE_NAME --region europe-west1
 
 ## 3. Your turn
 
-Create a Streamlit application to visualize the dataset of your choice (Other than the ones we used in the lab). 
-:warning: Choose a dataset that have nice features to visualize. 
-
-For an easier start, you can either base your app on the app you used in the 3rd directed work (IF IT HAS NICE VISUALIZATION-POTENTIAL) or based on your project.
-
-For example, you can:
-- Put a button to visualize the evolution of the stock market over time.
-- Put a train button with a sidebar for the number of epochs, the learning rate and have a progress bar.
-- Visualize a categorical output with probabilities of belonging to a class.
-- Visualize a confusion matrix after the training of your model.
-- Visualize the output of your model in a dashboard.
-- etc.
-
-Either your streamlit application should manipulate data from a dataset or it should be a dashboard to visualize the output of your model or manipulate outputs of another service i.e. communicate with another service in cloud run or predictions made by this other service.
-
-### 3.1. Deliverables
-
-You need to deploy the Streamlit application to Google Cloud Run. We will check the app and the deployment.
+Create a Streamlit application to visualize the dataset of your choice. Either based on the app you used in the 3rd directed work or based on your project. You need to deploy the Streamlit application to Google Cloud Run. We will check the app and the deployment.
 What we ask you: 
+- Create a Dockerfile to build the Docker image.
+- Deploy the Docker image to Google Cloud Run.
 - Make sure the app is working as expected.
 - Make sure the app is deployed to Google Cloud Run.
 - Make sure the app is accessible from the web.
 - Your streamlit app should be VISUAL. We don't want to see a 'hello world' app. Make a cool dashboard with plots, maps, etc.
 
 We will check the app on Monday April 7th at 9:00 AM.
-
-It will be a pass grade if we can access the app from the web and use it with some vizualizations.
 
 
 ### 3.1 Examples of Streamlit applications
