@@ -32,7 +32,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 17/03/2025 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [demo vLLM](demos/04_vllm/) |
 | 24/03/2025 | W8  | Sprint 4 | Serving & training optimisation (order swapped with ML Pipeline) | [lecture slides](lectures/08_serving_and_training_optimisation.pdf) |
 | 31/03/2025 | W9  | Sprint 5 | ML Pipeline | [lecture slides](lectures/09_model_pipeline.pdf) | [directed work vertex pipeline](directed_work/04_vertex) | 
-| 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | [lecture slides](lectures/10_monitoring_and_dashboarding.pdf) |
+| 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | [lecture slides](lectures/10_monitoring_and_dashboarding.pdf) | [directed work streamlit](directed_work/05_streamlit) | 
 | 14/04/2025 | W11 | Sprint 6 | CICD | []() |
 | 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | []() |
 
