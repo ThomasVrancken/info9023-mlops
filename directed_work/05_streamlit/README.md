@@ -348,16 +348,12 @@ What we ask you:
 - Make sure the app is accessible from the web.
 - Your streamlit app should be VISUAL. We don't want to see a 'hello world' app. Make a cool dashboard with plots, maps, etc.
 
-We will check the app on Monday April 7th at 9:00 AM.
+The app should be deployed and running on Monday April 14th at 9:00 AM.
 
 It will be a pass grade if we can access the app from the web and use it with some vizualizations.
 
 
-### 3.1 Examples of Streamlit applications
+### 3.2 Examples of Streamlit applications
 
-You can find more examples of Streamlit applications in the [App galery](https://streamlit.io/gallery). 
-
-
-
-
-
+- 🎨 You can find more examples of Streamlit applications in the [App galery](https://streamlit.io/gallery). 
+- 💡 You might know huggingface, which is a widely used platform for releasing open source ML models. They also provide a feature for deploying [spaces](https://huggingface.co/spaces), which are web applications that expose those open source ML models. For example, you can use the now famous [DeepSeek R1 (32B)](https://huggingface.co/spaces/seawolf2357/DeepSeek-R1-32b-search) directly from one of those spaces. The most standard way to deploy a space is to *streamlit*, showing the popularity of this framework for data scientists. You can try it yourself here: [https://huggingface.co/new-space](https://huggingface.co/new-space) (Huggingface even provides some free compute for hosting it 🤗)
