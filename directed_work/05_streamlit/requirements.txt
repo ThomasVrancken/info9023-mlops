@@ -1,0 +1,8 @@
+fsspec
+gcsfs
+matplotlib
+numpy
+pandas
+scikit-learn
+seaborn
+streamlit
