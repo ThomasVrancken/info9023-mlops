@@ -107,4 +107,4 @@ What we ask you to do now is to create a GitHub Actions workflow that runs pytes
 For the 21st of March, you should have created a pytest test for one of your project functions and a GitHub Actions workflow that runs pytest on every push and pull request to the main branch. This workflow should also run pre-commit hooks to check for code quality and formatting issues before running the tests.
 We will want you to push some code to your GitHub repository and create a pull request to test the workflow.
 
-What we will check is to see if the workflow has run successfully and if the tests have passed. We will also check if the pre-commit hooks have run successfully and if there are any code quality or formatting issues.
+What we will check is to see if the workflow has run successfully and if the tests have passed. We will also check if the pre-commit hooks have run successfully and if there are any code quality or formatting issues. 
