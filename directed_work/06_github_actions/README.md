@@ -108,4 +108,4 @@ For the 21st of March, you should have created a pytest test for one of your pro
 We will want you to push some code to your GitHub repository and create a pull request to test the workflow.
 Also we want you to add something of your choice that should automatically deploy something to the cloud using the CICD pipeline.
 
-What we will check is to see if the workflow has run successfully and if the tests have passed. We will also check if the pre-commit hooks have run successfully and if there are any code quality or formatting issues.
+What we will check is to see if the workflow has run successfully and if the tests have passed. We will also check if the pre-commit hooks have run successfully and if there are any code quality or formatting issues. 
