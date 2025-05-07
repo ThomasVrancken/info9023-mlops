@@ -34,7 +34,7 @@ Note that links to the lecture and labs slides will always be provided shortly b
 | 31/03/2025 | W9  | Sprint 5 | ML Pipeline | [lecture slides](lectures/09_model_pipeline.pdf) | [directed work vertex pipeline](directed_work/04_vertex) | 
 | 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | [lecture slides](lectures/10_monitoring_and_dashboarding.pdf) | [directed work streamlit](directed_work/05_streamlit) | 
 | 14/04/2025 | W11 | Sprint 6 | CICD | [lecture slides](lectures/11_cicd.pdf) | [directed work github actions](directed_work/06_github_actions) |
-| 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | [lecture slides](lectures/12_llmops_and_trusworthy_ai.pdf) |
+| 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | [lecture slides](lectures/12_llmops_and_trusworthy_ai.pdf) [guest lecture slides](lectures/12_guest_lecture_llmops_sagacify.pdf)|
 
 ![Topics overview](figures/classes_overview.png)
 
