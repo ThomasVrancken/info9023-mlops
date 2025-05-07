@@ -102,3 +102,4 @@ Many people helped and supported through the preparation of this course. Special
 - Ruwan Lambrichts
 - Jason Li
 - Thomas Janssens
+- Romain Lambermont
