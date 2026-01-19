@@ -4,13 +4,6 @@ This course equips students with the practical tools and frameworks needed to bu
 
 Deploying ML to production requires far more than model theoretical knowledge. This course addresses that challenge head-on, providing the technical skills, practices, and tools to bridge the gap between prototype and production. Students will be equipped to make an immediate impact when starting their professional life in the industry.
 
-## Logistic
-- **Teaching Staff**: 
-  - Thomas Vrancken (Instructor)
-  - Matthias Pirlet (Teaching Assistant)
-- **Communication**: Main communication point will be [Discord](link). Official communication might also be sent by email.
-- **Support**: After each class, there is dedicated time for students to work on their projects and ask questions to the teaching staff. 
-
 ## Agenda
 
 The links to the lecture slides and directed work will always be provided shortly before the actual date.
@@ -47,7 +40,7 @@ The links to the lecture slides and directed work will always be provided shortl
 
 ## Topics covered
 
-# TODO: Add topics covered during this course
+**TODO**: Add topics covered during this course
 
 ## Project 
 
@@ -56,6 +49,13 @@ All the project info can be found in the [project/project_description.pdf](proje
 ## Exam 
 
 The exam will take the form of an oral exam in which you will have to answer a series of 4-5 questions based on a case study. The case study will be given a hypothetical ML/AI application use case and you will have to answer different design questions based on the concepts taught during this course.
+
+## Logistic
+- **Teaching Staff**: 
+  - Thomas Vrancken (Instructor)
+  - Matthias Pirlet (Teaching Assistant)
+- **Communication**: Main communication point will be [Discord](link). Official communication might also be sent by email.
+- **Support**: After each class, there is dedicated time for students to work on their projects and ask questions to the teaching staff. 
 
 ## Resources
 
