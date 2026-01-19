@@ -1,40 +1,41 @@
-# INFO9023 - Machine Learning Systems Design [spring 2025]
+# INFO9023 - Machine Learning Systems Design [spring 2026]
 
-The course of Machine Learning System Designs (or MLOps) aims at enabling students to truly build fully functional "user-ready" ML systems. It will look at the whole lifecycle of building a real world ML application. At the end of the course, students will be familiar with key tools and frameworks of MLOps.
+The course of Machine Learning System Designs (MLSD) aims at enabling students to truly build fully functional "user-ready" ML systems. It will look at the whole lifecycle of building a real world ML application. At the end of the course, students will be familiar with key tools and frameworks of MLOps and LLMOps.
 
-We are in the early days of the AI revolution, which is expected to bring a large impact to many industries. There is a large demand for skilled engineers who are able to build ML systems.
+We are in the early days of the AI revolution, which is expected to bring a large impact to many industries. There is a large demand for skilled engineers who are able to build ML/AI systems.
 
-Bringing a Machine Learning application to production requires many more efforts than solely the ML model development. Famously, there is a large hidden technical debts in designing and implementing all the components coming around your model.
+Bringing a Machine Learning application to production requires many more efforts than solely the ML model development. There is a large hidden technical debts in designing and implementing all the components coming around your model.
 
-This course and material contained in this repo aims at closing that technical debt by providing essential tools and best practices in MLOps.
+This course and material contained in this repository aims at closing that technical debt by providing essential tools and best practices in MLOps and LLMOps.
 
 ## Logistic
 - **Teaching Staff**: 
-  - Thomas Vrancken (Instructor): t.vrancken@uliege.be
-  - Matthias Pirlet (Teaching Assistant): Matthias.Pirlet@uliege.be 
-- **Class time & place**: Classes are held from **9:00** to **12:30** every Monday, at B37 S.39 (-1/39).
-  - First class on the 3rd of Februar 2025 will **still be at 8:30am** to align with the schedule in your calendars. 
-- **Communication**: Main communication point will be [Discord](https://discord.gg/kY6B3cchkr). Official communication might also come by email.
-- **Support**: You can ask any question on [Discord](https://discord.gg/kY6B3cchkr). Prefer this option instead of **email** so that everyone can benefit from the answer. You can also ask questions during (or after) **classes** or in person during **open office hours** every Monday till 18:00 in office 77B (building B28).
+  - Thomas Vrancken (Instructor)
+  - Matthias Pirlet (Teaching Assistant)
+- **Communication**: Main communication point will be [Discord](link). Official communication might also be sent by email.
+- **Support**: After each class, there is dedicated time for students to work on their projects and ask questions to the teaching staff. 
 
 ## Agenda
 
-Note that links to the lecture and labs slides will always be provided shortly before the actual date.
+The links to the lecture slides and directed work will always be provided shortly before the actual date.
 
-| Date       | Week #     | Sprint #       | Description       | Material (gradually added)      | Demo or directed work (gradually added) |
-|------------|------------|----------------|-------------------|---------------------------------|------------------------|
-| 03/02/2025 | W1  | Sprint 1 | Course introduction | [lecture slides](lectures/01_course_introduction.pdf)  | |
-| 10/02/2025 | W2  | Sprint 1 | Project organisation | [lecture slides](lectures/02_project_organisation.pdf)  | [demo git](demos/01_git/README.md) | 
-| 17/02/2025 | W3  | Sprint 2 | Data pipelines & Cloud infrastructure | [lecture slides](lectures/03_data_pipelines_&_cloud_infrastructure.pdf) |
-| 24/02/2025 | W4  | Sprint 2 | Containerisation | [lecture slides](lectures/04_containerisation.pdf) | [demo gcs & bq](demos/02_gcs_bq/README.md) [directed work Docker](directed_work/01_docker/README.md)|
-| 03/03/2025 | W5  | Sprint 3 | API implementation | [lecture slides](lectures/05_API_implementation.pdf) | [directed work Flask](directed_work/02_flask/README.md) |
-| 10/03/2025 | W6  | Sprint 3 | Microservices  | [lecture slides](lectures/06_microservices.pdf) | [demo k8s](demos/03_kubernetes/) |
-| 17/03/2025 | W7  | Sprint 4 | Model serving | [lecture slides](lectures/07_model_serving.pdf) | [demo vLLM](demos/04_vllm/) |
-| 24/03/2025 | W8  | Sprint 4 | Serving & training optimisation (order swapped with ML Pipeline) | [lecture slides](lectures/08_serving_and_training_optimisation.pdf) |
-| 31/03/2025 | W9  | Sprint 5 | ML Pipeline | [lecture slides](lectures/09_model_pipeline.pdf) | [directed work vertex pipeline](directed_work/04_vertex) | 
-| 07/04/2025 | W10 | Sprint 5 | Monitoring & dashboarding | [lecture slides](lectures/10_monitoring_and_dashboarding.pdf) | [directed work streamlit](directed_work/05_streamlit) | 
-| 14/04/2025 | W11 | Sprint 6 | CICD | [lecture slides](lectures/11_cicd.pdf) | [directed work github actions](directed_work/06_github_actions) |
-| 21/04/2025 | W12 | Sprint 6 | LLMOps & Trustworthy AI | [lecture slides](lectures/12_llmops_and_trusworthy_ai.pdf) [guest lecture slides](lectures/12_guest_lecture_llmops_sagacify.pdf)|
+| Date       | Week #     | Sprint #       | Description       | Directed work |
+|------------|------------|----------------|-------------------|------------------------|
+| 02/02/2026 | W1  | Sprint 1 | | |
+| 09/02/2026 | W2  | Sprint 1 | | | 
+| 16/02/2026 | W3  | Sprint 2 | | |
+| 23/02/2026 | W4  | Sprint 2 | | |
+| 02/03/2026 | W5  | Sprint 3 | | |
+| 09/03/2026 | W6  | Sprint 3 | | |
+| 16/03/2026 | W7  | Sprint 4 | | |
+| 23/03/2026 | W8  | Sprint 4 | | |
+| 30/03/2026 | W9  | Sprint 5 | | | 
+| 06/04/2026 | W10 | Sprint 5 | | | 
+| 13/04/2026 | W11 | Sprint 6 | | |
+| 20/04/2026 | | | Holiday | |
+| 27/04/2026 | | | Holiday | |
+| 04/05/2026 | W12 | Sprint 6 | | |
+| 11/05/2026 | | | Milestone 3 presentation | |
 
 ## Course culture
 
