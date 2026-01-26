@@ -11,7 +11,7 @@ This lab is designed to introduce you to the fundamentals of Git and GitHub. You
 - Create and merge a pull request.
 - Understand basic Git commands and workflows.
 - Understand the difference between Trunk based development and Git Flow.
-- Use code quality tools like Ruff and Black.
+- Use code quality tools like Ruff.
 - Use pre-commit hooks to ensure code quality.
 - Write tests with Pytest.
 - Automate your workflow with GitHub Actions.
@@ -20,8 +20,8 @@ This lab is designed to introduce you to the fundamentals of Git and GitHub. You
 
 Before you start this lab, you should have:
 
-1. A GitHub account: [Create one here.](https://github.com/)
-2. Git installed on your computer: [Download Git.](https://git-scm.com/)
+1. A GitHub account. [Create one here](https://github.com/).
+2. Git installed on your computer: [Download Git](https://git-scm.com/).
 3. A code editor (e.g., [Visual Studio Code](https://code.visualstudio.com/), [PyCharm](https://www.jetbrains.com/fr-fr/pycharm/), etc.)
 4. An SSH key set up for secure access to GitHub repositories. Follow this [tutorial](https://docs.github.com/en/authentication/connecting-to-github-with-ssh).
 
@@ -31,109 +31,106 @@ The image below illustrates Git's structure and workflow.
 
 ![Git structure](./img/git_structure.png)
 
-- **Working directory**: the directory on your local machine where you make changes to your files.
-- **Staging area**: a temporary storage area where you can add files before committing them. You can view it as a buffer between the working directory and the repository to be able to commit only the changes you want.
-- **Local repository**: the `.git` directory where Git stores all the changes you've committed. :warning: This is a local repository, meaning it's stored on your computer. When you commit changes, they are only saved on your machine until you push them.
-- **Remote repository**: the repository hosted on GitHub, GitLab, Bitbucket, etc. This is where you can push your changes to share them with others.
+- **Working directory**. The directory on your local machine where you make changes to your files.
+- **Staging area**. A temporary storage area where you can add files before committing them. You can view it as a buffer between the working directory and the repository to be able to commit only the changes you want.
+- **Local repository**. The `.git` directory where Git stores all the changes you've committed. :warning: This is a local repository, meaning it's stored on your computer. When you commit changes, they are only saved on your machine until you push them.
+- **Remote repository**. The repository hosted on GitHub, GitLab, Bitbucket, etc. This is where you can push your changes to share them with others.
 
 ### Key steps and commands
-1. **Create a repository**: you can create the repository on GitHub and clone it to your local machine, or create a local repository and push it to GitHub. [Follow this tutorial.](https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories)
+1. **Create a repository**. You can create the repository on GitHub and clone it to your local machine, or create a local repository and push it to GitHub. [Follow this tutorial.](https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories)
 
-2. **Clone a repository**: to clone a repository, use the following command:
+2. **Clone a repository**. To clone a repository, use the following command
     ```bash
     git clone <repository_url>
     ```
 
-3. **Branch management**: create a new branch and switch between branches.
-- Create a new branch and switch to it:
+3. **Branch management**. Create a new branch and switch between branches.
+- Create a new branch and switch to it
     ```bash
     git switch -c <branch_name>
     ```
-- Switch to a branch:
+- Switch to a branch
     ```bash
     git switch <branch_name>
     ```
 
-    + Note: you can choose between `git checkout` and `git switch` to switch and create branches. `git switch` is the **new command introduced in Git 2.23.0**. It is more intuitive and specifically designed for switching branches. \
-    Use `git checkout` if you need to perform additional tasks like checking out specific files or commits, i.e., when you need to move to a specific commit in the history of your project (e.g., to inspect old code, to review the code at a specific point in time, etc.). You can do that with `git checkout <commit_hash>`.
+    + *Note*: you can choose between `git checkout` and `git switch` to switch and create branches. `git switch` is the **new command introduced in Git 2.23.0**. It is more intuitive and specifically designed for switching branches. Use `git checkout` if you need to perform additional tasks like checking out specific files or commits, i.e., when you need to move to a specific commit in the history of your project (e.g., to inspect old code, to review the code at a specific point in time, etc.). You can do that with `git checkout <commit_hash>`.
 
 
 
-- List all local branches:
+- List all local branches
     ```bash
     git branch
     ```
-- List all remote branches:
+- List all remote branches
     ```bash
     git branch -r
     ```
-- List all branches (local and remote):
+- List all branches (local and remote)
     ```bash
     git branch -a
     ```
-- Work on a remote branch that exists on GitHub but not on your machine:
+- Work on a remote branch that exists on GitHub but not on your machine
     ```bash
-    git fetch origin                        # Download all remote branches
-    git switch <branch_name>                # Git will automatically track the remote branch
+    git fetch origin # Download all remote branches
+    git switch <branch_name> # Git will automatically track the remote branch
     ```
     If the branch exists on the remote, Git will create a local branch that tracks it. You can then work on it and push your changes.
 
-4. **Staging and committing changes**:
-- Add files to the staging area:
+4. **Staging and committing changes**.
+- Add files to the staging area
     ```bash
     git add <file_name>
     ```
-- Add all files to the staging area:
+- Add all files to the staging area
     ```bash
     git add .
     ```
-- Commit :warning: **staged** :warning: changes:
+- Commit :warning: **staged** :warning: changes
     ```bash
     git commit -m "Your commit message"
     ```
-- Commit all **tracked** modified files (skips the staging step for convenience):
+- Commit all **tracked** modified files (skips the staging step for convenience)
     ```bash
     git commit -am "Your commit message"
     ```
     :warning: This only works for files Git already knows about. New (untracked) files must be added with `git add` first.
-5. **Push local changes to the remote repository**:
+5. **Push local changes to the remote repository**.
     ```bash
     git push origin <branch_name>
     ```
 
-6. **Pull requests**: in a company, in a team or in an open-source project, you will have to create a pull request to merge your changes into the main branch. \
-This pull request will be reviewed by other developers, and they can ask you to make changes before merging your code. \
-To create a pull request, you can [use the GitHub interface](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request?tool=codespaces.)
+6. **Pull requests**: in a company, in a team or in an open-source project, you will have to create a pull request to merge your changes into the main branch. This pull request will be reviewed by other developers, and they can ask you to make changes before merging your code. To create a pull request, you can [use the GitHub interface](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request?tool=codespaces.)
 
-    + Note: A nice practice when creating a pull request is to add a template to help the reviewer understand what you have done and what you expect from the review.
-    + Note: A nice way to make pull requests funnier is to use emojis in your pull request titles. Here is a [list of emojis that you can use](https://gitmoji.dev/). For example, if you add a new feature, you can use the emoji :sparkles: in your commit message. If you fix a bug, you can use the emoji :bug:, but make sure to use them appropriately otherwise they lose their meaning.
+    + *Note*: A nice practice when creating a pull request is to add a template to help the reviewer understand what you have done and what you expect from the review.
+    + *Note*: A nice way to make pull requests funnier is to use emojis in your pull request titles. Here is a [list of emojis that you can use](https://gitmoji.dev/). For example, if you add a new feature, you can use the emoji :sparkles: in your commit message. If you fix a bug, you can use the emoji :bug:, but make sure to use them appropriately otherwise they lose their meaning.
 
 
-7. **Update local repository**: when you work on a project with other developers, you will need to update your local repository with changes made by others on the remote repository.
+7. **Update local repository**. When you work on a project with other developers, you will need to update your local repository with changes made by others on the remote repository.
 
-- The quickest way is to pull directly (this fetches and merges in one step):
+- The quickest way is to pull directly (this fetches and merges in one step)
     ```bash
     git pull origin <branch_name>
     ```
     Make sure you are on the branch you want to update before running this command.
 
-- A safer approach is to fetch first, review the changes, then merge:
+- A safer approach is to fetch first, review the changes, then merge
     ```bash
     git fetch origin <branch_name>
     ```
     This downloads the remote changes without applying them to your working directory.
 
-- Compare the differences between your local branch and the fetched remote branch:
+- Compare the differences between your local branch and the fetched remote branch
     ```bash
     git diff <branch_name> origin/<branch_name>
     ```
 
-- Once you've reviewed the changes, merge them into your current branch:
+- Once you've reviewed the changes, merge them into your current branch
     ```bash
     git merge origin/<branch_name>
     ```
 
-- **What if you only want some changes?** If you don't want to accept all the changes from the remote branch, you can cherry-pick specific commits:
+- **What if you only want some changes?** If you don't want to accept all the changes from the remote branch, you can cherry-pick specific commits
     ```bash
     git cherry-pick <commit_hash>
     ```
@@ -141,7 +138,7 @@ To create a pull request, you can [use the GitHub interface](https://docs.github
 
 - **What is a merge conflict?** A conflict occurs when Git cannot automatically merge changes because the same lines of code were modified differently in both branches. For example, if you changed line 10 of a file, and your colleague also changed line 10 differently, Git doesn't know which version to keep.
 
-    When a conflict happens, Git marks the conflicting sections in the file like this:
+    When a conflict happens, Git marks the conflicting sections in the file like this
     ```
     <<<<<<< HEAD
     your version of the code
@@ -150,9 +147,9 @@ To create a pull request, you can [use the GitHub interface](https://docs.github
     >>>>>>> branch-name
     ```
 
-    **Resolving conflicts locally**: Edit the file manually to keep the code you want (remove the conflict markers), then stage and commit.
+    **Resolving conflicts locally**. Edit the file manually to keep the code you want (remove the conflict markers), then stage and commit.
 
-    **Resolving conflicts on GitHub**: If you have a conflict in a Pull Request, GitHub offers a web editor:
+    **Resolving conflicts on GitHub**. If you have a conflict in a Pull Request, GitHub offers a web editor:
     1. Click on "Resolve conflicts" button in the PR
     2. GitHub shows you the conflicting files with the conflict markers
     3. Edit directly in the browser: delete the lines you don't want, keep the lines you want, and remove the `<<<<<<<`, `=======`, and `>>>>>>>` markers
@@ -161,22 +158,22 @@ To create a pull request, you can [use the GitHub interface](https://docs.github
 
     This is often easier than resolving conflicts locally, especially for simple conflicts.
 
-8. **Delete branches**: when you have finished working on a branch, i.e., your changes have been merged and the pull request has been accepted, you can delete the branch using the following command:
+8. **Delete branches**. When you have finished working on a branch, i.e., your changes have been merged and the pull request has been accepted, you can delete the branch using the following command
     ```bash
     git branch -d <branch_name>
     ```
     This is a "safe delete": Git will warn you if the branch contains unmerged changes.
 
-- If you want to force delete a branch (even if it has unmerged changes), use uppercase `-D`:
+- If you want to force delete a branch (even if it has unmerged changes), use uppercase `-D`
     ```bash
     git branch -D <branch_name>
     ```
     :warning: Use with caution - you may lose work that hasn't been merged elsewhere.
 
 
-9. **Keep your branch up to date**: when working on a long-lived feature branch, other branches (e.g., main or develop) may have received updates from colleagues. To incorporate those changes into your branch, you have two primary options: **merge** or **rebase**.
+9. **Keep your branch up to date**. When working on a long-lived feature branch, other branches (e.g., main or develop) may have received updates from colleagues. To incorporate those changes into your branch, you have two primary options: **merge** or **rebase**.
 
-**Option 1**: Merge (Recommended for Simplicity).\
+**Option 1**. Merge (Recommended for Simplicity).\
 Merging integrates the latest changes from main into your branch, preserving the history of both branches.
 
 ![merge](./img/merge.svg)
@@ -195,7 +192,7 @@ Downsides of merge:
 
 3. `git bisect` (a tool to find which commit introduced a bug) is harder to use with a complex history.
 
-**Option 2**: Rebase (For a clean history).
+**Option 2**. Rebase (For a clean history).
 Rebasing rewrites your branch's history so it appears as though your changes were made on top of the latest main branch. You don't have merge commits in your history.
 
 ![rebase](./img/rebase.svg)
@@ -208,7 +205,7 @@ git rebase origin/main     # Rebase your branch on top of remote main
 ```
 This results in a linear history but can cause conflicts that must be resolved manually.
 
-**The golden rule of rebasing**: the most important thing to learn is **when not to do it**. The golden rule of git rebase is to never use it on public branches.
+**The golden rule of rebasing**. The most important thing to learn is **when not to do it**. The golden rule of git rebase is to never use it on public branches.
 
 If you rebase a branch that others are working on, you will create a mess for them. This is because rebasing rewrites the commit history, which can cause conflicts for other developers.
 When you rebase a branch, you are essentially creating a new branch with a new commit history. If someone else has already pulled the branch you rebased, they will have to deal with the conflicts that arise from the new commit history.
@@ -241,7 +238,7 @@ Source: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-work
 
 ### For your project: Git Flow is mandatory
 
-:warning: **For your course project, you must use the Git Flow strategy.** Here's how it works:
+:warning: **For your course project, you must use the Git Flow strategy.** Here's how it works
 
 1. **Your repository must have two main branches**: `main` (stable, production-ready) and `develop` (integration branch).
 2. **All your feature branches must be created from `develop`**, not from `main`.
@@ -273,103 +270,145 @@ A great application to see your branches and commits is [GitKraken](https://www.
 ## 5. Code quality checks
 
 When you work on a project, it's important to maintain code quality. You saw during the lesson that there are standards to follow when writing code like PEP8 for Python. To help you maintain code quality, you can use code linters and formatters.
-Linters are tools that analyze your code and report any errors or warnings. Formatters are tools that automatically format your code according to a specific style guide. Examples of linters and formatters are: Pylint, Black, Ruff, etc.
+**Linters** are tools that analyze your code and report any errors or warnings (e.g., Pylint, flake8). **Formatters** are tools that automatically format your code according to a specific style guide (e.g., Black). Ruff does both.
 
-Ruff and Black are among the most popular Python tools used for code quality and are often pitted against each other, but they serve different purposes and have unique characteristics. So let's make an objective comparison. Here's a brief overview of the differences between both:
+**Ruff** has become the go-to tool for Python code quality. It started as a linter but now includes a full formatter (`ruff format`) that is Black-compatible. This means **you can use Ruff for both linting AND formatting** - no need for separate tools.
 
-1. Purpose:
-   * **Ruff**: primarily a linter with some formatting features.
-   * **Black**: code formatter.
-2. Configuration:
-   * **Ruff**: highly configurable (enable or disable linting rules).
-   * **Black**: strongly opinionated with very few configuration options.
-3. Ecosystem:
-   * **Ruff**: designed to replace multiple other tools (e.g. `flake8`, `isort`, `pylint`) and relatively new.
-   * **Black**: widely adopted in the Python community and integrates with most IDE and CI/CD pipelines.
+Why Ruff?
+- **Extremely fast**: written in Rust, 10-100x faster than traditional Python linters
+- **All-in-one**: replaces `flake8`, `isort`, `pylint`, `black`, and more
+- **Highly configurable**: enable or disable specific linting rules as needed
+- **Black-compatible formatting**: `ruff format` produces the same output as Black
 
-Because Ruff and Black each have their own purposes, strengths and philosophies it is not uncommon to get the best of both worlds by combining them:
-- **Use Black** if your primary concern is enforcing consistent, unopinionated code formatting
-- **Use Ruff** if you're looking for a fast, versatile linter that also handles minor formatting tasks and integrates multiple types of checks
-- **Combine Black and Ruff** for a comprehensive code quality solution, leveraging Black for strict formatting and Ruff for efficient linting and minor fixes
+**Black** is still widely used as a standalone formatter. It's "opinionated" (very few configuration options), which ensures consistent code style across projects. However, since Ruff now includes Black-compatible formatting, many projects are switching to Ruff-only setups.
 
-
-An example of a Ruff configuration file can be found [here](https://docs.astral.sh/ruff/configuration/).
+**Our recommendation**: Use Ruff for both linting and formatting. It's simpler (one tool instead of two) and much faster.
 
 ### Linter speed comparison
 ![linter speed comparison](./img/linter_speed_comparison.svg)
 
 Source: https://docs.astral.sh/ruff/
 
-To use these tools, you can install them using pip:
+### Installing and using Ruff
+
+Install Ruff using pip
 ```bash
-pip install black pylint ruff
+pip install ruff
 ```
 
-Then you can run Ruff linter on your code using the following command:
+Run the linter on your code
 ```bash
-ruff check <file_name>
+ruff check . # Check all files in current directory
+ruff check src/ # Check specific directory
+ruff check --fix . # Auto-fix issues where possible
 ```
 
-or run Ruff formatter on your code using the following command:
+Run the formatter
 ```bash
-ruff format <file_name>
+ruff format . # Format all files
+ruff format --check . # Check formatting without changing files
 ```
 
-## 6. Pre-commit hooks
+### Ruff configuration
 
-Pre-commit hooks are scripts that run before a commit is made. They can be used to check the code for errors, enforce code style guidelines, or run tests. Pre-commit hooks are a great way to ensure that your code is clean and error-free before you commit it.
+Create a `ruff.toml` file in the root of your project with the following configuration:
 
-To use pre-commit hooks, you need to install the pre-commit package:
-```bash
-pip install pre-commit
+```toml
+# Ruff configuration file
+# Documentation: https://docs.astral.sh/ruff/configuration/
+
+# exclude commonly ignored directories
+exclude = [
+    ".git",
+    ".vscode",
+    "__pycache__",
+]
+
+# Same as Black
+line-length = 88
+indent-width = 4
+
+
+# Assume Python 3.11
+target-version = "py311"
+
+[lint]
+# Enable these rule categories
+select = [
+    "E", # pycodestyle errors
+    "W", # pycodestyle warnings
+    "F", # Pyflakes
+    "I", # isort (import sorting)
+    "B", # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
+]
+
+# Ignore specific rules
+ignore = [
+    "E501", # line too long (handled by formatter)
+]
+
+# Allow autofix for all enabled rules when using --fix
+fixable = ["ALL"]
+
+[lint.isort]
+known-first-party = ["src"]  # Replace "src" with your package name
+
+[format]
+# Use double quotes for strings
+quote-style = "double"
+
+# Indent with spaces
+indent-style = "space"
 ```
 
-Then you need to create a `.pre-commit-config.yaml` file in the root of your project. An example configuration file is shown below:
+You can also put this configuration in your `pyproject.toml` under `[tool.ruff]` if you prefer a single config file for your project.
 
-```yaml
-repos:
-- repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.4.8
-  hooks:
-    - id: ruff
-      types_or: [python, jupyter]
-    - id: ruff-format
-      args: [--diff]
-      types_or: [python, jupyter]
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.5.0
-  hooks:
-    - id: check-added-large-files
-    - id: check-toml
-    - id: check-yaml
-    - id: end-of-file-fixer
-    - id: mixed-line-ending
-      args: [--fix=lf]
-    - id: trailing-whitespace
-```
+## 6. Pytest
 
-This configuration file specifies the pre-commit hooks that should be run before each commit. In this example, we are using the Ruff linter and formatter on python and jupyter files as well as some other pre-commit hooks provided by the pre-commit package such as checking for large files to be sure not to commit them, checking for toml and yaml files to be sure they are well formatted, fixing mixed line endings which means checking if the line endings are consistent and fixing them if they are not, and checking for trailing whitespace.
+Pytest is a testing framework for Python that makes it easy to write simple and scalable test cases. It is widely used in the Python community and is known for its simplicity and flexibility. Writing tests is really useful and will be mandatory in your professional work.
 
-
-## 7. Pytest
-
-Pytest is a testing framework for Python that makes it easy to write simple and scalable test cases. It is widely used in the Python community and is known for its simplicity and flexibility.
-To use pytest, you first need to install it.
+To use pytest, first install it using pip
 ```bash
 pip install pytest
 ```
-Once it is installed, you can write test functions using the `assert` statement and save them in a file with the name `test_<your_module>.py`.
 
-You can the run the tests using the command:
+### How pytest discovers tests
+
+Pytest automatically finds your tests by looking for
+- files named `test_*.py` or `*_test.py`,
+- functions named `test_*` inside those files,
+- classes named `Test*` with methods named `test_*`.
+
+**Where to put your tests?** Pytest is flexible - tests don't need to be in a specific folder. Common approaches:
+
+1. **Dedicated `tests/` folder** (recommended for larger projects):
+   ```
+   my_project/
+   ├── src/
+   │   └── my_module.py
+   └── tests/
+       └── test_my_module.py
+   ```
+
+2. **Tests alongside source code** (simpler for small projects):
+   ```
+   my_project/
+   ├── my_module.py
+   └── test_my_module.py
+   ```
+
+Run all tests:
 ```bash
-pytest
+pytest # Run all tests in current directory (recursive)
+pytest tests/ # Run tests in specific folder
+pytest test_my_module.py # Run specific test file
 ```
-
-This is really useful and will even be mandatory if you begin a project in your future work.
 
 ### Example of a pytest test
 
-For example, if you have a really simple functions that does addition:
+For example, if you have a really simple function that does addition:
 ```python
 def add(a, b):
     return a + b
@@ -386,6 +425,83 @@ You can save this test in a file called `test_add.py` and run it using pytest:
 pytest test_add.py
 ```
 This will run the test and report any failures.
+
+
+## 7. Pre-commit hooks
+
+Pre-commit hooks are scripts that run before a commit is made. They can be used to check the code for errors, enforce code style guidelines, or run tests. Pre-commit hooks are a great way to ensure that your code is clean and error-free before you commit it.
+
+To use pre-commit hooks, you need to install the pre-commit package using pip
+```bash
+pip install pre-commit
+```
+
+Then you need to create a `.pre-commit-config.yaml` file in the root of your project. This configuration works with the `ruff.toml` shown above:
+
+```yaml
+repos:
+  # Ruff - linting and formatting
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.9.2  # Use the latest version
+    hooks:
+      - id: ruff
+        args: [--fix]  # Auto-fix issues where possible
+        types_or: [python, pyi, jupyter]
+      - id: ruff-format
+        types_or: [python, pyi, jupyter]
+
+  # General pre-commit hooks
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-toml
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: mixed-line-ending
+        args: [--fix=lf]
+      - id: trailing-whitespace
+```
+
+After creating the config file, install the hooks:
+```bash
+pre-commit install
+```
+
+Now the hooks will run automatically every time you commit. You can also run them manually on all files:
+```bash
+pre-commit run --all-files
+```
+
+This configuration file specifies the pre-commit hooks that should be run before each commit. In this example, we are using the Ruff linter and formatter on python and jupyter files as well as some other pre-commit hooks provided by the pre-commit package such as checking for large files to be sure not to commit them, checking for toml and yaml files to be sure they are well formatted, fixing mixed line endings which means checking if the line endings are consistent and fixing them if they are not, and checking for trailing whitespace.
+
+### Pre-commit vs GitHub Actions: what's the difference?
+
+You might wonder: if we have pre-commit hooks that check our code locally, why do we also need GitHub Actions to check the code again after pushing?
+
+|  | **Pre-commit hooks** | **GitHub Actions** |
+|---|---|---|
+| **When** | Before you commit (locally) | After you push (on GitHub's servers) |
+| **Where** | Your machine | GitHub's cloud infrastructure |
+| **Speed** | Fast feedback loop | Slower (spins up a virtual machine) |
+| **Can be bypassed?** | Yes (`git commit --no-verify`) | No - always runs |
+| **Purpose** | Catch issues early, before they enter the repo | Safety net + runs tests, deploys, etc. |
+
+**Why use both?**
+
+1. **Pre-commit** catches formatting/linting issues immediately, so you don't push broken code. It's your "local assistant".
+
+2. **GitHub Actions** is the "gatekeeper" that:
+   - Cannot be bypassed (ensures consistency across all team members)
+   - Can block PR merging if checks fail
+   - Runs tests (too slow for pre-commit)
+   - Can deploy to cloud, build artifacts, etc.
+
+**Example workflow:**
+1. You write code
+2. You run `git commit` → pre-commit auto-fixes formatting
+3. You push → GitHub Actions runs the same checks PLUS pytest
+4. If anything fails on GitHub Actions, the PR cannot be merged
 
 
 ## 8. GitHub Actions
