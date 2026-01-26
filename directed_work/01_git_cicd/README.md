@@ -461,6 +461,16 @@ repos:
       - id: mixed-line-ending
         args: [--fix=lf]
       - id: trailing-whitespace
+
+  # Run pytest
+  - repo: local
+    hooks:
+      - id: pytest
+        name: pytest
+        entry: pytest
+        language: system
+        pass_filenames: false
+        always_run: true
 ```
 
 After creating the config file, install the hooks:
@@ -473,46 +483,23 @@ Now the hooks will run automatically every time you commit. You can also run the
 pre-commit run --all-files
 ```
 
-This configuration file specifies the pre-commit hooks that should be run before each commit. In this example, we are using the Ruff linter and formatter on python and jupyter files as well as some other pre-commit hooks provided by the pre-commit package such as checking for large files to be sure not to commit them, checking for toml and yaml files to be sure they are well formatted, fixing mixed line endings which means checking if the line endings are consistent and fixing them if they are not, and checking for trailing whitespace.
-
-### Pre-commit vs GitHub Actions: what's the difference?
-
-You might wonder: if we have pre-commit hooks that check our code locally, why do we also need GitHub Actions to check the code again after pushing?
-
-|  | **Pre-commit hooks** | **GitHub Actions** |
-|---|---|---|
-| **When** | Before you commit (locally) | After you push (on GitHub's servers) |
-| **Where** | Your machine | GitHub's cloud infrastructure |
-| **Speed** | Fast feedback loop | Slower (spins up a virtual machine) |
-| **Can be bypassed?** | Yes (`git commit --no-verify`) | No - always runs |
-| **Purpose** | Catch issues early, before they enter the repo | Safety net + runs tests, deploys, etc. |
-
-**Why use both?**
-
-1. **Pre-commit** catches formatting/linting issues immediately, so you don't push broken code. It's your "local assistant".
-
-2. **GitHub Actions** is the "gatekeeper" that:
-   - Cannot be bypassed (ensures consistency across all team members)
-   - Can block PR merging if checks fail
-   - Runs tests (too slow for pre-commit)
-   - Can deploy to cloud, build artifacts, etc.
-
-**Example workflow:**
-1. You write code
-2. You run `git commit` → pre-commit auto-fixes formatting
-3. You push → GitHub Actions runs the same checks PLUS pytest
-4. If anything fails on GitHub Actions, the PR cannot be merged
-
+This configuration file specifies the pre-commit hooks that should be run before each commit. In this example, we are using the Ruff linter and formatter on python and jupyter files, some general pre-commit hooks (checking for large files, validating toml/yaml files, fixing line endings and trailing whitespace), and pytest to run your tests locally before each commit.
 
 ## 8. GitHub Actions
 
 GitHub Actions is a CI/CD tool that allows you to automate your software development workflows. It enables you to build, test, and deploy your code directly from your GitHub repository. With GitHub Actions, you can create custom workflows that are triggered by specific events, such as pushing code to a repository or creating a pull request.
 
+**What do "build" and "deploy" mean?**
+- **Build**: Preparing your code to run somewhere else. For simple Python scripts, there's nothing to build. But for ML applications, you might package your code and model into a Docker container.
+- **Deploy**: Making your application available to users. For example: starting an API that serves your ML model on a cloud platform, so others can send requests and get predictions.
+
+In this course, you'll learn to deploy ML models and APIs to Google Cloud Platform (GCP) in later labs.
+
 GitHub Actions is integrated with GitHub, making it easy to set up and manage your workflows without needing to use external CI/CD tools.
 
 ### How to use GitHub Actions
 
-To use GitHub Actions, you need to first create a `.github/workflows` directory in your repository. In this directory you need to create one or more YAML files that define your workflows. Each workflow file can contain one or more jobs, which are the individual tasks that will be executed as part of the workflow.
+To use GitHub Actions, you need to first create a `.github/workflows` directory in your repository. In this directory, you need to create one or more YAML files that define your workflows. Each workflow file can contain one or more jobs, which are the individual tasks that will be executed as part of the workflow.
 
 You can configure a GitHub Actions workflow to be triggered by specific events, such as pushes, pull requests, issue comments or scheduled events. You can also define conditions for when a job should run, such as only running on specific branches or when certain files are changed.
 
@@ -520,20 +507,18 @@ You can configure a GitHub Actions workflow to be triggered by specific events, 
 
 A workflow contains one or more jobs that run in parallel or sequentially. Each job runs inside its own virtual environment or container. Each job runs an action or a script.
 
-You can either use predefined actions from the GitHub Marketplace or create your own custom actions. You can also define job's dependencies to run after another job has completed in the same workflow.
+You can either use predefined actions from the GitHub Marketplace or create your own custom actions. You can also define job dependencies to run a job only after another job has completed in the same workflow.
 
 ### Example of a workflow
 
-Now, we will write a simple workflow that runs pytest on every push and pull requests to the main branch. This workflow will also run pre-commit hooks to check for code quality and formatting issues before running the tests.
+Now, we will write a simple workflow that runs pytest. Since you're using Git Flow, this workflow triggers on pull requests to `develop` (when merging feature branches) and to `main` (when merging develop at milestones).
 
 ```yaml
 name: Python CI
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 jobs:
     pre-commit:
@@ -544,7 +529,7 @@ jobs:
             - name: Run pre-commit hooks
               uses: pre-commit/action@v3.0.1
               with:
-                extra_args: --all-files --config pre_commit.yml
+                extra_args: --all-files
 
     pytest:
         runs-on: ubuntu-latest
@@ -561,7 +546,8 @@ jobs:
 
             - name: Install dependencies
               run: |
-                python -m pip install --upgrade pip install pytest
+                python -m pip install --upgrade pip
+                pip install pytest
                 pip install -r requirements.txt
 
             - name: Run tests
@@ -569,22 +555,62 @@ jobs:
                 pytest tests/
 ```
 
+### Pre-commit vs GitHub Actions: what's the difference?
+
+You might wonder: if we have pre-commit hooks that check our code locally, why do we also need GitHub Actions to check the code again after pushing?
+
+|  | **Pre-commit hooks** | **GitHub Actions** |
+|---|---|---|
+| **When** | Before you commit (locally) | After you push (on GitHub's servers) |
+| **Where** | Your machine | GitHub's cloud infrastructure |
+| **Speed** | Fast feedback loop | Slower (spins up a virtual machine) |
+| **Can be bypassed?** | Yes (`git commit --no-verify`) | No - always runs |
+| **Purpose** | Catch issues early, before they enter the repo | Safety net, runs tests, can automate deployments |
+
+**Why use both?**
+
+1. **Pre-commit** catches formatting/linting issues immediately, so you don't push broken code. It's your "local assistant".
+
+2. **GitHub Actions** is the "gatekeeper" that:
+   - Cannot be bypassed (ensures consistency across all team members)
+   - Can block PR merging if checks fail
+   - Runs tests (even if someone bypassed pre-commit)
+   - Can automatically deploy your ML model or API to the cloud when tests pass
+
+**Example workflow:**
+1. You write code
+2. You run `git commit` → pre-commit runs ruff + pytest
+3. You push → GitHub Actions runs the same checks again
+4. If anything fails on GitHub Actions, the PR cannot be merged
+
 
 ## 9. Your turn
 
-What we ask you to do now is to create a GitHub Actions workflow that runs pytest on every push and pull request to the main branch. This workflow should also run pre-commit hooks to check for code quality and formatting issues before running the tests.
+For this assignment, you need to set up a complete CI/CD pipeline for your project:
 
-For the assignment, you should have:
-1. Created a pytest test for one of your project functions
-2. Created a GitHub Actions workflow that runs pytest on every push and pull request to the main branch
-3. This workflow should also run pre-commit hooks to check for code quality and formatting issues before running the tests
+1. **Write pytest tests** for your project functions (at least one meaningful test)
+2. **Create a `.pre-commit-config.yaml`** with the Ruff and pytest hooks shown above
+3. **Create a `ruff.toml`** configuration file
+4. **Create a GitHub Actions workflow** (`.github/workflows/ci.yml`) that:
+   - Triggers on pull requests to `develop` and `main`
+   - Runs pre-commit hooks
+   - Runs pytest
 
-We will want you to push some code to your GitHub repository and create a pull request to test the workflow.
-Also we want you to add something of your choice that should automatically deploy something to the cloud using the CI/CD pipeline.
-
-What we will check is to see if the workflow has run successfully and if the tests have passed. We will also check if the pre-commit hooks have run successfully and if there are any code quality or formatting issues.
+**What we will check:**
+- The workflow runs successfully on your PRs
+- Tests are meaningful (not just `assert True`)
+- Pre-commit hooks catch formatting issues
+- Your code follows the Ruff configuration
 
 
 ## 10. Conclusion
 
-In short, Git is a powerful tool that allows you to manage your code versioning and collaborate with other developers. By following the best practices and using code quality tools, you can ensure that your code is clean, maintainable, and easy to work with. Combined with GitHub Actions, you can automate your testing and deployment workflows, making your development process more efficient. You are now ready to work on your first project and collaborate with other developers.
+In this lab, you learned the foundations of professional software development workflows:
+
+- **Git & Git Flow**: Version control with structured branching (`main`, `develop`, feature branches) and pull requests for code review
+- **Ruff**: A fast, all-in-one Python linter and formatter that enforces code quality standards
+- **Pytest**: Writing automated tests to verify your code works as expected
+- **Pre-commit hooks**: Catching issues locally before they enter the repository
+- **GitHub Actions**: Automating checks on every pull request to ensure code quality across the team
+
+These tools form the backbone of MLOps practices. In the upcoming labs, you'll build on this foundation to deploy ML models to the cloud, create APIs, and automate the full ML lifecycle. The CI/CD pipeline you set up here will ensure that every change to your ML code is tested and validated before deployment.
