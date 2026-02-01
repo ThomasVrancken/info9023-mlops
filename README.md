@@ -57,7 +57,7 @@ The exam will take the form of an oral exam in which you will have to answer a s
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor)
   - Matthias Pirlet (Teaching Assistant)
-- **Communication**: Main communication point will be [Discord](https://discord.gg/5gucJ9CV). Official communication might also be sent by email.
+- **Communication**: Main communication point will be Discord (link sent by email). Official communication might also be sent by email.
 - **Support**: After each class, there is dedicated time for students to work on their projects and ask questions to the teaching staff. 
 
 ## Resources
