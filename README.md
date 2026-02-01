@@ -2,13 +2,17 @@
 
 This course equips students with the practical tools and frameworks needed to build production-ready machine learning systems. Covering the complete ML application lifecycle, students will gain hands-on experience with MLOps and LLMOps tools and skills in high demand as industries undergo rapid AI transformation.
 
-Deploying ML to production requires far more than model theoretical knowledge. This course addresses that challenge head-on, providing the technical skills, practices, and tools to bridge the gap between prototype and production. Students will be equipped to make an immediate impact when starting their professional life in the industry.
+Deploying ML to production requires far more than model theoretical knowledge. This course provides the technical skills, practices, and tools to bridge the gap between prototype and production. Students will be equipped to make a direct impact when starting their professional life.
 
-## Agenda
+## Topics roadmap
 
-The links to the lecture slides and directed work will always be provided shortly before the actual date.
+![Course Agenda](assets/course_agenda.png)
 
-| Date       | Week #     | Sprint #       | Description       | Directed work |
+## Lecture schedule
+
+_The links to the lecture slides and directed work will always be provided shortly before the actual date._
+
+| Date       | Week #     | Sprint #       | Topic       | Directed work |
 |------------|------------|----------------|-------------------|------------------------|
 | 02/02/2026 | W1  | Sprint 1 | | |
 | 09/02/2026 | W2  | Sprint 1 | | | 
@@ -26,6 +30,8 @@ The links to the lecture slides and directed work will always be provided shortl
 | 04/05/2026 | W12 | Sprint 6 | | |
 | 11/05/2026 | | | Milestone 3 presentation | |
 
+
+
 ## Course culture
 
 #### Pillars
@@ -38,13 +44,10 @@ The links to the lecture slides and directed work will always be provided shortl
 2. **Directed work**: Directed work are there to learn how to use key tools widely used to build ML/AI systems. They've been cherry picked based on usability, performance, popularity and accessibility. 
 3. **Project**: You will apply the theoretical and technical learnings in one large group project. You will build a ML application in an engaging way - you're in the driving seat.
 
-## Topics covered
-
-**TODO**: Add topics covered during this course
 
 ## Project 
 
-All the project info can be found in the [project/project_description.pdf](project/project_description.pdf) document.
+All the project info can be found in the [project/project_instructions.pdf](project/project_instructions.pdf) document.
 
 ## Exam 
 
