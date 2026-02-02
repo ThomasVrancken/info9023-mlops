@@ -14,7 +14,7 @@ _The links to the lecture slides and directed work will always be provided short
 
 | Date       | Week #     | Sprint #       | Topic       | Directed work |
 |------------|------------|----------------|-------------------|------------------------|
-| 02/02/2026 | W1  | Sprint 1 | | |
+| 02/02/2026 | W1  | Sprint 1 | Introduction to MLOps | [Lecture slides](lectures/01_introduction_to_mlops.pdf) |
 | 09/02/2026 | W2  | Sprint 1 | | | 
 | 16/02/2026 | W3  | Sprint 2 | | |
 | 23/02/2026 | W4  | Sprint 2 | | |
