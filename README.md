@@ -15,20 +15,20 @@ _The links to the lecture slides and directed work will always be provided short
 | Date       | Week #     | Sprint #       | Topic       | Directed work |
 |------------|------------|----------------|-------------------|------------------------|
 | 02/02/2026 | W1  | Sprint 1 | Introduction to MLOps | [Lecture slides](lectures/01_introduction_to_mlops.pdf) |
-| 09/02/2026 | W2  | Sprint 1 | | | 
-| 16/02/2026 | W3  | Sprint 2 | | |
-| 23/02/2026 | W4  | Sprint 2 | | |
-| 02/03/2026 | W5  | Sprint 3 | | |
-| 09/03/2026 | W6  | Sprint 3 | | |
-| 16/03/2026 | W7  | Sprint 4 | | |
-| 23/03/2026 | W8  | Sprint 4 | | |
-| 30/03/2026 | W9  | Sprint 5 | | | 
-| 06/04/2026 | W10 | Sprint 5 | | | 
-| 13/04/2026 | W11 | Sprint 6 | | |
+| 09/02/2026 | W2  | Sprint 1 | Git & CICD | | 
+| 16/02/2026 | W3  | Sprint 2 | Data pipelines & cloud infrastructure | |
+| 23/02/2026 | W4  | Sprint 2 | Containerisation | |
+| 02/03/2026 | W5  | Sprint 3 | API implementation | |
+| 09/03/2026 | W6  | Sprint 3 | Model serving | |
+| 16/03/2026 | W7  | Sprint 4 | Microservices | |
+| 23/03/2026 | W8  | Sprint 4 | Serving & training optimisation | |
+| 30/03/2026 | W9  | Sprint 5 | Model pipeline | | 
+| 06/04/2026 | W10 | Sprint 5 | Monitoring & dashboarding | | 
+| 13/04/2026 | W11 | Sprint 6 | AI Agents & Tools | |
 | 20/04/2026 | | | Holiday | |
 | 27/04/2026 | | | Holiday | |
-| 04/05/2026 | W12 | Sprint 6 | | |
-| 11/05/2026 | | | Milestone 3 presentation | |
+| 04/05/2026 | W12 | Sprint 6 | LLMOps & Trustworthy AI | |
+| 11/05/2026 | | | Project presentations | |
 
 
 
