@@ -24,7 +24,7 @@ _The links to the lecture slides and directed work will always be provided short
 | 23/03/2026 | W8  | Sprint 4 | Serving & training optimisation | |
 | 30/03/2026 | W9  | Sprint 5 | Model pipeline | | 
 | 06/04/2026 | W10 | Sprint 5 | Monitoring & dashboarding | | 
-| 13/04/2026 | W11 | Sprint 6 | AI Agents & Tools | |
+| 13/04/2026 | W11 | Sprint 6 | Agentic AI | |
 | 20/04/2026 | | | Holiday | |
 | 27/04/2026 | | | Holiday | |
 | 04/05/2026 | W12 | Sprint 6 | LLMOps & Trustworthy AI | |
