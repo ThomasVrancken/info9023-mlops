@@ -1,0 +1,567 @@
+# Lab 3 [Sprint 2, W4] : Docker & UV
+
+## 0. Introduction
+
+This lab will introduce you to Docker and UV, a modern Python packaging tool. You will get hands-on experience in containerizing a simple Python application in class, then you will need to apply these concepts by building a container for a basic machine learning model.
+
+**Learning objectives**
+- understand the differences between virtual environments, virtual machines, and containers,
+- learn Docker basics (images, containers, Dockerfiles),
+- containerize a Python Flask application,
+- explore modern Python package management with UV,
+- build optimized Docker images for ML applications.
+
+> **Note about deployment** \
+> This lab focuses on containerization fundamentals. In the next lab, you will deploy these containers to Google Cloud Run.
+
+## 1. Understanding virtual environments, virtual machines and containers
+
+### 1.1. Virtual environment
+
+A virtual environment is a self-contained directory that contains a Python installation for a particular version of Python, plus a number of additional packages. It allows you to work on a specific project without worrying about the dependencies of other projects.
+
+Traditionally, Python developers use multiple tools to manage their projects: `venv` for environment isolation, `pip` for package installation, `pip-tools` for dependency locking, and `pyenv` for Python version management. This multi-tool approach works but can be slow and complex.
+
+**Pros of virtual environments**
+- **Reproducibility**. You can share your `requirements.txt` file with others to ensure they have the same dependencies.
+- **Dependency management**. It forces you to specify the dependencies of your project.
+- **Isolation**. It prevents conflicts between different projects.
+
+**Cons of virtual environments**
+- **Effort to maintain**. You need to update the `requirements.txt` file when you add or remove packages.
+- **Storage space**. Each virtual environment takes up disk space with duplicate dependencies across different virtual environments.
+- **OS compatibility**. Dependencies in your `requirements.txt` file may not work identically across different operating systems.
+
+### 1.2. Virtual machine (VM)
+
+A virtual machine emulates a physical computer. It allows you to run multiple operating systems on a single physical machine. Each virtual machine has its own virtual hardware, including CPU, memory, storage, and network interfaces. You can install an operating system on a virtual machine and run software on it as if it were a physical computer.
+
+**Pros**
+- **Isolation**. Software running on a virtual machine is isolated from the host operating system.
+- **Compatibility**. You can run software that requires a different operating system than the one you are currently using.
+- **Sharing**. You can share a virtual machine image with others to ensure they have the same environment.
+
+**Cons**
+- **Resource intensive**. Each virtual machine requires its own CPU, memory, storage, and network interfaces so in general you can only run a few virtual machines on a single physical machine.
+- **Storage space**. Each virtual machine takes up space on your hard drive.
+- **Slow to start**. Starting a virtual machine can take several minutes.
+
+### 1.3. Container
+
+A container is a lightweight, standalone, executable package of software that includes everything needed to run an application: code, runtime, system tools, system libraries, and settings.
+
+The difference with a VM is that Docker does not embed a full operating system. Docker containers are based on Linux kernel features (namespaces, cgroups). On Linux hosts, containers directly use the host's Linux kernel. On Windows and macOS, Docker Desktop runs a lightweight Linux VM to provide a Linux kernel for the containers. This architecture ensures that containerized applications run consistently across different host operating systems.
+
+**Pros**
+- **Portability**. You can run a container on any machine that has Docker installed.
+- **Fast startup**. Once built, containers start in seconds (unlike VMs which take minutes). However, building containers can be slow depending on dependencies.
+- **Efficiency**. Containers share the host operating system's kernel so they are lightweight and use less resources than a virtual machine.
+- **Modularity**. You can build a container for each component of your application and run them together.
+- **Isolation**. Containers are isolated from each other. So if one container crashes, it does not affect other containers.
+- **Ease of management**. You can manage containers using the Docker CLI or a container orchestration tool like Kubernetes.
+
+**Cons**
+- **Security**. Containers share the host operating system's kernel so if an attacker gains access to the kernel, they can access all containers running on the host.
+- **Complexity**. Containers are more complex to set up than virtual environments.
+- **Slow build times**. Building Docker images can be slow, especially for large applications with many dependencies.
+
+## 2. Getting started with Docker
+
+### 2.1. Prerequisites
+
+1. Have a working version of [Python](https://www.python.org/downloads/) installed on your machine
+2. Have a working version of [Docker Desktop](https://docs.docker.com/desktop/) installed on your machine
+3. Ensure Docker Desktop is **RUNNING** on your machine
+
+### 2.2. Docker basics
+
+#### 2.2.1. Image
+
+An image is a read-only snapshot that contains everything needed to run a container: the application code, runtime, libraries, and system tools. Images are built from Dockerfiles and are composed of layers. Often, an image is based on another image. For example, you may build an image that starts from the `python:3.11` base image and adds your application code and dependencies.
+
+You can think of an image as a class in object-oriented programming.
+
+#### 2.2.2. Container
+
+A container is a runnable instance of an image. You can create, start, stop, move, or delete a container using the Docker API or CLI. You can connect a container to one or more networks, attach storage to it, or even create a new image based on its current state.
+
+You can think of a container as an instance of a class, where the class is an image.
+
+#### 2.2.3. Dockerfile
+
+A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using `docker build`, users can create an automated build that executes several command-line instructions in succession.
+
+You can think of a Dockerfile as a blueprint to build an image.
+
+## 3. Modern Python packaging with UV
+
+Before diving into Docker, let's explore UV, a modern Python package manager that significantly improves upon traditional `pip` and `venv` workflows.
+
+### 3.1. What is UV?
+
+[UV](https://github.com/astral-sh/uv) is a fast Python package installer and resolver written in Rust. It's designed to be a drop-in replacement for `pip` and `pip-tools`, but with significantly better performance and user experience.
+
+**Key benefits**
+- **Much faster installation**. Installing packages like `numpy`, `pandas`, and `scikit-learn` takes seconds instead of minutes.
+- **Automatic lockfiles**. When you install `flask`, it also installs sub-dependencies like `werkzeug` and `jinja2`. UV's lockfile automatically captures exact versions of ALL packages (both direct and transitive), not just the ones you explicitly list. This means true reproducibility without manual work.
+- **Fewer dependency conflicts**. Solves complex dependency puzzles that pip often gets wrong.
+- **Single tool**. One command (`uv`) replaces `venv`, `pip`, and `pip-tools`.
+- **Faster Docker builds**. Reduces Docker image build time from minutes to seconds during development.
+
+### 3.2. Installing UV
+
+Install UV on your local machine:
+
+```bash
+# macOS and Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Windows
+powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# using pip
+pip install uv
+```
+
+Verify the installation:
+
+```bash
+uv --version
+```
+
+### 3.3. Basic UV commands
+
+UV provides a streamlined workflow for Python projects:
+
+```bash
+# create a new Python virtual environment
+uv venv
+
+# activate the virtual environment 
+source .venv/bin/activate # macOS/Linux
+.venv\Scripts\activate # Windows
+
+# install packages
+uv pip install flask numpy pandas
+
+# install from requirements.txt
+uv pip install -r requirements.txt
+
+# generate a lockfile for reproducible builds
+uv pip compile requirements.in -o requirements.txt
+
+# sync environment to match requirements exactly
+uv pip sync requirements.txt
+```
+
+### 3.4. Using UV with Docker
+
+UV shines in Docker environments because it dramatically reduces build times. Here's how to use UV in your Dockerfiles:
+
+**Traditional approach with pip**
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . .
+CMD ["python", "app.py"]
+```
+
+**Modern approach with UV**
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+
+# Install UV
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Copy dependency files
+COPY requirements.txt .
+
+# Install dependencies with UV (much faster)
+RUN uv pip install --system -r requirements.txt
+
+# Copy application code
+COPY . .
+
+CMD ["python", "app.py"]
+```
+
+**Multi-stage build with UV (recommended for production)**
+```dockerfile
+# Stage 1: Build dependencies
+FROM python:3.11-slim AS builder
+WORKDIR /app
+
+# Install UV
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Install dependencies to /app/.venv
+COPY requirements.txt .
+RUN uv venv /app/.venv && \
+    uv pip install --python /app/.venv/bin/python -r requirements.txt
+
+# Stage 2: Runtime
+FROM python:3.11-slim
+WORKDIR /app
+
+# Copy virtual environment from builder
+COPY --from=builder /app/.venv /app/.venv
+
+# Copy application code
+COPY . .
+
+# Use the virtual environment
+ENV PATH="/app/.venv/bin:$PATH"
+
+CMD ["python", "app.py"]
+```
+
+**Why multi-stage builds?**
+- **Smaller images**: the final image doesn't include build tools or UV itself
+- **Faster deployments**: smaller images download and start faster
+- **Security**: reduced attack surface by excluding build dependencies
+
+## 4. Hands-on Docker example
+
+Now we will create a Docker container for a Flask app, build it and run it locally. Flask is a lightweight web framework for Python that we'll use to create a simple API.
+
+### 4.1. Project structure
+
+Create a new directory for your project with the following structure:
+
+```
+flask-docker-demo/
+├── Dockerfile
+├── app.py
+└── requirements.txt
+```
+
+### 4.2. Create the Flask application
+
+Create `app.py` with the following content:
+
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "Welcome to the Simple Flask App!"
+
+@app.route("/health")
+def health():
+    return {"status": "healthy"}
+```
+
+This file contains a simple Flask app with two endpoints:
+- `/` returns a welcome message
+- `/health` returns a health check status (useful for deployment)
+
+### 4.3. Create requirements.txt
+
+Create `requirements.txt` with the following content:
+
+```txt
+flask==3.0.0
+```
+
+This file specifies the dependencies of your project. We're pinning Flask to a specific version for reproducibility.
+
+### 4.4. Create the Dockerfile
+
+Create a `Dockerfile` with the following content:
+
+```dockerfile
+FROM python:3.11-slim
+WORKDIR /app
+COPY . /app
+RUN pip install --no-cache-dir -r requirements.txt
+EXPOSE 8080
+ENV FLASK_APP=app.py
+CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+```
+
+**Dockerfile instructions explained**
+
+- `FROM python:3.11-slim`: tells Docker to use the official Python 3.11 slim image as the base image. You can find more official images on [Docker Hub](https://hub.docker.com/). The `slim` variant is smaller than the full image, reducing build time and image size.
+
+- `WORKDIR /app`: sets the working directory **in the container** to `/app`. Any subsequent commands will be executed relative to this directory.
+
+- `COPY . /app`: copies the current directory contents (where the Dockerfile is located) **INTO** the container at `/app`. This copies your source code, `requirements.txt`, etc. into the container.
+
+- `RUN pip install --no-cache-dir -r requirements.txt`: installs the packages specified in `requirements.txt`. The `--no-cache-dir` flag prevents pip from caching downloaded packages, reducing the image size.
+
+- `EXPOSE 8080`: documents that the container listens on port 8080. This is informational and doesn't actually publish the port.
+
+- `ENV FLASK_APP=app.py`: defines an environment variable `FLASK_APP` to tell Flask which file to run.
+
+- `CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]`: runs the Flask development server when the container starts. The `--host=0.0.0.0` makes the server accessible from outside the container.
+
+> **Base images: pros and cons**
+>
+> **Pros**
+> - **Speed**: using a base image with pre-installed packages is faster than installing everything from scratch
+> - **Caching**: Docker caches image layers. If you change your source code but not your dependencies, Docker will use cached layers and only rebuild what changed
+> - **Tested**: official images are well-tested and don't have package conflicts
+>
+> **Cons**
+> - **Size**: the base image may contain packages you don't need, making your image larger
+> - **Security**: the base image may have security vulnerabilities. Keep base images up-to-date
+> - **Version**: the base image may not have the exact package versions you need
+
+### 4.5. Build and run the Docker container
+
+**Build the image**
+
+```bash
+docker build -t flask-app .
+```
+
+This command builds the Docker image using the Dockerfile in the current directory (`.`) and tags the image with the name `flask-app`.
+
+You can verify the image was created:
+
+```bash
+docker images
+```
+
+You should see `flask-app` in the list of images. You can also check Docker Desktop to see the image in the Images section.
+
+**Run the container**
+
+```bash
+docker run -p 4000:8080 flask-app
+```
+
+This command runs the container and maps port 8080 in the container to port 4000 on your host machine.
+
+**Port mapping explained**: `-p 4000:8080`
+- `4000` is the port on your **host machine** (your computer)
+- `8080` is the port **inside the container**
+- Think of it like: house door (4000) → room door (8080)
+
+**Test the application**
+
+Open your browser and go to:
+- http://localhost:4000 - should show the welcome message
+- http://localhost:4000/health - should show the health status
+
+Or use curl:
+
+```bash
+curl http://localhost:4000
+curl http://localhost:4000/health
+```
+
+### 4.6. Docker container management
+
+**View running containers**
+
+```bash
+# Show running containers
+docker ps
+
+# Show all containers (including stopped)
+docker ps -a
+```
+
+**Stop the container**
+
+```bash
+# Option 1: Press Ctrl+C in the terminal where the container is running
+
+# Option 2: Stop by container ID
+docker stop <container_id>
+
+# Option 3: Stop by container name
+docker stop <container_name>
+```
+
+**Remove containers**
+
+```bash
+# Remove a specific container
+docker rm <container_id>
+
+# Remove all stopped containers
+docker container prune
+```
+
+**Remove images**
+
+```bash
+# Remove a specific image
+docker rmi flask-app
+
+# Remove all unused images
+docker image prune -a
+```
+
+> **Important**: You must remove containers before removing their images, even if the containers are stopped.
+
+### 4.7. Useful Docker commands cheat sheet
+
+```bash
+# Build an image
+docker build -t <image_name> .
+
+# Run a container
+docker run -p <host_port>:<container_port> <image_name>
+
+# Run in detached mode (background)
+docker run -d -p <host_port>:<container_port> <image_name>
+
+# List running containers
+docker ps
+
+# List all containers
+docker ps -a
+
+# Stop a container
+docker stop <container_id>
+
+# Remove a container
+docker rm <container_id>
+
+# List images
+docker images
+
+# Remove an image
+docker rmi <image_name>
+
+# View container logs
+docker logs <container_id>
+
+# Execute command in running container
+docker exec -it <container_id> /bin/bash
+
+# Clean up everything (use with caution!)
+docker system prune -a
+```
+
+## 5. Assignment: ML model container
+
+**Objective**: Create a Docker container for a simple machine learning workflow.
+
+**Requirements**
+
+Your container should:
+1. Load a dataset (you can use built-in datasets from scikit-learn, such as Iris or Wine)
+2. Train a machine learning model on this dataset (any algorithm: logistic regression, decision tree, random forest, etc.)
+3. Evaluate the model and display metrics (accuracy, confusion matrix, etc.)
+4. Save the trained model to a file
+5. Make predictions on test data
+
+**Deliverables**
+
+Submit the following files:
+1. `Dockerfile` - your container definition
+2. `train.py` - Python script that trains and evaluates your model
+3. `requirements.txt` - list of Python dependencies
+4. `README.md` - brief documentation explaining:
+   - What dataset you used
+   - What model you trained
+   - How to build and run your container
+   - What output to expect
+
+**Optional challenges**
+
+- Use UV instead of pip for faster builds
+- Implement a multi-stage build to reduce image size
+- Add Flask endpoints to serve predictions
+- Use a more complex dataset (download from the internet)
+- Compare multiple models and select the best one
+
+**Example structure**
+
+```
+ml-container/
+├── Dockerfile
+├── train.py
+├── requirements.txt
+└── README.md
+```
+
+**Example `train.py` skeleton**
+
+```python
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report
+import pickle
+
+# Load dataset
+data = load_iris()
+X = data.data
+y = data.target
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+# Train model
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+
+# Evaluate
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
+
+print(f"Model accuracy: {accuracy:.2f}")
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, target_names=data.target_names))
+
+# Save model
+with open("model.pkl", "wb") as f:
+    pickle.dump(model, f)
+
+print("\nModel saved as model.pkl")
+```
+
+**Tips**
+
+- Start with the Flask example from section 4 and modify it for ML
+- Test your code locally before containerizing
+- Use `python:3.11-slim` as your base image to keep the image size reasonable
+- Install only the packages you need (scikit-learn, numpy, pandas)
+- Add `.dockerignore` to exclude unnecessary files (`.venv/`, `__pycache__/`, etc.)
+
+## 6. Additional resources
+
+- [Docker Documentation](https://docs.docker.com/)
+- [Docker Hub](https://hub.docker.com/) - find official and community images
+- [UV Documentation](https://github.com/astral-sh/uv)
+- [Flask Documentation](https://flask.palletsprojects.com/)
+- [Dockerfile Best Practices](https://docs.docker.com/develop/dev-best-practices/)
+- [Docker Multi-stage Builds](https://docs.docker.com/build/building/multi-stage/)
+
+## 7. Troubleshooting
+
+**Docker Desktop not running**
+- Error: `Cannot connect to the Docker daemon`
+- Solution: Ensure Docker Desktop is running
+
+**Port already in use**
+- Error: `Bind for 0.0.0.0:4000 failed: port is already allocated`
+- Solution: Either stop the process using that port or use a different port: `docker run -p 4001:8080 flask-app`
+
+**Image too large**
+- Problem: Docker image is several GB
+- Solution: Use `python:3.11-slim` instead of `python:3.11`, add `.dockerignore`, use multi-stage builds
+
+**Slow builds**
+- Problem: `pip install` takes a long time
+- Solution: Use UV for faster package installation, leverage Docker layer caching
+
+**Permission denied**
+- Error: `Permission denied` when running Docker commands
+- Solution: On Linux, you may need to add your user to the docker group: `sudo usermod -aG docker $USER`
+
+**Cannot find module**
+- Error: `ModuleNotFoundError: No module named 'flask'`
+- Solution: Ensure your `requirements.txt` lists all dependencies and the `RUN pip install` step completed successfully
