@@ -54,7 +54,7 @@ The image below illustrates Git's structure and workflow.
     git switch <branch_name>
     ```
 
-    + *Note*: you can choose between `git checkout` and `git switch` to switch and create branches. `git switch` is the **new command introduced in Git 2.23.0**. It is more intuitive and specifically designed for switching branches. Use `git checkout` if you need to perform additional tasks like checking out specific files or commits, i.e., when you need to move to a specific commit in the history of your project (e.g., to inspect old code, to review the code at a specific point in time, etc.). You can do that with `git checkout <commit_hash>`.
+    > **Note**: you can choose between `git checkout` and `git switch` to switch and create branches. `git switch` is the **new command introduced in Git 2.23.0**. It is more intuitive and specifically designed for switching branches. Use `git checkout` if you need to perform additional tasks like checking out specific files or commits, i.e., when you need to move to a specific commit in the history of your project (e.g., to inspect old code, to review the code at a specific point in time, etc.). You can do that with `git checkout <commit_hash>`.
 
 
 
@@ -102,8 +102,9 @@ The image below illustrates Git's structure and workflow.
 
 6. **Pull requests**: in a company, in a team or in an open-source project, you will have to create a pull request to merge your changes into the main branch. This pull request will be reviewed by other developers, and they can ask you to make changes before merging your code. To create a pull request, you can [use the GitHub interface](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request?tool=codespaces.)
 
-    + *Note*: A nice practice when creating a pull request is to add a template to help the reviewer understand what you have done and what you expect from the review.
-    + *Note*: A nice way to make pull requests funnier is to use emojis in your pull request titles. Here is a [list of emojis that you can use](https://gitmoji.dev/). For example, if you add a new feature, you can use the emoji :sparkles: in your commit message. If you fix a bug, you can use the emoji :bug:, but make sure to use them appropriately otherwise they lose their meaning.
+    > **Note**: A nice practice when creating a pull request is to add a template to help the reviewer understand what you have done and what you expect from the review.
+
+    > **Note**: A nice way to make pull requests funnier is to use emojis in your pull request titles. Here is a [list of emojis that you can use](https://gitmoji.dev/). For example, if you add a new feature, you can use the emoji :sparkles: in your commit message. If you fix a bug, you can use the emoji :bug:, but make sure to use them appropriately otherwise they lose their meaning.
 
 
 7. **Update local repository**. When you work on a project with other developers, you will need to update your local repository with changes made by others on the remote repository.
@@ -147,7 +148,7 @@ The image below illustrates Git's structure and workflow.
     >>>>>>> branch-name
     ```
 
-    **Resolving conflicts locally**. Edit the file manually to keep the code you want (remove the conflict markers), then stage and commit.
+    **Resolving conflicts in your IDE** (best practice). Most IDEs like VS Code and PyCharm have built-in merge conflict resolution tools that highlight the conflicting sections and let you choose which version to keep with a single click. This keeps your workflow centralized close to your code and is the safest way to resolve conflicts.
 
     **Resolving conflicts on GitHub**. If you have a conflict in a Pull Request, GitHub offers a web editor:
     1. Click on "Resolve conflicts" button in the PR
@@ -156,7 +157,7 @@ The image below illustrates Git's structure and workflow.
     4. Click "Mark as resolved" for each file
     5. Click "Commit merge" to save your resolution
 
-    This is often easier than resolving conflicts locally, especially for simple conflicts.
+    This works for simple conflicts, but for more complex ones, use your IDE.
 
 8. **Delete branches**. When you have finished working on a branch, i.e., your changes have been merged and the pull request has been accepted, you can delete the branch using the following command
     ```bash
@@ -238,7 +239,9 @@ Source: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-work
 
 ### For your project: Git Flow is mandatory
 
-:warning: **For your course project, you must use the Git Flow strategy.** Here's how it works
+> :warning: **For your course project, you must use the Git Flow strategy.**
+
+Here's how it works
 
 1. **Your repository must have two main branches**: `main` (stable, production-ready) and `develop` (integration branch).
 2. **All your feature branches must be created from `develop`**, not from `main`.
@@ -247,7 +250,10 @@ Source: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-work
    - Create a Pull Request from `develop` to `main`
    - **Assign Thomas (`@ThomasVrancken`) and myself (`@Mapirlet`) as reviewers**
    - Include **clear documentation** in your PR description explaining what you did, what changed, and how to test it
-4. **Deadline warning**: :rotating_light: If your Pull Request is not created before the milestone deadline, it will be considered as if you did nothing. No PR = no grade for that milestone.
+
+> :rotating_light: **Deadline warning**. If your Pull Request is not created before the milestone deadline, it will be considered as if you did nothing. No PR = no grade for that milestone.
+
+> :rotating_light: **Quality warning**. **Improperly executed PRs** (e.g., merging directly to `main`, missing documentation, broken CI/CD) will result in **significant point deductions**.
 
 This workflow ensures:
 - Clean separation between work-in-progress and stable code
@@ -589,36 +595,27 @@ You might wonder: if we have pre-commit hooks that check our code locally, why d
 
 ## 9. Your turn
 
-> :warning: **No handover this week**, but a working CI/CD pipeline is a **requirement for Milestone 1 (MS1)**. We **strongly recommend** setting it up now so that linting and tests are enforced from the start. Doing it later, closer to the deadline, often leads to a flood of linting errors and formatting issues that are much harder to fix retroactively.
+> :warning: There is **no handover this week**, but a working CI/CD pipeline is a **requirement for Milestone 1 (MS1)**. We **strongly recommend** setting it up now so that linting and tests are enforced from the start. Doing it later, closer to the deadline, often leads to a flood of linting errors and formatting issues that are much harder to fix retroactively.
 
-For this assignment, you need to set up a complete CI/CD pipeline for your project:
+Set up a complete CI/CD pipeline for your project:
 
-1. **Write pytest tests** for your project functions (at least one meaningful test)
-2. **Create a `.pre-commit-config.yaml`** with the Ruff and pytest hooks shown above
-3. **Create a `ruff.toml`** configuration file
+1. **Create a `ruff.toml`** configuration file for your project
+2. **Create a `.pre-commit-config.yaml`** with the Ruff and pytest hooks shown in section 7
+3. **Write pytest tests** for your project functions (at least one meaningful test)
 4. **Create a GitHub Actions workflow** (`.github/workflows/ci.yml`) that:
    - Triggers on pull requests to `develop` and `main`
    - Runs pre-commit hooks
    - Runs pytest
 
-**What we will check:**
-- The workflow runs successfully on your PRs
+**What we will check at MS1**
+- Your repository follows the Gitflow strategy described in section 4 (feature branches, PRs to `develop`, PR from `develop` to `main`)
+- The GitHub Actions workflow runs successfully on your PRs
 - Tests are meaningful (not just `assert True`)
 - Pre-commit hooks catch formatting issues
 - Your code follows the Ruff configuration
+- :rotating_light: **Improperly executed PRs** (e.g., merging directly to `main`, missing documentation, broken CI/CD) will result in **significant point deductions**
 
-
-## 10. :warning: Project handover & Gitflow expectations
-
-For your project, you **must** follow Gitflow and general coding practices. Here is a reminder of the key expectations
-
-- All feature branches must be created from `develop` and merged back into `develop` via a Pull Request.
-- At each milestone, create a PR from `develop` to `main` and assign Thomas (`@ThomasVrancken`) and myself (`@Mapirlet`) as reviewers.
-- Your PR must include clear documentation explaining what you did, what changed, and how to test it.
-- **Improperly executed PRs** (e.g., merging directly to `main`, missing documentation, broken CI/CD) will result in **significant point deductions**.
-- No PR before the deadline = no grade for that milestone.
-
-## 11. Conclusion
+## 10. Conclusion
 
 In this lab, you learned the foundations of professional software development workflows:
 
