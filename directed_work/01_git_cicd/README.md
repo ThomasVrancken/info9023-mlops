@@ -511,7 +511,7 @@ You can either use predefined actions from the GitHub Marketplace or create your
 
 ### Example of a workflow
 
-Now, we will write a simple workflow that runs pytest. Since you're using Git Flow, this workflow triggers on pull requests to `develop` (when merging feature branches) and to `main` (when merging develop at milestones).
+Now, we will write a simple workflow that runs pre-commit hooks and pytest. Since you're using Git Flow, this workflow triggers on pull requests to `develop` (when merging feature branches) and to `main` (when merging develop at milestones). The pre-commit job runs first, and pytest only runs if pre-commit passes.
 
 ```yaml
 name: Python CI
@@ -580,11 +580,16 @@ You might wonder: if we have pre-commit hooks that check our code locally, why d
 **Example workflow:**
 1. You write code
 2. You run `git commit` → pre-commit runs ruff + pytest
-3. You push → GitHub Actions runs the same checks again
-4. If anything fails on GitHub Actions, the PR cannot be merged
+3. Pre-commit identifies linting errors, which you correct manually **before** sending your commits
+4. You push → GitHub Actions runs the same checks again
+5. If anything fails on GitHub Actions, the PR cannot be merged
+
+> :bulb: Pre-commit catches errors before commits are pushed, which prevents awkward "fix linting" commits from polluting your Git history.
 
 
 ## 9. Your turn
+
+> :warning: **No handover this week**, but a working CI/CD pipeline is a **requirement for Milestone 1 (MS1)**. We **strongly recommend** setting it up now so that linting and tests are enforced from the start. Doing it later, closer to the deadline, often leads to a flood of linting errors and formatting issues that are much harder to fix retroactively.
 
 For this assignment, you need to set up a complete CI/CD pipeline for your project:
 
@@ -603,7 +608,17 @@ For this assignment, you need to set up a complete CI/CD pipeline for your proje
 - Your code follows the Ruff configuration
 
 
-## 10. Conclusion
+## 10. :warning: Project handover & Gitflow expectations
+
+For your project, you **must** follow Gitflow and general coding practices. Here is a reminder of the key expectations
+
+- All feature branches must be created from `develop` and merged back into `develop` via a Pull Request.
+- At each milestone, create a PR from `develop` to `main` and assign Thomas (`@ThomasVrancken`) and myself (`@Mapirlet`) as reviewers.
+- Your PR must include clear documentation explaining what you did, what changed, and how to test it.
+- **Improperly executed PRs** (e.g., merging directly to `main`, missing documentation, broken CI/CD) will result in **significant point deductions**.
+- No PR before the deadline = no grade for that milestone.
+
+## 11. Conclusion
 
 In this lab, you learned the foundations of professional software development workflows:
 
