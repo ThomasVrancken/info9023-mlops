@@ -2,10 +2,15 @@
 
 ## 0. Introduction
 
-This lab introduces you to Google Cloud Platform (GCP) and its data storage services. By the end of this lab, you will be able to
+This lab introduces you to Google Cloud Platform (GCP) and its data storage services. It is divided into two parts:
+
+1. **Part 1: Google Cloud Setup**. Setting up your Google Cloud environment (project, billing, access rights, CLI)
+2. **Part 2: Reading & Writing Data**. Using GCP data storage services (GCS, BigQuery, Firestore)
+
+By the end of this lab, you will be able to
 
 - set up and configure a Google Cloud project,
-- authenticate using the Google Cloud CLI,
+- authenticate using the Google Cloud CLI and Python SDK,
 - read and write files to Google Cloud Storage (GCS),
 - query data in BigQuery using SQL,
 - perform CRUD operations on Firestore (NoSQL database).
@@ -14,9 +19,13 @@ These are foundational skills for MLOps. In later labs, you will deploy ML model
 
 :warning: **For your project**, we will check that you are using cloud services (GCS, BigQuery, Firestore, or others) for storing data and models, not local files. Any code that reads/writes local files will be penalized heavily.
 
-## 1. Google Cloud Project Setup
+## Part 1: Google Cloud Setup
 
-### 1.1. Create or select a project
+Before you can work with Google Cloud data services, you need to set up your environment. This includes creating a project, configuring billing, managing access rights, and installing the necessary tools.
+
+### 1.1. Project Setup
+
+#### 1.1.1. Create or select a project
 
 1. Visit the [Google Cloud Console](https://console.cloud.google.com/).
 2. Click on the project selector dropdown at the top of the page.
@@ -33,7 +42,7 @@ These are foundational skills for MLOps. In later labs, you will deploy ML model
 - One project is attached to a specific billing account
 - In production environments, different projects are used for different stages (development, test, production)
 
-### 1.2. Set up billing and credits
+#### 1.1.2. Set up billing and credits
 
 You should have received an email with **$50 of educational credits** for this course.
 
@@ -47,7 +56,16 @@ You can verify the link between your project and billing account in the billing 
 
 ![billing_project_linking](./img/billing_project_linking.png)
 
-### 1.3. Team collaboration with IAM
+:warning: :warning: :warning: **Cloud credits can run out very quickly!** Be extremely careful with cloud resources. Here are some tips to avoid burning through your credits:
+
+- **Monitor your spending regularly.** Check the [Billing Dashboard](https://console.cloud.google.com/billing/) frequently to track credit usage.
+- **Set up budget alerts.** Configure billing alerts in the Billing console to notify you before credits run out.
+- **Delete resources when done.** Don't leave expensive services running (VMs, Cloud Run instances, etc.).
+- **Avoid unnecessary operations.** Don't process large datasets in BigQuery or store huge files in GCS without reason.
+
+Your $50 in credits might seem like a lot, but they can disappear in hours if you're not careful.
+
+### 1.2. Access Rights (IAM)
 
 :bulb: **For your group project**: Create a single Google Cloud project using one team member's billing account. The owner can then grant access to other team members through IAM.
 
@@ -59,13 +77,23 @@ To grant access to teammates:
 
 ![iam_access](./img/iam.png)
 
-### 1.4. Install and configure the Google Cloud CLI
+### 1.3. Google Cloud CLI
+
+There are two ways to interact with Google Cloud:
+
+1. **CLI (Command-Line Interface) `gcloud`**. A terminal tool to manage GCP resources, configure your environment, and authenticate.
+2. **SDK (Software Development Kit) Python libraries**. Libraries you import in your Python code (`google-cloud-storage`, `google-cloud-bigquery`, etc.) to interact with GCP services programmatically.
+
+The CLI and SDK work together. You use the CLI to set up authentication and project configuration, and the SDK uses those credentials automatically in your Python code.
+
+#### 1.3.1. Installation
 
 The Google Cloud CLI (`gcloud`) lets you interact with GCP from your terminal.
 
-**Installation**
 - macOS: `brew install google-cloud-sdk`
 - Windows/Linux: Follow the [official installation guide](https://cloud.google.com/sdk/docs/install)
+
+#### 1.3.2. Configuration
 
 **Initial setup:**
 ```bash
@@ -91,7 +119,7 @@ gcloud config set project YOUR_PROJECT_ID
 
 :warning: `YOUR_PROJECT_ID` is not your project name. Find it in the Cloud Console dashboard or by running `gcloud projects list`.
 
-### 1.5. Switching between projects
+#### 1.3.3. Switching between projects
 
 If you're working with multiple GCP projects, you need to ensure you're connected to the correct one before creating resources.
 
@@ -112,29 +140,33 @@ This shows a table with project names and their IDs. The project ID (lowercase w
 gcloud config set project YOUR-PROJECT-ID
 ```
 
-**Important:** After switching projects, you may see a quota mismatch warning when running Python code. If this happens, see the troubleshooting section in **Section 2 (Authentication)** below.
+**Important:** After switching projects, you may see a quota mismatch warning when running Python code. If this happens, see the troubleshooting section in the **Authentication** section below.
 
-## 2. Authentication
+#### 1.3.4. Authentication
 
-Before accessing GCP services from Python, you need to authenticate. For local development, run:
+Before accessing GCP services, you need to authenticate. For local development, run:
 
 ```bash
 gcloud auth application-default login
 ```
 
-This opens a browser for authentication and saves credentials locally. Google Cloud Python libraries will automatically use these credentials. No extra configuration needed in your code.
+This opens a browser for authentication and saves credentials locally. The Google Cloud Python libraries (SDK) will automatically use these credentials. No extra configuration needed in your code.
 
 You can verify it worked with:
 ```bash
 gcloud auth application-default print-access-token
 ```
 
-**Troubleshooting authentication:**
+**How authentication flows from CLI to SDK:**
 
-If you encounter authentication errors when running Python code:
-1. Make sure you're in the correct project: `gcloud config get-value project`
-2. Re-run the authentication: `gcloud auth application-default login`
-3. If you switched projects, update the quota project: `gcloud auth application-default set-quota-project YOUR-PROJECT-ID`
+The activated account will automatically be used by the Python SDK's client (the libraries you use in your Python code). This means:
+
+1. You authenticate with `gcloud auth application-default login`
+2. Your credentials are saved locally
+3. When you create a client in Python (e.g., `storage.Client()`), it automatically picks up these credentials
+4. No need to manually configure credentials in your code
+
+Alternatively, you can configure the client to use another account (see the troubleshooting section below).
 
 **Check which account you're authenticated with:**
 ```bash
@@ -143,7 +175,35 @@ gcloud auth list
 
 The active account will have an asterisk (*) next to it.
 
-## 3. Google Cloud Storage (GCS)
+**Troubleshooting authentication:**
+
+If you encounter authentication errors when running Python code:
+1. Make sure you're in the correct project: `gcloud config get-value project`
+2. Re-run the authentication: `gcloud auth application-default login`
+3. If you switched projects, update the quota project: `gcloud auth application-default set-quota-project YOUR-PROJECT-ID`
+
+## Part 2: Reading & Writing Data to Google Cloud
+
+Now that you have Google Cloud set up, let's learn how to read and write data. Google Cloud offers multiple data storage services, each designed for different use cases.
+
+### 2.1. Overview of data storage options
+
+In this lab, we cover three fundamental data storage services:
+
+| Service | Type | Best for | Example use case |
+|---------|------|----------|------------------|
+| **GCS** | Object storage | Files, blobs, unstructured data | Store ML models, images, raw data |
+| **BigQuery** | Data warehouse | Analytics, large datasets, SQL queries | Analyze training data, generate reports |
+| **Firestore** | NoSQL database | Real-time, transactional, CRUD | Store user profiles, prediction results |
+
+In a typical ML application:
+1. Raw data is stored in **GCS**
+2. Processed/training data is analyzed in **BigQuery**
+3. Live predictions and user data are stored in **Firestore**
+
+Let's dive into each service.
+
+### 2.2. Google Cloud Storage (GCS)
 
 Google Cloud Storage is an object storage service for storing any type of data (files, images, models, etc.).
 
@@ -152,7 +212,7 @@ Google Cloud Storage is an object storage service for storing any type of data (
 - **Blob/Object**: A file stored in a bucket. It can be your data file, model file, Docker image, etc.
 - **Path**: Objects are organized by path (e.g., `data/raw/file.csv`).
 
-### 3.1. Create a bucket
+#### 2.2.1. Create a bucket
 
 ```python
 from google.cloud import storage
@@ -174,7 +234,7 @@ create_bucket(
 
 :warning: Bucket names must be **globally unique** across all of Google Cloud. If you get an error, try adding random numbers or your username to make it unique.
 
-### 3.2. Upload and download files with Python
+#### 2.2.2. Upload and download files with Python
 
 **Install the library**
 ```bash
@@ -240,7 +300,14 @@ download_from_gcs(
 )
 ```
 
-### 3.3. When to use GCS
+**Understanding the Python client and authentication**
+
+In the code above, you may notice that we create a `client` (e.g., `storage.Client(project=project_id)`) without providing any credentials. This is because the client automatically uses the credentials you set up via the `gcloud` CLI (see Part 1).
+
+- **For local development**: The client uses your personal credentials from `gcloud auth application-default login`. This is what you'll use throughout this lab.
+- **For deployed services** (e.g., on Cloud Run): You should use a **service account** instead of personal credentials. Service accounts are special accounts meant for applications, not humans. We will cover service accounts in detail in the Cloud Run lab.
+
+#### 2.2.3. When to use GCS
 
 GCS is ideal for:
 - Storing ML model files (`.pkl`, `.pth`, `.h5`)
@@ -248,7 +315,7 @@ GCS is ideal for:
 - Sharing data between services
 - Storing artifacts from training pipelines
 
-## 4. BigQuery
+### 2.3. BigQuery
 
 BigQuery is Google's serverless data warehouse for analytics (remember the distinction between OLAP and OLTP types from the theoretical course). It's designed for running SQL queries on large datasets.
 
@@ -258,7 +325,7 @@ BigQuery is Google's serverless data warehouse for analytics (remember the disti
 - standard SQL syntax,
 - pay only for queries and storage.
 
-### 4.1. Enable BigQuery
+#### 2.3.1. Enable BigQuery
 
 The BigQuery API will be automatically enabled when you first use it. Alternatively, you can enable it manually:
 
@@ -287,7 +354,7 @@ gcloud beta billing projects describe $(gcloud config get-value project) --forma
 
 If this returns `True`, you're good to go. If it returns `False` or an error, go to the [Billing Console](https://console.cloud.google.com/billing) and link your project to a billing account.
 
-### 4.2. Create a dataset and load data
+#### 2.3.2. Create a dataset and load data
 
 **Create a dataset**
 ```python
@@ -323,7 +390,7 @@ job.result()
 print(f"Loaded {len(df)} rows into {table_id}")
 ```
 
-### 4.3. Query data with Python
+#### 2.3.3. Query data with Python
 
 **Install the library**
 ```bash
@@ -393,7 +460,7 @@ df = pd.DataFrame({
 insert_to_bigquery(df, "your-project-id", "mlops_lab", "scores")
 ```
 
-### 4.4. When to use BigQuery
+#### 2.3.4. When to use BigQuery
 
 BigQuery is ideal for:
 - Analyzing large datasets (GBs to PBs)
@@ -401,7 +468,7 @@ BigQuery is ideal for:
 - Storing structured, tabular data
 - Data that doesn't change frequently (append-only is common)
 
-## 5. Firestore
+### 2.4. Firestore
 
 Firestore is a NoSQL document database. Unlike BigQuery (analytical), Firestore is designed for **transactional** operations i.e., reading and writing individual records in real-time.
 
@@ -410,7 +477,7 @@ Firestore is a NoSQL document database. Unlike BigQuery (analytical), Firestore 
 - **Document**: a single record (like a row), stored as key-value pairs.
 - **No fixed schema**: documents in the same collection can have different fields.
 
-### 5.1. Enable Firestore
+#### 2.4.1. Enable Firestore
 
 Before using Firestore, you need to enable the API and create a database.
 
@@ -464,7 +531,7 @@ gcloud firestore databases describe --database=mlops-db
 gcloud firestore databases delete --database=mlops-db
 ```
 
-### 5.2. CRUD operations with Python
+#### 2.4.2. CRUD operations with Python
 
 **Install the library**
 ```bash
@@ -557,7 +624,7 @@ high_scorers = query_documents("users", "score", ">", 90)
 print(high_scorers)
 ```
 
-### 5.3. When to use Firestore
+#### 2.4.3. When to use Firestore
 
 Firestore is ideal for:
 - Real-time applications (chat, live dashboards)
@@ -566,20 +633,7 @@ Firestore is ideal for:
 - Data that changes frequently (CRUD operations)
 - Mobile/web app backends
 
-## 6. Comparison: When to use what?
-
-| Service | Type | Best for | Example use case |
-|---------|------|----------|------------------|
-| **GCS** | Object storage | Files, blobs, unstructured data | Store ML models, images, raw data |
-| **BigQuery** | Data warehouse | Analytics, large datasets, SQL queries | Analyze training data, generate reports |
-| **Firestore** | NoSQL database | Real-time, transactional, CRUD | Store user profiles, prediction results |
-
-In a typical ML application:
-1. Raw data is stored in **GCS**
-2. Processed/training data is analyzed in **BigQuery**
-3. Live predictions and user data are stored in **Firestore**
-
-## 7. Your turn
+## 3. Your turn
 
 For this assignment, you need to demonstrate that you can read and write data to all three GCP services.
 
@@ -604,18 +658,18 @@ For this assignment, you need to demonstrate that you can read and write data to
 
 **Deliverables**
 
-Deadline: XXXX XXth 2026.
+Deadline: February 16th 2026 23:59.
 
 - A completed Jupyter notebook should be uploaded on Gradescope.
 - All cells must be executable and their outputs should not be erased before submission.
 - This case study must be carried out alone. You are not allowed to discuss or collaborate with other students.
 
-## 8. Conclusion
+## 4. Conclusion
 
 In this lab, you learned how to:
 
 - Set up a Google Cloud project and configure billing
-- Authenticate using the `gcloud` CLI
+- Authenticate using the `gcloud` CLI and understand how credentials flow to the Python SDK
 - Store and retrieve files with Google Cloud Storage
 - Query structured data with BigQuery
 - Perform CRUD operations with Firestore
