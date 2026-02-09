@@ -15,8 +15,8 @@ _The links to the lecture slides and directed work will always be provided short
 | Date       | Week #     | Sprint #       | Topic       | Course material | Directed work |
 |------------|------------|----------------|-------------------|------------------------|----------------|
 | 02/02/2026 | W1  | Sprint 1 | Introduction to MLOps | [Lecture slides](lectures/01_introduction_to_mlops.pdf) | |
-| 09/02/2026 | W2  | Sprint 1 | Git & CICD | | [Lab1](directed_work/01_git_cicd/README.md) |
-| 16/02/2026 | W3  | Sprint 2 | Data pipelines & cloud infrastructure | [Lecture slides](lectures/01_introduction_to_mlops.pdf) |
+| 09/02/2026 | W2  | Sprint 1 | Git & CICD | [Lecture slides](lectures/02_git_cicd.pdf) | [Lab1](directed_work/01_git_cicd/README.md) |
+| 16/02/2026 | W3  | Sprint 2 | Data pipelines & cloud infrastructure | |
 | 23/02/2026 | W4  | Sprint 2 | Containerisation | |
 | 02/03/2026 | W5  | Sprint 3 | API implementation | |
 | 09/03/2026 | W6  | Sprint 3 | Model serving | |
