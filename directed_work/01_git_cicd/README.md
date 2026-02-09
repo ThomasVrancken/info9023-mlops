@@ -36,6 +36,8 @@ The image below illustrates Git's structure and workflow.
 - **Local repository**. The `.git` directory where Git stores all the changes you've committed. :warning: This is a local repository, meaning it's stored on your computer. When you commit changes, they are only saved on your machine until you push them.
 - **Remote repository**. The repository hosted on GitHub, GitLab, Bitbucket, etc. This is where you can push your changes to share them with others.
 
+**Why this architecture?** Each layer gives you more control over your workflow. The staging area lets you select **which** changes go into a commit (e.g., you changed 5 files but only 2 are ready, so you stage only those 2). The local repository lets you save snapshots **without needing internet**, so you can commit multiple times before sharing. The remote repository is where you finally push your work to collaborate with others.
+
 ### Key steps and commands
 1. **Create a repository**. You can create the repository on GitHub and clone it to your local machine, or create a local repository and push it to GitHub. [Follow this tutorial.](https://docs.github.com/en/repositories/creating-and-managing-repositories/quickstart-for-repositories)
 
