@@ -24,6 +24,11 @@ vllm-env/
 
 # Lab specific directories to be ignored
 demos/04_gcs_bq/cloud_storage.ipynb
+directed_work/03_docker/Dockerfile
+directed_work/03_docker/app.py
+directed_work/03_docker/.dockerignore
+directed_work/03_docker/README.md.backup
+directed_work/03_docker/requirements.txt
 directed_work/04_vertex/Dockerfile
 directed_work/04_vertex/requirements.txt
 directed_work/04_vertex/house_prediction.ipynb

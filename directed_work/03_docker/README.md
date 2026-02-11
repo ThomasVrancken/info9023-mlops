@@ -1,8 +1,8 @@
-# Lab 3 [Sprint 2, W4] : Docker & UV
+# Lab 3 [Sprint 2, W4]: Docker & UV
 
 ## 0. Introduction
 
-This lab will introduce you to Docker and UV, a modern Python packaging tool. You will get hands-on experience in containerizing a simple Python application in class, then you will need to apply these concepts by building a container for a basic machine learning model.
+This lab will introduce you to Docker but also to UV, a modern Python packaging tool. You will get hands-on experience in containerizing a simple Python application in class, then you will need to apply these concepts by building a container for a basic machine learning model.
 
 **Learning objectives**
 - understand the differences between virtual environments, virtual machines, and containers,
@@ -14,7 +14,7 @@ This lab will introduce you to Docker and UV, a modern Python packaging tool. Yo
 > **Note about deployment** \
 > This lab focuses on containerization fundamentals. In the next lab, you will deploy these containers to Google Cloud Run.
 
-## 1. Understanding virtual environments, virtual machines and containers
+## 1. Understanding virtual environments, virtual machines, and containers
 
 ### 1.1. Virtual environment
 
@@ -75,23 +75,32 @@ The difference with a VM is that Docker does not embed a full operating system. 
 
 ### 2.2. Docker basics
 
-#### 2.2.1. Image
+Docker relies on three core concepts that build on each other: you write a **Dockerfile**, build it into an **image**, and run that image as a **container**.
 
-An image is a read-only snapshot that contains everything needed to run a container: the application code, runtime, libraries, and system tools. Images are built from Dockerfiles and are composed of layers. Often, an image is based on another image. For example, you may build an image that starts from the `python:3.11` base image and adds your application code and dependencies.
+```
+Dockerfile  ──build──>  Image  ──run──>  Container
+(recipe)                (snapshot)       (running app)
+```
+
+#### 2.2.1. Dockerfile
+
+A Dockerfile is a text document that lists, step by step, everything needed to set up your application: which base system to start from, which files to copy, which packages to install, and which command to run at startup. Using `docker build`, Docker reads this file and produces an image from it.
+
+You can think of a Dockerfile as a recipe.
+
+#### 2.2.2. Image
+
+An image is the read-only snapshot produced by building a Dockerfile. It captures the full result of every step in the recipe: the operating system, libraries, application code, and configuration. Images are composed of layers, where each layer corresponds to an instruction in the Dockerfile. Often, an image starts from a pre-existing base image. For example, you may start from the `python:3.13` base image and add your own code and dependencies on top.
 
 You can think of an image as a class in object-oriented programming.
 
-#### 2.2.2. Container
+#### 2.2.3. Container
 
-A container is a runnable instance of an image. You can create, start, stop, move, or delete a container using the Docker API or CLI. You can connect a container to one or more networks, attach storage to it, or even create a new image based on its current state.
+A container is what you get when you run an image. While the image is a static snapshot, the container is a live, isolated process with its own filesystem, network, and environment. You can start, stop, or delete containers using the Docker CLI.
+
+You can run multiple containers from the same image, each independent from the others. For example, if your image contains a web server, you could run three containers from it to handle more traffic, each listening on a different port.
 
 You can think of a container as an instance of a class, where the class is an image.
-
-#### 2.2.3. Dockerfile
-
-A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an image. Using `docker build`, users can create an automated build that executes several command-line instructions in succession.
-
-You can think of a Dockerfile as a blueprint to build an image.
 
 ## 3. Hands-on Docker example
 
@@ -111,9 +120,9 @@ Create a new directory for your project with the following structure:
 > **Important: Dockerfile naming** \
 > The file must be named exactly `Dockerfile` (capital D, no extension). The `docker build` command looks for this exact filename by default. If you use a different name like `dockerfile` or `DockerFile`, you'll need to specify it with the `-f` flag: `docker build -f yourname .`
 
-### 3.2. Create the Flask application
+### 3.2. Flask application
 
-Create `app.py` with the following content:
+In the `app.py` file, add the following content:
 
 ```python
 from flask import Flask
@@ -133,22 +142,22 @@ This file contains a simple Flask app with two endpoints:
 - `/` returns a welcome message
 - `/health` returns a health check status (useful for deployment)
 
-### 3.3. Create requirements.txt
+### 3.3. Requirements file
 
-Create `requirements.txt` with the following content:
+In the `requirements.txt` file, add the following content:
 
 ```txt
-flask==3.0.0
+flask==3.1.0
 ```
 
 This file specifies the dependencies of your project. We're pinning Flask to a specific version for reproducibility.
 
-### 3.4. Create the Dockerfile
+### 3.4. Dockerfile
 
-Create a `Dockerfile` with the following content:
+In the `Dockerfile`, add the following content:
 
 ```dockerfile
-FROM python:3.11-slim
+FROM python:3.13-slim
 WORKDIR /app
 COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
@@ -157,37 +166,25 @@ ENV FLASK_APP=app.py
 CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
 ```
 
-**Dockerfile instructions explained**
+#### 3.4.1. Dockerfile instructions explained
 
-- `FROM python:3.11-slim`: tells Docker to use the official Python 3.11 slim image as the base image. You can find more official images on [Docker Hub](https://hub.docker.com/). The `slim` variant is smaller than the full image, reducing build time and image size.
+- `FROM python:3.13-slim`: every Dockerfile starts with a `FROM` instruction that sets the base image. Here we use the official Python 3.13 image in its `slim` variant, which includes Python and essential system libraries but leaves out extras like a C compiler or documentation. This keeps the image small (~150 MB vs ~1 GB for the full image). You can browse available base images on [Docker Hub](https://hub.docker.com/).
 
-- `WORKDIR /app`: sets the working directory **in the container** to `/app`. Any subsequent commands will be executed relative to this directory.
+- `WORKDIR /app`: sets the working directory **inside the container** to `/app`. All subsequent instructions (`COPY`, `RUN`, `CMD`) will run relative to this path. Without this, files would end up in the root `/` directory, which is messy and error-prone.
 
-- `COPY . /app`: copies the current directory contents (where the Dockerfile is located) **INTO** the container at `/app`. This copies your source code, `requirements.txt`, etc. into the container.
+- `COPY . /app`: copies everything from your local project directory (where the Dockerfile lives) **into** the container at `/app`. This is how your source code, `requirements.txt`, and other files get into the image. Note that the container has its own filesystem: it cannot see your local files unless you explicitly copy them in.
 
-- `RUN pip install --no-cache-dir -r requirements.txt`: installs the packages specified in `requirements.txt`. The `--no-cache-dir` flag prevents pip from caching downloaded packages, reducing the image size.
+- `RUN pip install --no-cache-dir -r requirements.txt`: executes a command **during the build** to install your Python dependencies. The key difference between `RUN` and `CMD` is that `RUN` runs at build time (and the result is baked into the image), while `CMD` runs when the container starts. The `--no-cache-dir` flag tells pip not to store downloaded packages locally, since we won't need them again and it would just bloat the image.
 
-- `EXPOSE 8080`: documents that the container listens on port 8080. This is informational and doesn't actually publish the port.
+- `EXPOSE 8080`: documents that the application inside the container will listen on port 8080. This is purely informational for anyone reading the Dockerfile — it does **not** actually open the port. To make the port accessible from your host machine, you need the `-p` flag when running the container (covered in section 3.5).
 
-- `ENV FLASK_APP=app.py`: defines an environment variable `FLASK_APP` to tell Flask which file to run.
+- `ENV FLASK_APP=app.py`: sets an environment variable inside the container. Flask uses the `FLASK_APP` variable to know which Python file contains the application. Without this, Flask wouldn't know what to run.
 
-- `CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]`: runs the Flask development server when the container starts. The `--host=0.0.0.0` makes the server accessible from outside the container.
-
-> **Base images: pros and cons**
->
-> **Pros**
-> - **Speed**: using a base image with pre-installed packages is faster than installing everything from scratch
-> - **Caching**: Docker caches image layers. If you change your source code but not your dependencies, Docker will use cached layers and only rebuild what changed
-> - **Tested**: official images are well-tested and don't have package conflicts
->
-> **Cons**
-> - **Size**: the base image may contain packages you don't need, making your image larger
-> - **Security**: the base image may have security vulnerabilities. Keep base images up-to-date
-> - **Version**: the base image may not have the exact package versions you need
+- `CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]`: defines the default command that runs when the container starts. This launches the Flask development server. The `--host=0.0.0.0` is important: by default, Flask only listens on `localhost` (127.0.0.1), which would make it unreachable from outside the container. Setting it to `0.0.0.0` tells Flask to accept connections from any network interface, including the host machine.
 
 ### 3.5. Build and run the Docker container
 
-**Build the image**
+#### 3.5.1. Build the image
 
 ```bash
 docker build -t flask-app .
@@ -203,18 +200,18 @@ docker images
 
 You should see `flask-app` in the list of images. You can also check Docker Desktop to see the image in the Images section.
 
-**Run the container**
+#### 3.5.2. Run the container
 
 ```bash
 docker run -p 4000:8080 flask-app
 ```
 
-This command runs the container and maps port 8080 in the container to port 4000 on your host machine.
+Because the container runs in its own isolated network, your host machine cannot reach it by default. The `-p` flag creates a bridge between a port on your machine and a port inside the container, so that requests to `localhost:4000` on your machine are forwarded to port `8080` inside the container.
 
 **Port mapping explained**: `-p 4000:8080`
 - `4000` is the port on your **host machine** (your computer)
-- `8080` is the port **inside the container**
-- Think of it like: house door (4000) → room door (8080)
+- `8080` is the port **inside the container** (the one Flask is listening on)
+- We intentionally use a different host port (4000 instead of 8080) to show that they don't have to match. You could use `-p 8080:8080` if you prefer, as long as the host port is not already in use.
 
 **Test the application**
 
@@ -231,7 +228,9 @@ curl http://localhost:4000/health
 
 ### 3.6. Docker container management
 
-**View running containers**
+Containers don't clean up after themselves. A running container keeps consuming CPU and memory, and even stopped containers stay on disk until you explicitly remove them. Over time, forgotten containers and unused images can eat up significant disk space. Here are the essential commands to keep things tidy.
+
+#### 3.6.1. View running containers
 
 ```bash
 # Show running containers
@@ -241,7 +240,7 @@ docker ps
 docker ps -a
 ```
 
-**Stop the container**
+#### 3.6.2. Stop the container
 
 ```bash
 # Option 1: Press Ctrl+C in the terminal where the container is running
@@ -253,7 +252,7 @@ docker stop <container_id>
 docker stop <container_name>
 ```
 
-**Remove containers**
+#### 3.6.3. Remove containers
 
 ```bash
 # Remove a specific container
@@ -263,7 +262,7 @@ docker rm <container_id>
 docker container prune
 ```
 
-**Remove images**
+#### 3.6.4. Remove images
 
 ```bash
 # Remove a specific image
@@ -275,43 +274,19 @@ docker image prune -a
 
 > **Important**: You must remove containers before removing their images, even if the containers are stopped.
 
-### 3.7. Useful Docker commands cheat sheet
+#### 3.6.5. Other useful commands
 
 ```bash
-# Build an image
-docker build -t <image_name> .
-
-# Run a container
-docker run -p <host_port>:<container_port> <image_name>
-
-# Run in detached mode (background)
+# Run a container in detached mode (background), so it doesn't block your terminal
 docker run -d -p <host_port>:<container_port> <image_name>
 
-# List running containers
-docker ps
-
-# List all containers
-docker ps -a
-
-# Stop a container
-docker stop <container_id>
-
-# Remove a container
-docker rm <container_id>
-
-# List images
-docker images
-
-# Remove an image
-docker rmi <image_name>
-
-# View container logs
+# View the logs of a container (useful for debugging, especially in detached mode)
 docker logs <container_id>
 
-# Execute command in running container
+# Open a shell inside a running container (useful for inspecting files or debugging)
 docker exec -it <container_id> /bin/bash
 
-# Clean up everything (use with caution!)
+# Remove all unused containers, images, and networks at once (use with caution!)
 docker system prune -a
 ```
 
@@ -378,11 +353,12 @@ uv pip sync requirements.txt
 
 ## 5. Optimizing Docker builds with UV
 
-UV shines in Docker environments because it dramatically reduces build times. Here's how to use UV in your Dockerfiles:
+UV shines in Docker environments because it dramatically reduces build times. Here's how to use UV in your Dockerfiles.
 
-**Traditional approach with pip**
+### 5.1. Traditional approach with pip
+
 ```dockerfile
-FROM python:3.11-slim
+FROM python:3.13-slim
 WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
@@ -390,9 +366,12 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-**Modern approach with UV**
+Notice that we `COPY requirements.txt` **before** copying the rest of the code. Docker caches each layer: if your `requirements.txt` hasn't changed, Docker will reuse the cached layer with all your installed dependencies and skip the slow `pip install` step entirely. If we had used `COPY . .` first, any change to any file (even a comment in `app.py`) would invalidate the cache and force a full reinstall.
+
+### 5.2. Modern approach with UV
+
 ```dockerfile
-FROM python:3.11-slim
+FROM python:3.13-slim
 WORKDIR /app
 
 # Install UV
@@ -410,22 +389,29 @@ COPY . .
 CMD ["python", "app.py"]
 ```
 
-**Multi-stage build with UV (recommended for production)**
+Two things are new here:
+
+- `COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv`: we need UV inside our container, but it's not included in the Python base image. Instead of downloading and installing it (with `curl` or `pip`), we use `--from=` to copy the UV binary straight from an existing image that already contains it (`ghcr.io/astral-sh/uv:latest`). Think of it as borrowing a tool from another container's toolbox.
+
+- `uv pip install --system`: by default, UV tries to create a virtual environment. The `--system` flag tells it to install packages directly into the container's Python instead. Inside a container there is no need for a virtual environment, the container itself is already isolated.
+
+### 5.3. Multi-stage build with UV (recommended for production)
+
 ```dockerfile
 # Stage 1: Build dependencies
-FROM python:3.11-slim AS builder
+FROM python:3.13-slim AS builder
 WORKDIR /app
 
 # Install UV
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# Install dependencies to /app/.venv
+# Install dependencies into a virtual environment
 COPY requirements.txt .
 RUN uv venv /app/.venv && \
     uv pip install --python /app/.venv/bin/python -r requirements.txt
 
 # Stage 2: Runtime
-FROM python:3.11-slim
+FROM python:3.13-slim
 WORKDIR /app
 
 # Copy virtual environment from builder
@@ -440,10 +426,12 @@ ENV PATH="/app/.venv/bin:$PATH"
 CMD ["python", "app.py"]
 ```
 
-**Why multi-stage builds?**
-- **Smaller images**: the final image doesn't include build tools or UV itself
-- **Faster deployments**: smaller images download and start faster
-- **Security**: reduced attack surface by excluding build dependencies
+**The problem with single-stage builds**. In Docker, everything you do during the build stays in the final image. In section 5.2, we installed UV and used it to install our packages but UV itself is still sitting in the final image, even though we only needed it during the build. The same goes for any compiler, cache files, or temporary downloads. For a small Flask app this barely matters, but for an ML project with heavy dependencies (numpy, scikit-learn, PyTorch...), this build-time baggage can add hundreds of megabytes to your image.
+
+**How multi-stage builds solve this**: the Dockerfile above uses two `FROM` statements, which creates two separate stages. The first stage (`builder`) is a temporary workspace where we install UV and all our dependencies. The second stage starts from a **fresh, clean** Python image and only copies over the installed packages leaving UV, caches, and all build-time leftovers behind. The builder stage is then discarded.
+
+> **Why use a virtual environment here?** \
+> In section 5.2 we said containers don't need virtual environments and that's still true. But here the virtual environment serves a practical purpose. It puts all installed packages into a single folder (`/app/.venv`). This makes it easy to copy them from stage 1 to stage 2 with one `COPY` command. Without it, packages would be scattered across system directories (`/usr/local/lib/`, `/usr/local/bin/`, etc.) and much harder to transfer.
 
 ## 6. Assignment: ML model container
 
@@ -456,19 +444,13 @@ Your container should:
 2. Train a machine learning model on this dataset (any algorithm: logistic regression, decision tree, random forest, etc.)
 3. Evaluate the model and display metrics (accuracy, confusion matrix, etc.)
 4. Save the trained model to a file
-5. Make predictions on test data
 
 **Deliverables**
 
-Submit the following files:
+Submit the following files on **Gradescope**:
 1. `Dockerfile` - your container definition
 2. `train.py` - Python script that trains and evaluates your model
 3. `requirements.txt` - list of Python dependencies
-4. `README.md` - brief documentation explaining:
-   - What dataset you used
-   - What model you trained
-   - How to build and run your container
-   - What output to expect
 
 **Optional challenges**
 
@@ -484,8 +466,7 @@ Submit the following files:
 ml-container/
 ├── Dockerfile
 ├── train.py
-├── requirements.txt
-└── README.md
+└── requirements.txt
 ```
 
 **Example `train.py` skeleton**
@@ -528,9 +509,8 @@ print("\nModel saved as model.pkl")
 
 **Tips**
 
-- Start with the Flask example from section 3 and modify it for ML
 - Test your code locally before containerizing
-- Use `python:3.11-slim` as your base image to keep the image size reasonable
+- Use `python:3.13-slim` as your base image to keep the image size reasonable
 - Install only the packages you need (scikit-learn, numpy, pandas)
 - Add `.dockerignore` to exclude unnecessary files (`.venv/`, `__pycache__/`, etc.)
 
@@ -555,7 +535,7 @@ print("\nModel saved as model.pkl")
 
 **Image too large**
 - Problem: Docker image is several GB
-- Solution: Use `python:3.11-slim` instead of `python:3.11`, add `.dockerignore`, use multi-stage builds
+- Solution: Use `python:3.13-slim` instead of `python:3.13`, add `.dockerignore`, use multi-stage builds
 
 **Slow builds**
 - Problem: `pip install` takes a long time
