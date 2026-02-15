@@ -16,7 +16,7 @@ _The links to the lecture slides and directed work will always be provided short
 |------------|------------|----------------|-------------------|------------------------|----------------|
 | 02/02/2026 | W1  | Sprint 1 | Introduction to MLOps | [Lecture slides](lectures/01_introduction_to_mlops.pdf) | |
 | 09/02/2026 | W2  | Sprint 1 | Git & CICD | [Lecture slides](lectures/02_git_cicd.pdf) | [Lab1](directed_work/01_git_cicd/README.md) |
-| 16/02/2026 | W3  | Sprint 2 | Data pipelines & cloud infrastructure | |
+| 16/02/2026 | W3  | Sprint 2 | Data & cloud infrastructure | [Lecture slides](lectures/03_data_and_cloud_infrastructure.pdf) |
 | 23/02/2026 | W4  | Sprint 2 | Containerisation | |
 | 02/03/2026 | W5  | Sprint 3 | API implementation | |
 | 09/03/2026 | W6  | Sprint 3 | Model serving | |
@@ -48,6 +48,12 @@ _The links to the lecture slides and directed work will always be provided short
 ## Project 
 
 All the project info can be found in the [project/project_instructions.pdf](project/project_instructions.pdf) document.
+
+### Milestones
+
+- MS1: You will pick a spot between the 2nd and the 5th of March. The exact spot available will be announced later.
+- MS2: You will pick a spot between the 30th of March and the 2nd of April. The exact spot available will be announced later.
+- MS3: Each group will present in the classroom, other groups can attend the presentation. It will be on the 11th of May.
 
 ## Exam 
 
