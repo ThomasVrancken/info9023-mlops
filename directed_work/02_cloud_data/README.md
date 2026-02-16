@@ -470,7 +470,7 @@ BigQuery is ideal for:
 
 ### 2.4. Firestore
 
-Firestore is a NoSQL document database. Unlike BigQuery (analytical), Firestore is designed for **transactional** operations i.e., reading and writing individual records in real-time.
+Firestore is a NoSQL transactional document database (OLTP). Unlike BigQuery (analytical), Firestore is designed for **transactional** operations i.e., reading and writing individual records in real-time.
 
 **Key concepts**
 - **Collection**: a group of documents (like a table).
