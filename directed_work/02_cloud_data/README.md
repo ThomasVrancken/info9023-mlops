@@ -193,8 +193,8 @@ In this lab, we cover three fundamental data storage services:
 | Service | Type | Best for | Example use case |
 |---------|------|----------|------------------|
 | **GCS** | Object storage | Files, blobs, unstructured data | Store ML models, images, raw data |
-| **BigQuery** | Data warehouse | Analytics, large datasets, SQL queries | Analyze training data, generate reports |
-| **Firestore** | NoSQL database | Real-time, transactional, CRUD | Store user profiles, prediction results |
+| **BigQuery** | Relational model (OLAP) | Analytics, large datasets, SQL queries | Analyze training data, generate reports |
+| **Firestore** | Document model (OLTP) | Real-time, no schema, transactional, CRUD | Store user profiles, chatbot messages,prediction results |
 
 In a typical ML application:
 1. Raw data is stored in **GCS**
