@@ -193,8 +193,8 @@ In this lab, we cover three fundamental data storage services:
 | Service | Type | Best for | Example use case |
 |---------|------|----------|------------------|
 | **GCS** | Object storage | Files, blobs, unstructured data | Store ML models, images, raw data |
-| **BigQuery** | Data warehouse | Analytics, large datasets, SQL queries | Analyze training data, generate reports |
-| **Firestore** | NoSQL database | Real-time, transactional, CRUD | Store user profiles, prediction results |
+| **BigQuery** | Relational model (OLAP) | Analytics, large datasets, SQL queries | Analyze training data, generate reports |
+| **Firestore** | Document model (OLTP) | Real-time, no schema, transactional, CRUD | Store user profiles, chatbot messages,prediction results |
 
 In a typical ML application:
 1. Raw data is stored in **GCS**
@@ -470,7 +470,7 @@ BigQuery is ideal for:
 
 ### 2.4. Firestore
 
-Firestore is a NoSQL document database. Unlike BigQuery (analytical), Firestore is designed for **transactional** operations i.e., reading and writing individual records in real-time.
+Firestore is a NoSQL transactional document database (OLTP). Unlike BigQuery (analytical), Firestore is designed for **transactional** operations i.e., reading and writing individual records in real-time.
 
 **Key concepts**
 - **Collection**: a group of documents (like a table).
