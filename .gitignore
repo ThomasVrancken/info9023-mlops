@@ -21,6 +21,9 @@ vllm-env/
 **/__pycache__/
 **/local_experimentation*
 
+# Cursor
+.cursor/
+agents/
 
 # Lab specific directories to be ignored
 demos/04_gcs_bq/cloud_storage.ipynb
