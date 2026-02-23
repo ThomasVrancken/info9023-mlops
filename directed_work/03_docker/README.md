@@ -98,7 +98,7 @@ You can think of an image as a class in object-oriented programming.
 
 A container is what you get when you run an image. While the image is a static snapshot, the container is a live, isolated process with its own filesystem, network, and environment. You can start, stop, or delete containers using the Docker CLI.
 
-You can run multiple containers from the same image, each independent from the others. For example, if your image contains a web server, you could run three containers from it to handle more traffic, each listening on a different port.
+You can run multiple containers from the same image, each independent of the others. For example, if your image contains a web server, you could run three containers from it to handle more traffic, each listening on a different port.
 
 You can think of a container as an instance of a class, where the class is an image.
 
@@ -176,7 +176,7 @@ CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
 
 - `RUN pip install --no-cache-dir -r requirements.txt`: executes a command **during the build** to install your Python dependencies. The key difference between `RUN` and `CMD` is that `RUN` runs at build time (and the result is baked into the image), while `CMD` runs when the container starts. The `--no-cache-dir` flag tells pip not to store downloaded packages locally, since we won't need them again and it would just bloat the image.
 
-- `EXPOSE 8080`: documents that the application inside the container will listen on port 8080. This is purely informational for anyone reading the Dockerfile — it does **not** actually open the port. To make the port accessible from your host machine, you need the `-p` flag when running the container (covered in section 3.5).
+- `EXPOSE 8080`: documents that the application inside the container will listen on port 8080. This is purely informational for anyone reading the Dockerfile: it does **not** actually open the port. To make the port accessible from your host machine, you need the `-p` flag when running the container (covered in section 3.5).
 
 - `ENV FLASK_APP=app.py`: sets an environment variable inside the container. Flask uses the `FLASK_APP` variable to know which Python file contains the application. Without this, Flask wouldn't know what to run.
 
@@ -328,7 +328,9 @@ uv --version
 
 ### 4.3. Basic UV commands
 
-UV provides a streamlined workflow for Python projects:
+UV supports two workflows. The **pip-compatibility mode** is a drop-in replacement for pip and still uses `requirements.txt`. The **native project mode** is UV's recommended approach and uses `pyproject.toml` + `uv.lock`.
+
+**Pip-compatibility mode** (familiar, works with existing `requirements.txt`):
 
 ```bash
 # create a new Python virtual environment
@@ -344,12 +346,28 @@ uv pip install flask numpy pandas
 # install from requirements.txt
 uv pip install -r requirements.txt
 
-# generate a lockfile for reproducible builds
-uv pip compile requirements.in -o requirements.txt
-
 # sync environment to match requirements exactly
 uv pip sync requirements.txt
 ```
+
+**Native project mode** (recommended. Uses `pyproject.toml` + `uv.lock`):
+
+```bash
+# initialize a new project (creates pyproject.toml)
+uv init my-project  # creates a new directory called my-project
+uv init .           # or: initialize in the current directory
+
+# add packages (updates pyproject.toml and uv.lock automatically)
+uv add flask numpy pandas
+
+# install all dependencies from uv.lock (exact versions, fully reproducible)
+uv sync
+
+# install without updating uv.lock (e.g. in CI or Docker)
+uv sync --frozen
+```
+
+The key difference: `uv.lock` captures the exact version of every package (including transitive dependencies) automatically, without any manual step. With pip, you need to manually run `pip freeze > requirements.txt` to get the same level of reproducibility.
 
 ## 5. Optimizing Docker builds with UV
 
@@ -378,13 +396,16 @@ WORKDIR /app
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Copy dependency files
-COPY requirements.txt .
+COPY pyproject.toml uv.lock .
 
 # Install dependencies with UV (much faster)
-RUN uv pip install --system -r requirements.txt
+RUN uv sync --frozen --no-dev
 
 # Copy application code
 COPY . .
+
+# Add the virtual environment created by uv sync to PATH
+ENV PATH="/app/.venv/bin:$PATH"
 
 CMD ["python", "app.py"]
 ```
@@ -393,7 +414,7 @@ Two things are new here:
 
 - `COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv`: we need UV inside our container, but it's not included in the Python base image. Instead of downloading and installing it (with `curl` or `pip`), we use `--from=` to copy the UV binary straight from an existing image that already contains it (`ghcr.io/astral-sh/uv:latest`). Think of it as borrowing a tool from another container's toolbox.
 
-- `uv pip install --system`: by default, UV tries to create a virtual environment. The `--system` flag tells it to install packages directly into the container's Python instead. Inside a container there is no need for a virtual environment, the container itself is already isolated.
+- `uv sync --frozen --no-dev`: installs all dependencies from `uv.lock` exactly as pinned (`--frozen` prevents any lockfile update), skipping development-only packages (`--no-dev`). UV automatically creates a `.venv` virtual environment, which we then expose via `ENV PATH`.
 
 ### 5.3. Multi-stage build with UV (recommended for production)
 
@@ -406,9 +427,8 @@ WORKDIR /app
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Install dependencies into a virtual environment
-COPY requirements.txt .
-RUN uv venv /app/.venv && \
-    uv pip install --python /app/.venv/bin/python -r requirements.txt
+COPY pyproject.toml uv.lock .
+RUN uv sync --frozen --no-dev
 
 # Stage 2: Runtime
 FROM python:3.13-slim
@@ -445,12 +465,14 @@ Your container should:
 3. Evaluate the model and display metrics (accuracy, confusion matrix, etc.)
 4. Save the trained model to a file
 
+**Deadline**: February 23, 2026 23:59
+
 **Deliverables**
 
 Submit the following files on **Gradescope**:
 1. `Dockerfile` - your container definition
 2. `train.py` - Python script that trains and evaluates your model
-3. `requirements.txt` - list of Python dependencies
+3. dependency file, either `requirements.txt` (if using pip) **or** `pyproject.toml` + `uv.lock` (if using UV)
 
 **Optional challenges**
 
@@ -462,11 +484,21 @@ Submit the following files on **Gradescope**:
 
 **Example structure**
 
+With pip:
 ```
 ml-container/
 ├── Dockerfile
 ├── train.py
 └── requirements.txt
+```
+
+With UV:
+```
+ml-container/
+├── Dockerfile
+├── train.py
+├── pyproject.toml
+└── uv.lock
 ```
 
 **Example `train.py` skeleton**
@@ -512,7 +544,18 @@ print("\nModel saved as model.pkl")
 - Test your code locally before containerizing
 - Use `python:3.13-slim` as your base image to keep the image size reasonable
 - Install only the packages you need (scikit-learn, numpy, pandas)
-- Add `.dockerignore` to exclude unnecessary files (`.venv/`, `__pycache__/`, etc.)
+- If using UV, `pyproject.toml` and `uv.lock` are **generated automatically** i.e., you don't write them by hand. From inside your project directory, run:
+  ```bash
+  uv init .          # creates pyproject.toml in the current directory
+  uv add scikit-learn numpy  # adds packages and generates uv.lock
+  ```
+  Note the `.` in `uv init .`: this initializes UV in your **existing** directory, instead of creating a new subdirectory.
+- If using UV, you **must** add a `.dockerignore` to exclude your local `.venv/`, otherwise `COPY . .` will overwrite the venv built inside the container with your local one (which uses a different Python version and will crash). Create a `.dockerignore` file with at minimum:
+  ```
+  .venv
+  __pycache__
+  *.pyc
+  ```
 
 ## 7. Additional resources
 
@@ -547,4 +590,5 @@ print("\nModel saved as model.pkl")
 
 **Cannot find module**
 - Error: `ModuleNotFoundError: No module named 'flask'`
-- Solution: Ensure your `requirements.txt` lists all dependencies and the `RUN pip install` step completed successfully
+- Solution (pip): Ensure your `requirements.txt` lists all dependencies and the `RUN pip install` step completed successfully
+- Solution (UV): Ensure your `pyproject.toml` lists all dependencies, that `uv.lock` is up-to-date (`uv sync`), and that the `ENV PATH` line exposes the virtual environment
