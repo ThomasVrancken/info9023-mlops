@@ -2,29 +2,35 @@
 
 This course equips students with the practical tools and frameworks needed to build production-ready machine learning systems. Covering the complete ML application lifecycle, students will gain hands-on experience with MLOps and LLMOps tools and skills in high demand as industries undergo rapid AI transformation.
 
-Deploying ML to production requires far more than model theoretical knowledge. This course addresses that challenge head-on, providing the technical skills, practices, and tools to bridge the gap between prototype and production. Students will be equipped to make an immediate impact when starting their professional life in the industry.
+Deploying ML to production requires far more than model theoretical knowledge. This course provides the technical skills, practices, and tools to bridge the gap between prototype and production. Students will be equipped to make a direct impact when starting their professional life.
 
-## Agenda
+## Topics roadmap
 
-The links to the lecture slides and directed work will always be provided shortly before the actual date.
+![Course Agenda](assets/course_agenda.png)
 
-| Date       | Week #     | Sprint #       | Description       | Directed work |
-|------------|------------|----------------|-------------------|------------------------|
-| 02/02/2026 | W1  | Sprint 1 | | |
-| 09/02/2026 | W2  | Sprint 1 | | | 
-| 16/02/2026 | W3  | Sprint 2 | | |
-| 23/02/2026 | W4  | Sprint 2 | | |
-| 02/03/2026 | W5  | Sprint 3 | | |
-| 09/03/2026 | W6  | Sprint 3 | | |
-| 16/03/2026 | W7  | Sprint 4 | | |
-| 23/03/2026 | W8  | Sprint 4 | | |
-| 30/03/2026 | W9  | Sprint 5 | | | 
-| 06/04/2026 | W10 | Sprint 5 | | | 
-| 13/04/2026 | W11 | Sprint 6 | | |
+## Lecture schedule
+
+_The links to the lecture slides and directed work will always be provided shortly before the actual date._
+
+| Date       | Week #     | Sprint #       | Topic       | Course material | Directed work |
+|------------|------------|----------------|-------------------|------------------------|----------------|
+| 02/02/2026 | W1  | Sprint 1 | Introduction to MLOps | [Lecture slides](lectures/01_introduction_to_mlops.pdf) | |
+| 09/02/2026 | W2  | Sprint 1 | Git & CICD | [Lecture slides](lectures/02_git_cicd.pdf) | [Lab1](directed_work/01_git_cicd/README.md) |
+| 16/02/2026 | W3  | Sprint 2 | Data & cloud infrastructure | [Lecture slides](lectures/03_data_and_cloud_infrastructure.pdf) | [Lab2](directed_work/02_cloud_data/README.md) |
+| 23/02/2026 | W4  | Sprint 2 | Containerisation | [Lecture slides](lectures/04_containerisation.pdf) | |
+| 02/03/2026 | W5  | Sprint 3 | API implementation | |
+| 09/03/2026 | W6  | Sprint 3 | Model serving | |
+| 16/03/2026 | W7  | Sprint 4 | Microservices | |
+| 23/03/2026 | W8  | Sprint 4 | Serving & training optimisation | |
+| 30/03/2026 | W9  | Sprint 5 | Model pipeline | | 
+| 06/04/2026 | W10 | Sprint 5 | Monitoring & dashboarding | | 
+| 13/04/2026 | W11 | Sprint 6 | Agentic AI | |
 | 20/04/2026 | | | Holiday | |
 | 27/04/2026 | | | Holiday | |
-| 04/05/2026 | W12 | Sprint 6 | | |
-| 11/05/2026 | | | Milestone 3 presentation | |
+| 04/05/2026 | W12 | Sprint 6 | LLMOps & Trustworthy AI | |
+| 11/05/2026 | | | Project presentations | |
+
+
 
 ## Course culture
 
@@ -38,13 +44,16 @@ The links to the lecture slides and directed work will always be provided shortl
 2. **Directed work**: Directed work are there to learn how to use key tools widely used to build ML/AI systems. They've been cherry picked based on usability, performance, popularity and accessibility. 
 3. **Project**: You will apply the theoretical and technical learnings in one large group project. You will build a ML application in an engaging way - you're in the driving seat.
 
-## Topics covered
-
-**TODO**: Add topics covered during this course
 
 ## Project 
 
-All the project info can be found in the [project/project_description.pdf](project/project_description.pdf) document.
+All the project info can be found in the [project/project_instructions.pdf](project/project_instructions.pdf) document.
+
+### Milestones
+
+- MS1: You will pick a spot between the 2nd and the 5th of March. The exact spot available will be announced later.
+- MS2: You will pick a spot between the 30th of March and the 2nd of April. The exact spot available will be announced later.
+- MS3: Each group will present in the classroom, other groups can attend the presentation. It will be on the 11th of May.
 
 ## Exam 
 
@@ -54,7 +63,7 @@ The exam will take the form of an oral exam in which you will have to answer a s
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor)
   - Matthias Pirlet (Teaching Assistant)
-- **Communication**: Main communication point will be [Discord](link). Official communication might also be sent by email.
+- **Communication**: Main communication point will be Discord (link sent by email). Official communication might also be sent by email.
 - **Support**: After each class, there is dedicated time for students to work on their projects and ask questions to the teaching staff. 
 
 ## Resources
