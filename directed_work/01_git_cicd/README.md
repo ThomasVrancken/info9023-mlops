@@ -534,6 +534,18 @@ jobs:
 
         steps:
             - uses: actions/checkout@v4
+
+            - name: Set up Python
+              uses: actions/setup-python@v5
+              with:
+                python-version: '3.11'
+
+            - name: Install dependencies
+              run: |
+                python -m pip install --upgrade pip
+                pip install pytest
+                pip install -r requirements.txt
+
             - name: Run pre-commit hooks
               uses: pre-commit/action@v3.0.1
               with:
@@ -562,6 +574,8 @@ jobs:
               run: |
                 pytest tests/
 ```
+
+> **Note**: In this workflow, pytest runs **twice**: once as part of the pre-commit hooks (because we included a pytest hook in `.pre-commit-config.yaml`), and once in the dedicated `pytest` job. This is intentional, the pre-commit job catches issues early, while the dedicated pytest job provides a clear, separate check in your PR. This is also why the `pre-commit` job needs to install your project dependencies, without them, the pytest hook would fail. If you find the duplication unnecessary, you can remove the pytest hook from `.pre-commit-config.yaml` and rely solely on the dedicated `pytest` job in GitHub Actions.
 
 ### Pre-commit vs GitHub Actions: what's the difference?
 
