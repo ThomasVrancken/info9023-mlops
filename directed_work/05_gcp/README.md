@@ -156,7 +156,12 @@ built containers. A repository named [cloud-run-source-deploy] in region
 Do you want to continue (Y/n)?
 ```
 
-Type `Y` and press Enter. After a few minutes, you should see:
+Type `Y` and press Enter.
+
+> **What is Artifact Registry and why is it needed?** \
+> When you run `gcloud run deploy --source`, two things happen behind the scenes. Your Docker image is first built and pushed to Artifact Registry (GCP's private container registry), and then Cloud Run pulls that image and deploys it. In the past, you had to do these two steps manually (`docker push` then `gcloud run deploy --image`). Today, `gcloud run deploy --source` abstracts this into a single command, but the steps still happen in the background. You can verify this by searching for Artifact Registry in the GCP console, you will see your image stored there under the `cloud-run-source-deploy` repository.
+
+After a few minutes, you should see:
 
 ```
 Service [flask-app] revision [flask-app-000...] has been deployed and is
