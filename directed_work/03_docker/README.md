@@ -399,7 +399,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 COPY pyproject.toml uv.lock .
 
 # Install dependencies with UV (much faster)
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 # Copy application code
 COPY . .
@@ -414,7 +414,7 @@ Two things are new here:
 
 - `COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv`: we need UV inside our container, but it's not included in the Python base image. Instead of downloading and installing it (with `curl` or `pip`), we use `--from=` to copy the UV binary straight from an existing image that already contains it (`ghcr.io/astral-sh/uv:latest`). Think of it as borrowing a tool from another container's toolbox.
 
-- `uv sync --frozen --no-dev`: installs all dependencies from `uv.lock` exactly as pinned (`--frozen` prevents any lockfile update), skipping development-only packages (`--no-dev`). UV automatically creates a `.venv` virtual environment, which we then expose via `ENV PATH`.
+- `uv sync --frozen --no-dev --no-install-project`: installs all dependencies from `uv.lock` exactly as pinned (`--frozen` prevents any lock file update), skipping development-only packages (`--no-dev`). The `--no-install-project` flag is important. By default, `uv sync` also tries to install your project itself as a package, but at this point in the Dockerfile only `pyproject.toml` and `uv.lock` have been copied. Your source files (`train.py`, etc.) are not there yet. Without this flag, UV cannot find the source and exits with an error. UV automatically creates a `.venv` virtual environment, which we then expose via `ENV PATH`.
 
 ### 5.3. Multi-stage build with UV (recommended for production)
 
@@ -428,7 +428,7 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Install dependencies into a virtual environment
 COPY pyproject.toml uv.lock .
-RUN uv sync --frozen --no-dev
+RUN uv sync --frozen --no-dev --no-install-project
 
 # Stage 2: Runtime
 FROM python:3.13-slim
