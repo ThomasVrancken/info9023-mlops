@@ -45,6 +45,7 @@ directed_work/03_docker/*.py
 directed_work/03_docker/Dockerfile
 directed_work/03_docker/requirements.txt
 directed_work/04_flask/src/
+directed_work/04_flask/docker/
 directed_work/04_flask/requirements.txt
 directed_work/05_gcp/src/
 directed_work/05_gcp/Dockerfile

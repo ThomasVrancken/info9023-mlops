@@ -259,12 +259,31 @@ Visit `http://localhost:5000/hello/Alice` to see a rendered HTML page saying "He
 
 Now let's containerize your Flask application. Since you have already learned Docker in [Lab 3](../03_docker/README.md), this section focuses on the specifics of running Flask inside a container.
 
-### 4.1. Requirements File
+### 4.1. Project setup with UV
 
-First, create a `requirements.txt` listing your dependencies:
+As learned in Lab 3, use UV's native project mode to manage dependencies. From inside your project directory, run:
+
+```bash
+uv init --no-package .
+uv add flask
+```
+
+This creates a `pyproject.toml` and a `uv.lock` file. Also create a `.dockerignore` to prevent your local `.venv` from being copied into the container:
 
 ```
-flask==3.1.0
+.venv
+__pycache__
+*.pyc
+```
+
+Your project structure should look like this:
+
+```
+├── Dockerfile
+├── hello.py
+├── pyproject.toml
+├── uv.lock
+└── .dockerignore
 ```
 
 ### 4.2. Dockerfile
@@ -274,27 +293,29 @@ FROM python:3.13-slim
 
 WORKDIR /app
 
-# Install UV (borrowing the binary from its official image, as seen in Lab 3)
+# install UV
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-COPY requirements.txt .
-RUN uv pip install --system -r requirements.txt
+# Copy dependency files and install them
+COPY pyproject.toml uv.lock .
+RUN uv sync --frozen --no-dev --no-install-project
 
+# Copy application code
 COPY hello.py .
+
+# Add the virtual environment to PATH
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8080
 
-ENV FLASK_APP=hello.py
-
-CMD ["flask", "run", "--host=0.0.0.0", "--port=8080"]
+CMD ["flask", "--app", "hello", "run", "--host=0.0.0.0", "--port=8080"]
 ```
 
 A few Flask-specific points:
 
-- **`--host=0.0.0.0`**. By default, Flask only listens on `127.0.0.1` (localhost). Inside a container, that means only processes *inside* the container can reach it. Setting `0.0.0.0` makes Flask listen on all network interfaces, so requests from outside the container (your browser) can reach it.
+- **`--host=0.0.0.0`**. By default, Flask only listens on `127.0.0.1` (localhost). Inside a container, that means only processes *inside* the container can reach it. Setting `0.0.0.0` makes Flask listen on all network interfaces, so requests from outside the container (your browser) can reach it. Note: this does not make your server publicly accessible on the internet, that depends on your network and firewall setup.
 - **`--port=8080`**. Flask defaults to port 5000 (as we used in the earlier sections), but port 8080 is the standard convention for containerized web applications. Without this flag, Flask would listen on 5000 inside the container, and we would need `-p 9090:5000` instead.
-- **`ENV FLASK_APP=hello.py`**. Tells the `flask run` command which file contains your application.
-- **`uv pip install --system`**. As you learned in Lab 3, the `--system` flag tells UV to install packages directly into the container's Python instead of creating a virtual environment.
+- **`flask --app hello`**. Tells Flask which file contains your application (`hello.py`). This replaces the `FLASK_APP` environment variable used in older versions.
 
 > **Why no multi-stage build here?** \
 > In Lab 3 we saw that multi-stage builds discard build-time tools (like UV) and caches to keep the final image small. That matters when your dependencies are heavy (numpy, PyTorch, etc.) and the build leftovers add hundreds of megabytes. Here, Flask is a tiny dependency and UV itself is only ~30 MB, so the size savings would be negligible. A single-stage build keeps the Dockerfile simpler without a meaningful trade-off.
