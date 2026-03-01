@@ -28,6 +28,12 @@ agents/
 # Lab specific directories to be ignored
 demos/04_gcs_bq/cloud_storage.ipynb
 directed_work/03_docker/Dockerfile
+directed_work/03_docker/.dockerignore
+directed_work/03_docker/app.py
+directed_work/03_docker/README.md.backup
+directed_work/03_docker/requirements.txt
+directed_work/04_flask/src/
+directed_work/04_flask/requirements.txt
 directed_work/03_docker/app.py
 directed_work/03_docker/.dockerignore
 directed_work/03_docker/README.md.backup
@@ -49,6 +55,8 @@ directed_work/04_vertex/houseprice_pipeline.json
 directed_work/04_vertex/*.yaml
 directed_work/04_vertex/src/
 directed_work/04_vertex/run_pipeline.py
+directed_work/05_gcp/Dockerfile
+directed_work/05_gcp/src/
 directed_work/04_flask/src/
 directed_work/04_flask/requirements.txt
 directed_work/05_gcp/*
