@@ -61,3 +61,9 @@ directed_work/05_gcp/src/
 directed_work/04_flask/src/
 directed_work/04_flask/requirements.txt
 directed_work/05_gcp/*
+directed_work/06_vertex/Dockerfile
+directed_work/06_vertex/src/
+directed_work/06_vertex/.python-version
+directed_work/06_vertex/pyproject.toml
+directed_work/06_vertex/run_pipeline.py
+directed_work/06_vertex/uv.lock
