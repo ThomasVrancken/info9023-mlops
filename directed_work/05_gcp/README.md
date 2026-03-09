@@ -125,6 +125,24 @@ You already set up your GCP environment in [Lab 2](../02_cloud_data/README.md) (
 
 ## 3. Deploy to Cloud Run
 
+### 3.0. Grant Cloud Build permissions
+
+On new GCP projects, the default Compute Engine service account does not have Cloud Build permissions, which causes the deploy command to fail. Run this once before deploying. First get your project number:
+
+```bash
+gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)"
+```
+
+Then grant the Cloud Build Builder role using that number:
+
+```bash
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+  --member="serviceAccount:YOUR_PROJECT_NUMBER-compute@developer.gserviceaccount.com" \
+  --role="roles/cloudbuild.builds.builder"
+```
+
+### 3.1. Run the deploy command
+
 From your lab folder (where the `Dockerfile` is), run:
 
 ```bash
@@ -174,9 +192,9 @@ Visit the Service URL in your browser. You should see "Hello World".
 
 > More information on scaling configuration (scaling to zero) can be found here: [Cloud Run autoscaling](https://cloud.google.com/run/docs/about-instance-autoscaling).
 
-### 3.1. Troubleshooting
+### 3.2. Troubleshooting
 
-**PERMISSION_DENIED error:**
+**PERMISSION_DENIED (wrong account):**
 
 ```
 ERROR: (gcloud.run.deploy) PERMISSION_DENIED: The caller does not have permission
