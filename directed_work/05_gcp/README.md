@@ -25,22 +25,23 @@ Before deploying your full ML API, let's walk through the process with a minimal
 
 ### 1.1. Project structure
 
-Create the following files inside this lab's folder
+Start by initializing a UV project and adding the two dependencies:
+
+```bash
+uv init --no-package .
+uv add flask==3.1.0 gunicorn==23.0.0
+```
+
+This generates `pyproject.toml` and `uv.lock`. Then create `Dockerfile` and `hello.py` by hand. Your folder should look like this:
 
 ```
 ├── Dockerfile
-├── requirements.txt
+├── pyproject.toml
+├── uv.lock
 └── hello.py
 ```
 
 ### 1.2. Application code
-
-**`requirements.txt`**
-
-```txt
-flask==3.1.0
-gunicorn==23.0.0
-```
 
 **`hello.py`**
 
@@ -73,10 +74,14 @@ WORKDIR /app
 # Install UV (borrowing the binary from its official image, as seen in Lab 3)
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-COPY requirements.txt .
-RUN uv pip install --system -r requirements.txt
+# Copy dependency files first so Docker can cache this layer
+COPY pyproject.toml uv.lock .
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY hello.py .
+
+# Expose the venv binaries (gunicorn, flask, etc.)
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8080
 
@@ -84,10 +89,11 @@ CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "hello:a
 ```
 
 A few points
+- **`uv sync --frozen --no-dev --no-install-project`** installs exactly the versions pinned in `uv.lock` into a `.venv` inside the container. `--frozen` prevents uv from modifying the lock file. `--no-dev` skips development-only dependencies. `--no-install-project` skips trying to install your own code as a package (you only need the dependencies here, not a package install of your source).
+- **`ENV PATH="/app/.venv/bin:$PATH"`** makes the venv's binaries (gunicorn, flask, etc.) available without activating the venv explicitly.
 - **`gunicorn --bind :8080`** tells Gunicorn to listen on port 8080 inside the container. You will never interact with this port directly (Cloud Run gives you a public HTTPS URL), but Cloud Run forwards incoming requests to port 8080 by default, so your container must listen on it.
 - **`--workers 1 --threads 8`** runs one worker process with 8 threads. This is a reasonable default for a small API. More workers use more memory, which costs more on Cloud Run.
 - **`hello:app`** tells Gunicorn to look for the Flask object named `app` inside the file `hello.py`. If you name your file or your Flask variable differently, adjust this accordingly.
-- We use UV to install dependencies, as learned in Lab 3.
 
 ### 1.4. Test locally
 
@@ -117,20 +123,15 @@ You already set up your GCP environment in [Lab 2](../02_cloud_data/README.md) (
 2. A **GCP project** with billing enabled and credits available.
 3. **Authentication** configured (`gcloud auth login`).
 
-If you need to switch to a different project, use:
-
-```bash
-gcloud config set project YOUR_PROJECT_ID
-```
-
 ## 3. Deploy to Cloud Run
 
 From your lab folder (where the `Dockerfile` is), run:
 
 ```bash
-gcloud run deploy flask-app --region=europe-west1 --source=$(pwd) --allow-unauthenticated
+gcloud run deploy flask-app --project=YOUR_PROJECT_ID --region=europe-west1 --source=$(pwd) --allow-unauthenticated
 ```
 
+- **`--project=YOUR_PROJECT_ID`** explicitly targets your GCP project. Always pass this rather than relying on a global default, which can silently use the wrong project.
 - **`--region=europe-west1`** deploys to a European data center (Belgium).
 - **`--source=$(pwd)`** tells Cloud Run to build the Docker image from the current directory using Cloud Build.
 - **`--allow-unauthenticated`** makes the service publicly accessible. Without this flag, only authenticated users could call your API.
@@ -238,7 +239,7 @@ You can find the full pricing details here: [Cloud Run Pricing](https://cloud.go
 
 **Requirements**
 
-1. Adapt your Lab 4 Flask application to use Gunicorn (add it to `requirements.txt` and update your `Dockerfile`).
+1. Adapt your Lab 4 Flask application to use Gunicorn (add it with `uv add gunicorn` and update your `Dockerfile` to use `uv sync` as shown in section 1.3).
 2. Deploy your application to Cloud Run.
 3. Verify that your `/predict` endpoint works on the deployed URL using `curl`.
 4. :warning: All optional features from Lab 4 (PUT endpoint) must be implemented and working in the deployed version to get full marks.
@@ -248,6 +249,7 @@ You can find the full pricing details here: [Cloud Run Pricing](https://cloud.go
 Submit the following on **Gradescope**:
 1. The URL of your deployed Cloud Run service in a `.txt` file.
 2. A `curl` command (or screenshot) showing a successful prediction request to your deployed API.
+3. Put these 2 files in a zip archive and submit to Gradescope.
 
 > Thanks to [scaling to zero](https://cloud.google.com/run/docs/about-instance-autoscaling), your app will not consume resources when there is no traffic, so you can leave it running without significant cost. Still, remember to clean up your resources (Section 5) once grading is complete.
 
