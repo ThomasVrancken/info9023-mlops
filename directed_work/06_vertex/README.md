@@ -27,13 +27,16 @@ Vertex AI is Google Cloud's unified platform for building, training, and deployi
 The key advantage of Vertex AI is that it's a fully managed platform, meaning you can focus on the ML aspects rather than infrastructure management. It handles scaling, security, and maintenance automatically in a serverless way.
 
 ### 2.2. Required IAM permissions
-The Vertex AI service agent needs read access to Artifact Registry to pull your pipeline component images. Run these two commands in order.
+
+As seen in Lab 5, GCP services do not run as you: they run under a service account, a non-human identity that must be granted explicit permissions to access resources. Vertex AI is no exception. When it runs your pipeline, it uses its own Google-managed service account called the Vertex AI service agent.
+
+In this lab, each pipeline component runs inside a Docker container stored in Artifact Registry. Vertex AI pulls that image on your behalf using its service agent identity. Because the service agent is the one making the request, not you, it needs read access to your Artifact Registry repository. Without that permission, the pipeline fails before a single line of your component code ever runs.
+
+Run these two commands in order to create the service identity and grant it that access.
 
 First, create the service identity (this also prints its email)
 ```bash
-gcloud beta services identity create \
-  --service=aiplatform.googleapis.com \
-  --project=YOUR_PROJECT_ID
+gcloud beta services identity create --service=aiplatform.googleapis.com --project=YOUR_PROJECT_ID
 ```
 
 It will print something like
@@ -43,9 +46,7 @@ Service identity created: service-YOUR_PROJECT_NUMBER@gcp-sa-aiplatform.iam.gser
 
 Then grant it the Artifact Registry Reader role using that email
 ```bash
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
-  --member="serviceAccount:service-YOUR_PROJECT_NUMBER@gcp-sa-aiplatform.iam.gserviceaccount.com" \
-  --role="roles/artifactregistry.reader"
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member="serviceAccount:service-YOUR_PROJECT_NUMBER@gcp-sa-aiplatform.iam.gserviceaccount.com" --role="roles/artifactregistry.reader"
 ```
 
 Without this, the pipeline will fail with a permission error when trying to pull your component image from Artifact Registry.
@@ -57,7 +58,7 @@ The typical workflow in Vertex AI consists of several steps:
 1. Components Definition. First, we define the individual steps of our ML workflow as components using the Kubeflow Pipelines SDK. These components can be
    - Custom code components that you write.
    - Pre-built components from Vertex AI's component library.
-   - Each component runs in its own Docker container, which we push to Google Cloud's Artifact Registry.
+   - Each component runs in its own container instance. All components share the same base image, which is pushed once to Google Cloud's Artifact Registry.
 
 2. Pipeline Creation. We chain these components together to create a pipeline. The pipeline defines
    - The sequence of component execution.
@@ -78,94 +79,132 @@ The typical workflow in Vertex AI consists of several steps:
 
 ## 3. Example with the house price prediction dataset
 
-### 3.1. Dataset and requirements setup
+### 3.1. Dataset setup
 
-#### Dataset overview
-We'll be using the [Housing Prices Dataset](https://www.kaggle.com/datasets/yasserh/housing-prices-dataset?resource=download) from Kaggle. This dataset contains information about house prices and various features including
-- Square footage;
-- Number of bedrooms;
-- Number of bathrooms;
-- Year built;
-- And other relevant features.
+We will be using the [Housing Prices Dataset](https://www.kaggle.com/datasets/yasserh/housing-prices-dataset?resource=download) from Kaggle. It contains information about house prices and features such as square footage, number of bedrooms, number of bathrooms, and year built.
 
-Before starting with the pipeline, you need to:
-1. Download the dataset from Kaggle
-2. Use the GCS bucket you created in Lab 2 for pipeline artifacts. If you don't have one, create it:
-```bash
-gsutil mb -l europe-west1 -p YOUR_PROJECT_ID gs://YOUR_BUCKET_NAME
+1. Download the dataset from Kaggle and place the CSV at `data/Housing.csv`.
+
+2. Make sure you have a GCS bucket for pipeline artifacts. Vertex AI uses GCS to store intermediate outputs passed between components (the ingested CSV, the preprocessed dataset, the trained model) and the compiled pipeline JSON. If you do not have one from Lab 2, create it.
+
+    ```bash
+    gsutil mb -l europe-west1 -p YOUR_PROJECT_ID gs://YOUR_BUCKET_NAME
+    ```
+
+3. Load the dataset into BigQuery. This is how data lives in production ML systems, not as local CSV files. First create a BigQuery dataset, then load the CSV into a table.
+
+    ```bash
+    bq mk --location=europe-west1 --project_id=YOUR_PROJECT_ID housing_dataset
+    bq load --project_id=YOUR_PROJECT_ID --autodetect --source_format=CSV housing_dataset.housing data/Housing.csv
+    ```
+
+The pipeline will query this BigQuery table directly. Think of BigQuery as the data source and GCS as the shared workspace between pipeline steps.
+
+### 3.2. Understanding the pipeline
+
+Before installing anything, read through the pipeline design so you understand what you are building and what each component needs.
+
+The pipeline trains a house price prediction model. It follows a production-realistic pattern. BigQuery exports the raw data to GCS as Parquet files, a preprocessing component cleans and encodes the data, a PyTorch MLP trains on it in mini-batches, and an evaluation component measures performance.
+
+> This dataset has only 500 rows, which makes mini-batch training overkill. A single forward pass would be fast enough. The architecture is deliberately chosen to teach the production pattern. In a real system with millions of rows you would not load everything into memory, so the DataLoader-based approach generalizes. Keep that in mind as you implement.
+
+The pipeline is made of four components that run in sequence.
+
+1. **Data ingestion** triggers a BigQuery export job that writes the raw table to GCS as Parquet files. No data passes through Python memory.
+2. **Preprocessing** reads the Parquet files, scales numerical features, encodes categorical ones, and writes the result back to GCS as Parquet.
+3. **Training** reads the preprocessed Parquet, wraps it in a PyTorch `Dataset` and `DataLoader`, trains a simple MLP, and saves the model weights.
+4. **Evaluation** reloads the model, runs predictions, and logs metrics. Optionally generates an HTML report.
+
+Each component is a Python function decorated with `@component`. When you run `compiler.Compiler().compile()` locally, KFP serializes each function's source code and encodes it into a pipeline spec (the `houseprice_pipeline.json` file). When the pipeline runs on Vertex AI, for each component it pulls the `base_image` specified in `@component`, starts a container from it, injects the serialized function code as a temporary script, and executes it. Artifact references are passed automatically between components.
+
+There is one critical rule about imports. Each component file has two distinct import zones.
+
+At the top of the file, you place the KFP imports needed to define the component and its type annotations. These run on your local machine when Python parses the file.
+
+```python
+from kfp.dsl import component, Input, Output, Dataset, Model, Metrics, HTML
+from config import BASE_IMAGE
 ```
-> Even though data now comes from BigQuery, GCS is still required. Vertex AI uses it to store intermediate outputs passed between components (the CSV produced by data ingestion, the preprocessed dataset, the trained model file) and the compiled pipeline JSON. Think of BigQuery as the data source and GCS as the shared workspace between pipeline steps.
-3. Load the dataset into BigQuery. This is how data is stored in production ML systems, not as local CSV files. First create a BigQuery dataset, then load the CSV into a table:
-```bash
-# Create a BigQuery dataset
-bq mk --location=europe-west1 --project_id=YOUR_PROJECT_ID housing_dataset
 
-# Load the CSV directly into BigQuery
-bq load --project_id=YOUR_PROJECT_ID --autodetect --source_format=CSV housing_dataset.housing data/Housing.csv
-```
+Inside the function body, you place everything else (pandas, torch, bigquery, scikit-learn, etc.). These run inside the container on Vertex AI. The container has no knowledge of your local environment, so any library the function needs must be imported locally inside it.
 
-> Download the CSV from Kaggle first and place it at `data/Housing.csv` before running this command.
+In KFP v2, each artifact has two properties. `.uri` is the GCS URI (`gs://bucket/...`). `.path` is the local filesystem path inside the container, backed by a GCS FUSE mount at `/gcs/`. For all file reads and writes inside a component (pandas, torch, open), always use `.path`. The only exception is `data_ingestion`, where the BigQuery export API needs the GCS URI to write files directly. If you pass `.uri` to pandas, pyarrow will strip the `gs://` prefix and look for a local file that does not exist.
 
-The pipeline will query this BigQuery table directly instead of reading a CSV file. This mirrors real-world MLOps where data lives in a data warehouse, not in flat files.
+#### 3.2.1. Data ingestion
 
-#### Required dependencies
-As seen in previous labs, use UV to manage dependencies. From inside your project directory:
+Uses the BigQuery client to trigger a native export job. BigQuery writes the table directly to GCS as Parquet files in parallel, without loading any data into Python memory. The GCS prefix where the files land is stored as an `Output[Dataset]` artifact so the next component can find them. This component is already fully implemented.
+
+#### 3.2.2. Preprocessing
+
+Reads the Parquet files from the ingestion artifact using pandas, applies transformations, and writes the preprocessed result back as Parquet. You need to implement the following.
+
+- Identify numerical and categorical columns.
+- Scale numerical features using `StandardScaler`.
+- Encode categorical features using `OneHotEncoder`.
+- Create the output directory with `os.makedirs(preprocessed_dataset.path, exist_ok=True)`.
+- Save the result with `df_processed.to_parquet(preprocessed_dataset.path + "/data.parquet")`.
+
+#### 3.2.3. Training
+
+Reads the preprocessed Parquet from GCS, builds a PyTorch `Dataset` and `DataLoader`, defines a simple MLP, and trains it using Adam and MSE loss. You need to implement the following.
+
+- A `torch.utils.data.Dataset` subclass that loads the Parquet and returns `(features, target)` tensors.
+- A train/validation split.
+- The MLP architecture using `nn.Linear` layers with `nn.ReLU` activations.
+- The training loop.
+- Logging MSE and R2 to the `metrics` artifact.
+- Saving the checkpoint with `torch.save({...}, model.path)`. Save `input_size` and `hidden_size` alongside the state dict so evaluation can rebuild the architecture without hardcoding.
+
+#### 3.2.4. Evaluation
+
+Rebuilds the same MLP architecture, loads the saved weights, runs predictions on the validation set, and logs metrics. You need to implement the following.
+
+- Rebuild the MLP using `input_size` and `hidden_size` read from the checkpoint (the architecture must match training exactly).
+- Load weights with `torch.load(model.path)` which returns the dict you saved.
+- Run predictions.
+- Compute and log MSE and R2.
+- (Optional) Generate an HTML report and write it to `html.path`.
+
+### 3.3. Project setup
+
+Now that you know what the pipeline does and what each component needs, install the dependencies. From inside your project directory:
 
 ```bash
 uv init --no-package .
-uv add kfp==2.7.0 google-cloud-aiplatform==1.42.1 google-cloud-bigquery==3.17.2 google-cloud-bigquery-storage==2.24.0 google-cloud-storage==2.14.0 google-auth==2.27.0 pandas==2.1.0 scikit-learn==1.3.0 matplotlib==3.8.0 seaborn==0.13.0
+uv add kfp google-cloud-aiplatform google-cloud-bigquery google-cloud-bigquery-storage google-cloud-storage google-auth pandas pyarrow gcsfs scikit-learn torch matplotlib seaborn
 ```
 
-This generates a `pyproject.toml` and a `uv.lock` file. Both are used by the Dockerfile to install dependencies reproducibly inside the pipeline component containers.
+This generates a `pyproject.toml` and a `uv.lock` file. Both are used by the Dockerfile in the next step to install dependencies reproducibly inside the pipeline containers.
 
-#### Project structure
-Your project directory should look like this:
-```
-06_vertex/
-├── Dockerfile
-├── pyproject.toml
-├── uv.lock
-├── run_pipeline.py
-├── data/
-│   └── Housing.csv
-└── src/
-    ├── __init__.py
-    ├── data_ingestion.py
-    ├── preprocessing.py
-    ├── training.py
-    └── evaluation.py
-```
-
-Running the pipeline will also generate files at the root level that you do not need to create or commit:
-- `data_ingestion.yaml`, `preprocessing.yaml`, etc.: component spec files exported by the `output_component_file` parameter in each `@component` decorator. They are not required for the pipeline to run. The pipeline executes from the Python functions directly. They are just a way to export a reusable component spec without the Python source.
-- `houseprice_pipeline.json`: the compiled pipeline definition produced by `compiler.Compiler().compile()`. It is read immediately by `PipelineJob` in the same script and is stale after every run, so there is no point committing it.
-
-Both are gitignored.
-
-#### Initial setup code (`run_pipeline.py`)
-At the top of `run_pipeline.py`, import the necessary libraries and define your configuration constants:
+At the top of `run_pipeline.py`, add the necessary imports and configuration constants.
 
 ```python
 from kfp import dsl, compiler
 from kfp.dsl import Dataset, Input, Model, Output, Metrics, HTML, component
 from google.cloud import aiplatform
 
+PROJECT_ID    = "your-project-id"
+BUCKET_NAME   = "gs://your-bucket-name"
+BQ_DATASET    = "housing_dataset"
+BQ_TABLE      = "housing"
+REGION        = "europe-west1"
 PIPELINE_ROOT = f"{BUCKET_NAME}/pipeline_root_houseprice/"
+BASE_IMAGE    = f"{REGION}-docker.pkg.dev/{PROJECT_ID}/vertex-ai-pipeline-example/pipeline-base:latest"
 ```
 
-Key points about the imports:
-- `kfp`: The Kubeflow Pipelines SDK v2. Note: the correct import is `from kfp import ...`, not `from kfp.v2 import ...` (which was the old deprecated style).
-- `dsl`: Domain Specific Language for defining pipeline components and workflows.
-- `Dataset`, `Model`, etc.: Special types for handling ML-specific data and artifacts.
-- `compiler`: For compiling the pipeline definition to a JSON file that Vertex AI can execute.
+A few notes on the imports:
+- `from kfp import ...` is the correct KFP v2 style. The old `from kfp.v2 import ...` is deprecated.
+- `Dataset`, `Model`, `Metrics`, `HTML` are special artifact types that Vertex AI tracks and passes between components.
+- `PIPELINE_ROOT` tells Vertex AI where to write all intermediate artifacts in GCS.
 
-The `PIPELINE_ROOT` constant defines where all pipeline artifacts (intermediate datasets, models, metrics) will be stored in GCS.
+`houseprice_pipeline.json` will also be generated at runtime: it is the compiled pipeline definition produced by `compiler.Compiler().compile()`. It is read immediately by `PipelineJob` in the same script and is stale after every run, so there is no point committing it. Add it to `.gitignore`.
 
-### 3.2. Setting up the Docker base Image
+### 3.4. Setting up the Docker base image
 
-Before creating pipeline components, you need a Docker base image stored in Artifact Registry. This is the image Vertex AI will use to run each component.
+Now that you know what the pipeline components need, you can build a Docker image that contains all their dependencies. This is the image Vertex AI will pull and use to run each component.
 
-1. First, create a Dockerfile that will serve as our base image for the components:
+1. Create the following Dockerfile at the root of your project directory.
+
 ```Dockerfile
 FROM mirror.gcr.io/library/python:3.11-slim
 
@@ -175,253 +214,192 @@ WORKDIR /app
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 # Copy dependency files
-COPY pyproject.toml uv.lock .
+COPY pyproject.toml uv.lock ./
 
-# Install dependencies system-wide (no venv this is a base image for pipeline components)
-RUN uv export --frozen --no-hashes | uv pip install --system --no-cache -r -
-
-# Copy source code
-COPY src /app/src
+# Install dependencies system-wide (no venv: this is a base image for pipeline components)
+RUN uv export --frozen --no-dev --no-hashes -o /tmp/requirements.txt && \
+    uv pip install --system -r /tmp/requirements.txt
 
 ENTRYPOINT ["bash"]
 ```
 
 Key points about this Dockerfile:
-- We use `mirror.gcr.io/library/python:3.11-slim` (a GCR mirror) because it's faster to pull inside GCP and maintained by Google.
-- UV is copied from its official image, as seen in Lab 3.
-- `uv export --frozen --no-hashes` generates a pinned list of all packages from `uv.lock`, which is then piped to `uv pip install --system`. This installs exact versions reproducibly, system-wide (no virtual environment).
-- `ENTRYPOINT ["bash"]` is required by Vertex AI: it keeps the container available so the platform can inject and run each component's code.
 
-> **Why `uv pip install --system` here instead of `uv sync` like in Labs 3, 4, and 5?** \
-> In previous labs, the Dockerfile built a self-contained **application container**: your code, your dependencies, your entrypoint everything runs inside one container that you fully control. There, `uv sync` creates a `.venv` inside the container and you expose it via `ENV PATH="/app/.venv/bin:$PATH"`. The container starts, Flask runs, done.
->
-> Here, the situation is fundamentally different. This Docker image is not an application it is a **base image** that Vertex AI uses as a runtime environment for each pipeline component. When Vertex AI runs a component, it takes this image, injects the component's code into it at runtime, and executes it. Vertex AI does this automatically, without activating any virtual environment first. If packages are inside a `.venv`, Vertex AI won't find them.
->
-> This is why we use `--system`: packages must be installed directly into the system Python, not into a virtual environment. Same tool (UV), same lock file, different installation target.
+- **`mirror.gcr.io/library/python:3.11-slim`** is a mirror of the official Python image hosted on GCR (Google Container Registry), Google's own Docker image registry. It is faster to pull inside GCP than pulling from Docker Hub, and it avoids Docker Hub rate limits.
+- **UV** is copied from its official image, as seen in Lab 3.
+- The two-step `RUN` installs your dependencies system-wide.
+  - `uv sync` always creates a virtual environment (`.venv`). That is the right behavior for a developer machine or an application container (as in Labs 3, 4, and 5) because it keeps dependencies isolated. Here it would be wrong. This image is not a self-contained application. It is a base image that Vertex AI uses as a runtime environment. When Vertex AI runs a component, it injects the component's code into the container at runtime and executes it directly, without activating any virtual environment. If packages live inside a `.venv`, Vertex AI cannot find them and the component fails with `ModuleNotFoundError`.
+  - `uv export` reads `uv.lock` and writes a flat `requirements.txt` with exact pinned versions. `--no-hashes` removes the hash annotations that `pip` does not need here. `--frozen` means uv will fail rather than silently update any package.
+  - `uv pip install --system` installs into the system Python directly, without creating a `.venv`. Packages end up in `/usr/local/lib/python3.11/site-packages/`, which is where any `python` invocation finds them regardless of who called it.
+  - `--no-dev` skips development dependencies (test frameworks, linters, etc.) that have no place in a production image.
+- **`ENTRYPOINT ["bash"]`** is required by Vertex AI. It keeps the container alive so the platform can inject and execute each component's script inside it.
 
-2. Set up your environment variables:
+2. Create an Artifact Registry repository. As seen in Lab 5, Artifact Registry is GCP's private container registry: the place where Docker images are stored before being pulled and run. In Lab 5, Cloud Run used it automatically in the background. Here, you interact with it directly: you push your base image to it, and Vertex AI pulls it from there whenever it runs a pipeline component.
+
 ```bash
-PROJECT_ID="your-project-id"
-REGION="europe-west1"
-REPOSITORY="vertex-ai-pipeline-example"
-IMAGE_NAME="training"
-IMAGE_TAG="latest"
-```
-
-3. Create an Artifact Registry repository:
-```bash
-gcloud beta artifacts repositories create $REPOSITORY \
+gcloud beta artifacts repositories create vertex-ai-pipeline-example \
     --repository-format=docker \
-    --location=$REGION \
+    --location=europe-west1 \
+    --project=YOUR_PROJECT_ID \
     --description="Repository for Vertex AI pipeline components"
 ```
 
-4. Configure Docker to authenticate with Artifact Registry:
+3. Configure Docker to authenticate with Artifact Registry. By default, Docker does not know how to authenticate against GCP registries. This command tells Docker to use your gcloud credentials whenever it talks to `europe-west1-docker.pkg.dev`. It does not touch any specific project, it configures authentication for the registry hostname. Your project ID will appear later, in the image path itself.
+
 ```bash
-gcloud auth configure-docker $REGION-docker.pkg.dev
+gcloud auth configure-docker europe-west1-docker.pkg.dev
 ```
 
-5. Build and tag your Docker image:
+4. Build and tag the base image. Run this from the directory containing your Dockerfile.
+
 ```bash
-# For macOS users, specify the platform explicitly
-docker build --platform linux/amd64 -t $IMAGE_NAME:$IMAGE_TAG .
-# Tag the image for Artifact Registry
-docker tag $IMAGE_NAME:$IMAGE_TAG \
-    $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG
+docker build --platform linux/amd64 -t pipeline-base:latest .
 ```
 
-6. Push the image to Artifact Registry:
+> The `--platform linux/amd64` flag is mandatory. GCP runs on Linux x86-64. If you are on an Apple Silicon Mac (M1, M2, M3, M4), your machine builds ARM images by default. Vertex AI cannot run an ARM image and the pipeline will fail at startup with a cryptic error. Always specify the platform explicitly, regardless of what machine you are on.
+
+Then tag the image with its full Artifact Registry path so Docker knows where to push it.
+
 ```bash
-docker push $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG
+docker tag pipeline-base:latest \
+    europe-west1-docker.pkg.dev/YOUR_PROJECT_ID/vertex-ai-pipeline-example/pipeline-base:latest
 ```
 
-7. Now you can use this image in your components:
-```python
-@component(
-    base_image=f"{REGION}-docker.pkg.dev/{PROJECT_ID}/{REPOSITORY}/{IMAGE_NAME}:{IMAGE_TAG}"
-)
-def your_component():
-    # Your component code here
-    pass
+5. Push the image to Artifact Registry.
+
+```bash
+docker push europe-west1-docker.pkg.dev/YOUR_PROJECT_ID/vertex-ai-pipeline-example/pipeline-base:latest
 ```
 
-The `--platform linux/amd64` flag in the build command is important for macOS users: GCP runs on Linux x86-64, so building without it on Apple Silicon would produce an incompatible ARM image. You can verify your image was pushed correctly in the GCP console under Artifact Registry.
+You can verify the image was pushed correctly by navigating to Artifact Registry in the GCP console.
 
-## 4. Understanding the components
+## 4. Implementing the components
 
-Let's go through each component in our pipeline:
-
-### 4.1: Data ingestion component
-This component queries BigQuery and saves the result as a CSV artifact for the next step:
+With the Docker image pushed, you can now write the component code. Each component goes in its own file inside `src/`. Start by creating `src/config.py` with the `BASE_IMAGE` constant so every component file can import it.
 
 ```python
-@component(
-    base_image=BASE_IMAGE,
-    output_component_file="data_ingestion.yaml"
-)
+# src/config.py
+BASE_IMAGE = "europe-west1-docker.pkg.dev/YOUR_PROJECT_ID/vertex-ai-pipeline-example/pipeline-base:latest"
+```
+
+### 4.1. Data ingestion
+
+This component is already fully implemented. Read it carefully and pay attention to how `dataset.uri` gives the GCS path that BigQuery exports to, and how the BigQuery project, dataset, and table are passed as parameters rather than hardcoded.
+
+```python
+# src/data_ingestion.py
+from kfp.dsl import component, Output, Dataset
+from config import BASE_IMAGE
+
+@component(base_image=BASE_IMAGE)
 def data_ingestion(
     bq_project: str,
     bq_dataset: str,
     bq_table: str,
     dataset: Output[Dataset]
 ):
-    """
-    Loads the house price dataset from BigQuery.
-
-    Args:
-        bq_project: GCP project ID
-        bq_dataset: BigQuery dataset name
-        bq_table: BigQuery table name
-        dataset: Output artifact to store the dataset
-    """
     from google.cloud import bigquery
-    import pandas as pd
-
-    print(f"Querying BigQuery: {bq_project}.{bq_dataset}.{bq_table}")
 
     client = bigquery.Client(project=bq_project)
-    query = f"SELECT * FROM `{bq_project}.{bq_dataset}.{bq_table}`"
-    df = client.query(query).to_dataframe()
-
-    print(f"Dataset shape: {df.shape}")
-    df.to_csv(dataset.path, index=False)
-    print(f"Dataset saved to: {dataset.path}")
+    extract_job = client.extract_table(
+        f"{bq_project}.{bq_dataset}.{bq_table}",
+        destination_uris=[f"{dataset.uri}/*.parquet"],
+        job_config=bigquery.ExtractJobConfig(
+            destination_format=bigquery.DestinationFormat.PARQUET
+        )
+    )
+    extract_job.result()
+    print(f"Exported to {dataset.uri}")
 ```
 
-Notice that the component now takes `bq_project`, `bq_dataset`, and `bq_table` as parameters instead of hardcoding a GCS path. This makes the pipeline reusable across different projects and datasets. These parameters are passed in when assembling the pipeline.
-
-### 4.2: Data preprocessing component
-This component cleans and prepares the data for training:
+### 4.2. Preprocessing
 
 ```python
-@component(
-    base_image=BASE_IMAGE,
-    output_component_file="preprocessing.yaml"
-)
+# src/preprocessing.py
+from kfp.dsl import component, Input, Output, Dataset
+from config import BASE_IMAGE
+
+@component(base_image=BASE_IMAGE)
 def preprocessing(
     input_dataset: Input[Dataset],
     preprocessed_dataset: Output[Dataset],
 ):
-    """
-    Preprocesses the dataset for training.
-    
-    Args:
-        input_dataset: Input dataset from the data ingestion step
-        preprocessed_dataset: Output artifact for the preprocessed dataset
-    """
+    import os
     import pandas as pd
     from sklearn.preprocessing import StandardScaler, OneHotEncoder
-    
-    # Load the dataset
-    df = pd.read_csv(input_dataset.path)
 
-    # TO DO:
-    # 2. Scale numerical features.
-    # 3. Encode categorical features.
-    # 4. Save the preprocessed dataset to the output artifact.
-    
-    # Save preprocessed dataset
-    df_processed.to_csv(preprocessed_dataset.path, index=False)
-    print(f"Preprocessed dataset saved to: {preprocessed_dataset.path}")
+    df = pd.read_parquet(input_dataset.path)
+
+    # TODO: identify numerical and categorical columns
+    # TODO: scale numerical features with StandardScaler
+    # TODO: encode categorical features with OneHotEncoder
+    # TODO: os.makedirs(preprocessed_dataset.path, exist_ok=True)
+    # TODO: df_processed.to_parquet(preprocessed_dataset.path + "/data.parquet")
 ```
 
-### 4.3: Model training component
-This component trains the model using the preprocessed data:
+### 4.3. Training
 
 ```python
-@component(
-    base_image=BASE_IMAGE,
-    output_component_file="training.yaml"
-)
+# src/training.py
+from kfp.dsl import component, Input, Output, Dataset, Model, Metrics
+from config import BASE_IMAGE
+
+@component(base_image=BASE_IMAGE)
 def training(
     preprocessed_dataset: Input[Dataset],
     model: Output[Model],
     metrics: Output[Metrics],
     hyperparameters: dict
 ):
-    """
-    Trains the model on the preprocessed dataset.
-    
-    Args:
-        preprocessed_dataset: Input preprocessed dataset
-        model: Output artifact for the trained model
-        metrics: Output artifact for training metrics
-        hyperparameters: Dictionary of hyperparameters
-    """
     import pandas as pd
-    import joblib
-    from sklearn.model_selection import train_test_split
-    from sklearn.ensemble import RandomForestRegressor
+    import torch
+    import torch.nn as nn
+    from torch.utils.data import Dataset, DataLoader
     from sklearn.metrics import mean_squared_error, r2_score
-    
-    # Load preprocessed dataset
-    df = pd.read_csv(preprocessed_dataset.path)
 
-    # TO DO:
-    # 1. Split features and target.
-    # 2. Split into train and validation sets.
-    # 3. Initialize and train the model.
-    # 4. Make predictions.
-    # 5. Calculate metrics.
-    # 6. Save the model.
+    df = pd.read_parquet(preprocessed_dataset.path + "/data.parquet")
 
-    joblib.dump(rf_model, model.path)
-    print(f"Model saved to: {model.path}")
-    print(f"Validation MSE: {mse:.2f}")
-    print(f"Validation R2: {r2:.2f}") 
-
+    # TODO: define a Dataset subclass returning (features, target) tensors
+    # TODO: split into train and validation sets
+    # TODO: create DataLoaders using hyperparameters["batch_size"]
+    # TODO: define the MLP (nn.Linear + nn.ReLU layers)
+    # TODO: train with Adam (hyperparameters["lr"]) and MSE loss for hyperparameters["epochs"] epochs
+    # TODO: compute MSE and R2 on the validation set and log them to metrics
+    # TODO: torch.save({'state_dict': mlp.state_dict(), 'input_size': input_size, 'hidden_size': hidden_size}, model.path)
 ```
 
-### 4.4: Model evaluation component
-This component evaluates the model's performance:
+### 4.4. Evaluation
 
 ```python
-@component(
-    base_image=BASE_IMAGE,
-    output_component_file="evaluation.yaml"
-)
+# src/evaluation.py
+from kfp.dsl import component, Input, Output, Dataset, Model, Metrics, HTML
+from config import BASE_IMAGE
+
+@component(base_image=BASE_IMAGE)
 def evaluation(
     model: Input[Model],
     preprocessed_dataset: Input[Dataset],
     metrics: Output[Metrics],
     html: Output[HTML]
 ):
-    """
-    Evaluates the model's performance and generates visualizations.
-    
-    Args:
-        model: Input trained model
-        preprocessed_dataset: Input preprocessed dataset
-        metrics: Output artifact for evaluation metrics
-        html: Output artifact for visualization HTML
-    """
     import pandas as pd
-    import joblib
+    import torch
+    import torch.nn as nn
     import matplotlib.pyplot as plt
-    import seaborn as sns
     from sklearn.metrics import mean_squared_error, r2_score
 
-    # TO DO:
-    # 1. Load the model and dataset.
-    # 2. Make predictions.
-    # 3. Calculate metrics.
-    # 4. Save the metrics.
-    # OPTIONAL: 5. Create visualizations.
-    # OPTIONAL:6. Save the HTML report.
-    
-    # Load the model and dataset
-    rf_model = joblib.load(model.path)
-   
-    # ...
-    
-    with open(html.path, 'w') as f:
-        f.write(html_content)
-    
-    print(f"Evaluation report saved to: {html.path}")
+    df = pd.read_parquet(preprocessed_dataset.path + "/data.parquet")
+
+    # TODO: rebuild the MLP architecture (must match training exactly)
+    # TODO: model_instance.load_state_dict(torch.load(model.path))
+    # TODO: run predictions
+    # TODO: compute and log MSE and R2 to metrics
+    # TODO (optional): generate HTML report and write to html.path
 ```
 
-### 4.5: Assembling the Pipeline
-Now that we have all our components, let's assemble them into a pipeline:
+### 4.5. Assembling the pipeline
+
+Once all components are implemented, assemble them into a pipeline using `@dsl.pipeline`. This function does not run any ML code itself. It describes the execution graph by specifying which outputs flow into which inputs, and Vertex AI handles the scheduling and data passing.
 
 ```python
 @dsl.pipeline(
@@ -438,20 +416,21 @@ def houseprice_pipeline(
         bq_dataset=bq_dataset,
         bq_table=bq_table,
     )
-    
+
     preprocessing_task = preprocessing(
         input_dataset=ingestion_task.outputs["dataset"]
     )
-    
+
     training_task = training(
         preprocessed_dataset=preprocessing_task.outputs["preprocessed_dataset"],
         hyperparameters={
-            "n_estimators": 100,
-            "max_depth": 10,
-            "random_state": 42
+            "lr": 0.001,
+            "epochs": 50,
+            "batch_size": 32,
+            "hidden_size": 64
         }
     )
-    
+
     evaluation_task = evaluation(
         model=training_task.outputs["model"],
         preprocessed_dataset=preprocessing_task.outputs["preprocessed_dataset"]
@@ -508,14 +487,15 @@ bq rm -r -f YOUR_PROJECT_ID:housing_dataset
 3. Delete the Docker image from Artifact Registry:
 ```bash
 gcloud artifacts docker images delete \
-    $REGION-docker.pkg.dev/$PROJECT_ID/$REPOSITORY/$IMAGE_NAME:$IMAGE_TAG \
+    europe-west1-docker.pkg.dev/YOUR_PROJECT_ID/vertex-ai-pipeline-example/pipeline-base:latest \
     --quiet
 ```
 
 4. Delete the Artifact Registry repository:
 ```bash
-gcloud artifacts repositories delete $REPOSITORY \
-    --location=$REGION \
+gcloud artifacts repositories delete vertex-ai-pipeline-example \
+    --location=europe-west1 \
+    --project=YOUR_PROJECT_ID \
     --quiet
 ```
 
@@ -537,7 +517,7 @@ Now that we have our environment set up, you need to:
    - Screenshot of performance metrics
    - Your component code (`src/` directory)
 
-You have until 06/04/2026 23:59 to submit your work on **Gradescope**.
+You have until 16/03/2026 23:59 to submit your work on **Gradescope**.
 
 
 
