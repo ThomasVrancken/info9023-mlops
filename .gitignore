@@ -68,3 +68,8 @@ directed_work/06_vertex/uv.lock
 directed_work/06_vertex/src/
 directed_work/06_vertex/config.py
 directed_work/06_vertex/run_pipeline.py
+directed_work/06_vertex/src
+directed_work/06_vertex/.python-version
+directed_work/06_vertex/pyproject.toml
+directed_work/06_vertex/run_pipeline.py
+directed_work/06_vertex/uv.lock

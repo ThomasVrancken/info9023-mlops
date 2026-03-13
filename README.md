@@ -18,17 +18,17 @@ _The links to the lecture slides and directed work will always be provided short
 | 09/02/2026 | W2  | Sprint 1 | Git & CICD | [Lecture slides](lectures/02_git_cicd.pdf) | [Lab1](directed_work/01_git_cicd/README.md) |
 | 16/02/2026 | W3  | Sprint 2 | Data & cloud infrastructure | [Lecture slides](lectures/03_data_and_cloud_infrastructure.pdf) | [Lab2](directed_work/02_cloud_data/README.md) |
 | 23/02/2026 | W4  | Sprint 2 | Containerisation | [Lecture slides](lectures/04_containerisation.pdf) | [Lab3](directed_work/03_docker/README.md) |
-| 02/03/2026 | W5  | Sprint 3 | API implementation | |
-| 09/03/2026 | W6  | Sprint 3 | Model serving | |
-| 16/03/2026 | W7  | Sprint 4 | Microservices | |
-| 23/03/2026 | W8  | Sprint 4 | Serving & training optimisation | |
-| 30/03/2026 | W9  | Sprint 5 | Model pipeline | | 
-| 06/04/2026 | W10 | Sprint 5 | Monitoring & dashboarding | | 
-| 13/04/2026 | W11 | Sprint 6 | Agentic AI | |
+| 02/03/2026 | W5  | Sprint 3 | API implementation |[Lecture slides](lectures/05_api_implementation.pdf) | [Lab4](directed_work/04_flask/README.md) |
+| 09/03/2026 | W6  | Sprint 3 | Model serving & deployment | [Lecture slides](lectures/06_model_serving_and_deployment.pdf) | [Lab5](directed_work/05_gcp/README.md) |
+| 16/03/2026 | W7  | Sprint 4 | ML pipeline & microservices | |
+| 23/03/2026 | W8  | Sprint 4 | Optimisation & LLM hosting | |
+| 30/03/2026 | W9  | Sprint 5 | Monitoring & dashboarding | | 
+| 06/04/2026 | | | Holiday | |
+| 13/04/2026 | W10 | Sprint 5 | Agentic AI | | 
 | 20/04/2026 | | | Holiday | |
 | 27/04/2026 | | | Holiday | |
-| 04/05/2026 | W12 | Sprint 6 | LLMOps & Trustworthy AI | |
-| 11/05/2026 | | | Project presentations | |
+| 04/05/2026 | W11 | Sprint 6 | LLMOps & Trustworthy AI | |
+| 11/05/2026 | W12 | Sprint 6 | Project presentations | |
 
 
 

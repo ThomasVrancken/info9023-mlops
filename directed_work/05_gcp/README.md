@@ -25,22 +25,23 @@ Before deploying your full ML API, let's walk through the process with a minimal
 
 ### 1.1. Project structure
 
-Create the following files inside this lab's folder
+Start by initializing a UV project and adding the two dependencies:
+
+```bash
+uv init --no-package .
+uv add flask==3.1.0 gunicorn==23.0.0
+```
+
+This generates `pyproject.toml` and `uv.lock`. Then create `Dockerfile` and `hello.py` by hand. Your folder should look like this:
 
 ```
 ├── Dockerfile
-├── requirements.txt
+├── pyproject.toml
+├── uv.lock
 └── hello.py
 ```
 
 ### 1.2. Application code
-
-**`requirements.txt`**
-
-```txt
-flask==3.1.0
-gunicorn==23.0.0
-```
 
 **`hello.py`**
 
@@ -73,10 +74,14 @@ WORKDIR /app
 # Install UV (borrowing the binary from its official image, as seen in Lab 3)
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-COPY requirements.txt .
-RUN uv pip install --system -r requirements.txt
+# Copy dependency files first so Docker can cache this layer
+COPY pyproject.toml uv.lock .
+RUN uv sync --frozen --no-dev --no-install-project
 
 COPY hello.py .
+
+# Expose the venv binaries (gunicorn, flask, etc.)
+ENV PATH="/app/.venv/bin:$PATH"
 
 EXPOSE 8080
 
@@ -84,10 +89,11 @@ CMD ["gunicorn", "--bind", ":8080", "--workers", "1", "--threads", "8", "hello:a
 ```
 
 A few points
+- **`uv sync --frozen --no-dev --no-install-project`** installs exactly the versions pinned in `uv.lock` into a `.venv` inside the container. `--frozen` prevents uv from modifying the lock file. `--no-dev` skips development-only dependencies. `--no-install-project` skips trying to install your own code as a package (you only need the dependencies here, not a package install of your source).
+- **`ENV PATH="/app/.venv/bin:$PATH"`** makes the venv's binaries (gunicorn, flask, etc.) available without activating the venv explicitly.
 - **`gunicorn --bind :8080`** tells Gunicorn to listen on port 8080 inside the container. You will never interact with this port directly (Cloud Run gives you a public HTTPS URL), but Cloud Run forwards incoming requests to port 8080 by default, so your container must listen on it.
 - **`--workers 1 --threads 8`** runs one worker process with 8 threads. This is a reasonable default for a small API. More workers use more memory, which costs more on Cloud Run.
 - **`hello:app`** tells Gunicorn to look for the Flask object named `app` inside the file `hello.py`. If you name your file or your Flask variable differently, adjust this accordingly.
-- We use UV to install dependencies, as learned in Lab 3.
 
 ### 1.4. Test locally
 
@@ -117,20 +123,95 @@ You already set up your GCP environment in [Lab 2](../02_cloud_data/README.md) (
 2. A **GCP project** with billing enabled and credits available.
 3. **Authentication** configured (`gcloud auth login`).
 
-If you need to switch to a different project, use:
+## 2.1. Understanding service accounts
+
+When you run code locally, it runs as you (your user account with your permissions). When a program runs in the cloud, it needs an identity too, but there is no human sitting behind it. That identity is called a service account. A service account is a special Google account associated with a program rather than a person. Like your user account, it can be granted roles that determine what GCP resources it can access.
+
+### The default Compute Engine service account
+
+Every GCP project has a default Compute Engine service account, but it only exists once the Compute Engine API has been enabled on your project. If it has not been enabled yet, the service account will not exist and commands referencing it will fail. You can enable the API with:
 
 ```bash
-gcloud config set project YOUR_PROJECT_ID
+gcloud services enable compute.googleapis.com --project=YOUR_PROJECT_ID
 ```
 
+Once enabled, the service account is available at:
+
+```
+YOUR_PROJECT_NUMBER-compute@developer.gserviceaccount.com
+```
+
+Cloud Run uses this service account by default when running your containers. Cloud Build also uses it when building your Docker image (when you deploy with `--source`). This is why section 3.0 asks you to grant it the Cloud Build Builder role: by default, this service account does not have permission to run builds, so the deployment command fails.
+
+### Granting access to a Cloud Storage bucket
+
+If your container needs to read or write a GCS bucket, you must tell GCP that the service account running your container is allowed to do so. Without this, your app will get a `403 Forbidden` error at runtime, even if you can access the bucket fine from your laptop (because on your laptop, you are authenticated as yourself, not as the service account).
+
+To grant the default Compute Engine service account read/write access to a bucket:
+
+```bash
+gcloud storage buckets add-iam-policy-binding gs://YOUR_BUCKET_NAME \
+  --member="serviceAccount:YOUR_PROJECT_NUMBER-compute@developer.gserviceaccount.com" \
+  --role="roles/storage.objectAdmin"
+```
+
+`roles/storage.objectAdmin` allows reading, writing, and deleting objects. If your app only reads, use `roles/storage.objectViewer` instead.
+
+### Creating a dedicated service account (optional)
+
+Using the default Compute Engine service account for everything works for a lab project, but it accumulates permissions over time as you grant it more roles. A better practice is to create a dedicated service account for your application with only the permissions it needs (this is called the principle of least privilege):
+
+```bash
+# Create the service account
+gcloud iam service-accounts create my-app-sa \
+  --display-name="My App" \
+  --project=YOUR_PROJECT_ID
+
+# Grant it access to your bucket
+gcloud storage buckets add-iam-policy-binding gs://YOUR_BUCKET_NAME \
+  --member="serviceAccount:my-app-sa@YOUR_PROJECT_ID.iam.gserviceaccount.com" \
+  --role="roles/storage.objectAdmin"
+
+# Deploy Cloud Run using that service account instead of the default
+gcloud run deploy my-app \
+  --service-account=my-app-sa@YOUR_PROJECT_ID.iam.gserviceaccount.com \
+  --project=YOUR_PROJECT_ID \
+  --region=europe-west1 \
+  --source=$(pwd) \
+  --allow-unauthenticated
+```
+
+For the purposes of this lab, using the default Compute Engine service account is fine.
+
+> You can view and manage all service accounts in your project under **IAM & Admin > Service accounts** in the GCP console. This is also where you can inspect which roles have been granted to each account.
+
 ## 3. Deploy to Cloud Run
+
+### 3.0. Grant Cloud Build permissions
+
+On new GCP projects, the default Compute Engine service account does not have Cloud Build permissions, which causes the deploy command to fail. Run this once before deploying. First get your project number:
+
+```bash
+gcloud projects describe YOUR_PROJECT_ID --format="value(projectNumber)"
+```
+
+Then grant the Cloud Build Builder role using that number:
+
+```bash
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+  --member="serviceAccount:YOUR_PROJECT_NUMBER-compute@developer.gserviceaccount.com" \
+  --role="roles/cloudbuild.builds.builder"
+```
+
+### 3.1. Run the deploy command
 
 From your lab folder (where the `Dockerfile` is), run:
 
 ```bash
-gcloud run deploy flask-app --region=europe-west1 --source=$(pwd) --allow-unauthenticated
+gcloud run deploy flask-app --project=YOUR_PROJECT_ID --region=europe-west1 --source=$(pwd) --allow-unauthenticated
 ```
 
+- **`--project=YOUR_PROJECT_ID`** explicitly targets your GCP project. Always pass this rather than relying on a global default, which can silently use the wrong project.
 - **`--region=europe-west1`** deploys to a European data center (Belgium).
 - **`--source=$(pwd)`** tells Cloud Run to build the Docker image from the current directory using Cloud Build.
 - **`--allow-unauthenticated`** makes the service publicly accessible. Without this flag, only authenticated users could call your API.
@@ -173,9 +254,9 @@ Visit the Service URL in your browser. You should see "Hello World".
 
 > More information on scaling configuration (scaling to zero) can be found here: [Cloud Run autoscaling](https://cloud.google.com/run/docs/about-instance-autoscaling).
 
-### 3.1. Troubleshooting
+### 3.2. Troubleshooting
 
-**PERMISSION_DENIED error:**
+**PERMISSION_DENIED (wrong account):**
 
 ```
 ERROR: (gcloud.run.deploy) PERMISSION_DENIED: The caller does not have permission
@@ -188,6 +269,18 @@ gcloud auth login
 ```
 
 Make sure you select the Google account that has the GCP credits.
+
+**PERMISSION_DENIED (deploying to a teammate's project):**
+
+If you are trying to deploy to a project created by someone else, you will get a permission denied error because you have not been granted access to that project. The project owner needs to add you as a member in IAM. The owner runs this on their own project:
+
+```bash
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+  --member="user:TEAMMATE_EMAIL@gmail.com" \
+  --role="roles/owner"
+```
+
+`roles/owner` gives full access to the project, which is the simplest option when collaborating with a trusted teammate on a lab. The project owner can also do this through the GCP console under **IAM & Admin > IAM > Grant Access**.
 
 ## 4. Monitor Your API
 
@@ -238,7 +331,7 @@ You can find the full pricing details here: [Cloud Run Pricing](https://cloud.go
 
 **Requirements**
 
-1. Adapt your Lab 4 Flask application to use Gunicorn (add it to `requirements.txt` and update your `Dockerfile`).
+1. Adapt your Lab 4 Flask application to use Gunicorn (add it with `uv add gunicorn` and update your `Dockerfile` to use `uv sync` as shown in section 1.3).
 2. Deploy your application to Cloud Run.
 3. Verify that your `/predict` endpoint works on the deployed URL using `curl`.
 4. :warning: All optional features from Lab 4 (PUT endpoint) must be implemented and working in the deployed version to get full marks.
@@ -248,6 +341,7 @@ You can find the full pricing details here: [Cloud Run Pricing](https://cloud.go
 Submit the following on **Gradescope**:
 1. The URL of your deployed Cloud Run service in a `.txt` file.
 2. A `curl` command (or screenshot) showing a successful prediction request to your deployed API.
+3. Put these 2 files in a zip archive and submit to Gradescope.
 
 > Thanks to [scaling to zero](https://cloud.google.com/run/docs/about-instance-autoscaling), your app will not consume resources when there is no traffic, so you can leave it running without significant cost. Still, remember to clean up your resources (Section 5) once grading is complete.
 
