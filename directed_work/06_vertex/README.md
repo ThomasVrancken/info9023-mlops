@@ -51,6 +51,25 @@ gcloud projects add-iam-policy-binding YOUR_PROJECT_ID --member="serviceAccount:
 
 Without this, the pipeline will fail with a permission error when trying to pull your component image from Artifact Registry.
 
+The same principle applies to any other GCP service your components touch. In this pipeline, the data ingestion component calls the BigQuery API under the service agent's identity to export a table to GCS. BigQuery separates data-level permissions from job-level permissions, which is why two roles are needed.
+
+`roles/bigquery.dataViewer` grants read access to table data. It includes the `bigquery.tables.export` permission, which is the one BigQuery checks when you call `extract_table`.
+
+`roles/bigquery.jobUser` grants the right to create and submit jobs in the project. It includes `bigquery.jobs.create`. Without this role, BigQuery will refuse to create the export job even if the service agent can read the table.
+
+Grant both to the service agent.
+
+```bash
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+    --member="serviceAccount:service-YOUR_PROJECT_NUMBER@gcp-sa-aiplatform.iam.gserviceaccount.com" \
+    --role="roles/bigquery.dataViewer"
+
+gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+    --member="serviceAccount:service-YOUR_PROJECT_NUMBER@gcp-sa-aiplatform.iam.gserviceaccount.com" \
+    --role="roles/bigquery.jobUser"
+```
+
+Whenever you add a new component that calls a GCP API, check the [predefined roles reference](https://cloud.google.com/bigquery/docs/access-control) for that service to find which role covers the operation you need. Each GCP product has an equivalent page listing its predefined roles and the permissions each one includes.
 
 ### 2.3. How does Vertex AI Pipelines work?
 The typical workflow in Vertex AI consists of several steps:
@@ -187,9 +206,9 @@ PROJECT_ID    = "your-project-id"
 BUCKET_NAME   = "gs://your-bucket-name"
 BQ_DATASET    = "housing_dataset"
 BQ_TABLE      = "housing"
-REGION        = "europe-west1"
+LOCATION      = "europe-west1"
 PIPELINE_ROOT = f"{BUCKET_NAME}/pipeline_root_houseprice/"
-BASE_IMAGE    = f"{REGION}-docker.pkg.dev/{PROJECT_ID}/vertex-ai-pipeline-example/pipeline-base:latest"
+BASE_IMAGE    = f"{LOCATION}-docker.pkg.dev/{PROJECT_ID}/vertex-ai-pipeline-example/pipeline-base:latest"
 ```
 
 A few notes on the imports:
@@ -233,6 +252,8 @@ Key points about this Dockerfile:
   - `uv pip install --system` installs into the system Python directly, without creating a `.venv`. Packages end up in `/usr/local/lib/python3.11/site-packages/`, which is where any `python` invocation finds them regardless of who called it.
   - `--no-dev` skips development dependencies (test frameworks, linters, etc.) that have no place in a production image.
 - **`ENTRYPOINT ["bash"]`** is required by Vertex AI. It keeps the container alive so the platform can inject and execute each component's script inside it.
+
+> **Note on per-component images.** This lab uses a single shared base image for all components. This is the abstraction that KFP's `@component` decorator provides. You write a Python function and KFP handles injecting it into the container at runtime. In raw Kubeflow Pipelines, without that abstraction, each component is a fully self-contained Docker image with its own `Dockerfile` and entrypoint. That approach gives finer dependency isolation (each component installs only what it needs) but requires building and pushing one image per component. The `@component` pattern trades that flexibility for convenience.
 
 2. Create an Artifact Registry repository. As seen in Lab 5, Artifact Registry is GCP's private container registry: the place where Docker images are stored before being pulled and run. In Lab 5, Cloud Run used it automatically in the background. Here, you interact with it directly: you push your base image to it, and Vertex AI pulls it from there whenever it runs a pipeline component.
 
@@ -391,7 +412,7 @@ def evaluation(
     df = pd.read_parquet(preprocessed_dataset.path + "/data.parquet")
 
     # TODO: rebuild the MLP architecture (must match training exactly)
-    # TODO: model_instance.load_state_dict(torch.load(model.path))
+    # TODO: checkpoint = torch.load(model.path, weights_only=False) then rebuild MLP from checkpoint['input_size'] and checkpoint['hidden_size']
     # TODO: run predictions
     # TODO: compute and log MSE and R2 to metrics
     # TODO (optional): generate HTML report and write to html.path
@@ -437,6 +458,21 @@ def houseprice_pipeline(
     )
 ```
 
+### 4.6. Configuring compute resources per component
+
+By default, Vertex AI runs each component on a small CPU machine. You can override this on any task inside the pipeline function by chaining resource methods on the task object. For example, since training is the only step that benefits from a GPU, you can attach the accelerator there and leave the other components on CPU.
+
+```python
+training_task = training(
+    preprocessed_dataset=preprocessing_task.outputs["preprocessed_dataset"],
+    hyperparameters={...}
+).set_accelerator_type("NVIDIA_TESLA_T4") \
+ .set_accelerator_limit(1) \
+ .set_machine_type("n1-standard-4")
+```
+
+Common methods are `.set_cpu_limit()`, `.set_memory_limit()`, `.set_machine_type()`, `.set_accelerator_type()`, and `.set_accelerator_limit()`. The available accelerator types depend on your region. This is entirely independent of which Docker image is used: all components can share the same base image while running on different hardware.
+
 ## 5. Running the Pipeline
 
 Make sure you have updated the configuration variables at the top of `run_pipeline.py` (`PROJECT_ID`, `BUCKET_NAME`, `BQ_DATASET`, `BQ_TABLE`), then run:
@@ -460,15 +496,18 @@ After running your pipeline, you can:
    - Check logs for each component
 
 2. Analyze the results:
-   - Review the metrics logged by the training and evaluation components
-   - Examine the feature importance plots
-   - Check the model's R2 score and MSE
-   - Look at the actual vs predicted price comparisons
+   - Review the MSE and R2 metrics logged by the training and evaluation components. Clicking a component node in the DAG shows its logged metrics in the side panel.
+   - The evaluation component writes an HTML artifact containing an actual vs predicted price scatter plot and a residual distribution histogram, both embedded as a base64-encoded PNG. GCS does not serve HTML files directly in the browser, so download it first and then open the local file.
+     ```bash
+     gsutil cp gs://YOUR_BUCKET_NAME/pipeline_root_houseprice/PROJECT_NUMBER/RUN_ID/evaluation_HASH/html.html /tmp/evaluation_report.html
+     open /tmp/evaluation_report.html
+     ```
+   - Check the R2 score and MSE on both the training and evaluation components to spot overfitting.
 
 3. Access artifacts:
-   - All artifacts are stored in your GCS bucket under the pipeline root
-   - You can find the trained model, evaluation metrics, and visualizations
-   - Download and analyze these artifacts locally if needed
+   - All artifacts (the exported Parquet files, the preprocessed dataset, the model checkpoint, and the HTML evaluation report) are stored in your GCS bucket under the pipeline root. The path follows the pattern `gs://YOUR_BUCKET/pipeline_root_houseprice/PROJECT_NUMBER/RUN_ID/COMPONENT_HASH/`.
+   - You can browse them in the GCS console or download them locally with `gsutil cp`.
+   - Vertex AI tracks the full lineage of each artifact, so clicking a node in the pipeline DAG shows exactly which GCS path holds its output.
 
 ## 7. Cleaning up resources
 
@@ -513,8 +552,8 @@ Now that we have our environment set up, you need to:
 1. Submit the following on **Gradescope**:
    - Screenshot of your pipeline DAG running successfully in the Vertex AI console
    ![pipeline](img/4.png)
-   - Screenshot of output data
-   - Screenshot of performance metrics
+   - The HTML evaluation report (`html.html`) downloaded from GCS
+   - Screenshot of performance metrics (MSE and R2) visible in the Vertex AI pipeline console
    - Your component code (`src/` directory)
 
 You have until 16/03/2026 23:59 to submit your work on **Gradescope**.
