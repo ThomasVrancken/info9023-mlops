@@ -20,7 +20,7 @@ _The links to the lecture slides and directed work will always be provided short
 | 23/02/2026 | W4  | Sprint 2 | Containerisation | [Lecture slides](lectures/04_containerisation.pdf) | [Lab3](directed_work/03_docker/README.md) |
 | 02/03/2026 | W5  | Sprint 3 | API implementation |[Lecture slides](lectures/05_api_implementation.pdf) | [Lab4](directed_work/04_flask/README.md) |
 | 09/03/2026 | W6  | Sprint 3 | Model serving & deployment | [Lecture slides](lectures/06_model_serving_and_deployment.pdf) | [Lab5](directed_work/05_gcp/README.md) |
-| 16/03/2026 | W7  | Sprint 4 | ML pipeline & microservices | [Lecture slides](lectures/07_model_pipeline_and_microservices.pdf) | |
+| 16/03/2026 | W7  | Sprint 4 | ML pipeline & microservices | [Lecture slides](lectures/07_model_pipeline_and_microservices.pdf) | [Lab6](directed_work/06_vertex/README.md) |
 | 23/03/2026 | W8  | Sprint 4 | Optimisation & LLM hosting | |
 | 30/03/2026 | W9  | Sprint 5 | Monitoring & dashboarding | | 
 | 06/04/2026 | | | Holiday | |
