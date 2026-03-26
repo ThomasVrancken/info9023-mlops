@@ -76,3 +76,10 @@ directed_work/06_vertex/uv.lock
 directed_work/07_vllm/.python-version
 directed_work/07_vllm/pyproject.toml
 directed_work/07_vllm/uv.lock
+directed_work/08_streamlit/.python-version
+directed_work/08_streamlit/pyproject.toml
+directed_work/08_streamlit/uv.lock
+directed_work/08_streamlit/src/
+directed_work/08_streamlit/requirements.txt
+directed_work/08_streamlit/Dockerfile
+directed_work/08_streamlit/main.py
