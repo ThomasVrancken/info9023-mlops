@@ -22,7 +22,7 @@ _The links to the lecture slides and directed work will always be provided short
 | 09/03/2026 | W6  | Sprint 3 | Model serving & deployment | [Lecture slides](lectures/06_model_serving_and_deployment.pdf) | [Lab5](directed_work/05_gcp/README.md) |
 | 16/03/2026 | W7  | Sprint 4 | ML pipeline & microservices | [Lecture slides](lectures/07_model_pipeline_and_microservices.pdf) | [Lab6](directed_work/06_vertex/README.md) |
 | 23/03/2026 | W8  | Sprint 4 | ML & LLM optimisation | [Lecture slides](lectures/08_ML_LLM_Optimisation.pdf) | [Lab7](directed_work/07_vllm/README.md) |
-| 30/03/2026 | W9  | Sprint 5 | Monitoring & vector databases | [Lecture slides](lectures/09_monitoring_and_vector_databases.pdf) | 
+| 30/03/2026 | W9  | Sprint 5 | Monitoring & vector databases | [Lecture slides](lectures/09_monitoring_and_vector_databases.pdf) | [Lab8](directed_work/08_streamlit/README.md) |
 | 06/04/2026 | | | Holiday | |
 | 13/04/2026 | W10 | Sprint 5 | Agentic AI | | 
 | 20/04/2026 | | | Holiday | |
