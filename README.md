@@ -24,10 +24,10 @@ _The links to the lecture slides and directed work will always be provided short
 | 23/03/2026 | W8  | Sprint 4 | ML & LLM optimisation | [Lecture slides](lectures/08_ML_LLM_Optimisation.pdf) | [Lab7](directed_work/07_vllm/README.md) |
 | 30/03/2026 | W9  | Sprint 5 | Monitoring & vector databases | [Lecture slides](lectures/09_monitoring_and_vector_databases.pdf) | [Lab8](directed_work/08_streamlit/README.md) |
 | 06/04/2026 | | | Holiday | |
-| 13/04/2026 | W10 | Sprint 5 | Agentic AI | | 
+| 13/04/2026 | W10 | Sprint 5 | Agentic AI | | [Lab9](directed_work/09_agent/README.md) | 
 | 20/04/2026 | | | Holiday | |
 | 27/04/2026 | | | Holiday | |
-| 04/05/2026 | W11 | Sprint 6 | LLMOps & Trustworthy AI | |
+| 04/05/2026 | W11 | Sprint 6 | LLMOps & Trustworthy AI | [Lecture slides](lectures/11_llmops_and_trustworthy_ai.pdf) | No lab |
 | 11/05/2026 | W12 | Sprint 6 | Project presentations | |
 
 
