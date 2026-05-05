@@ -59,6 +59,8 @@ All the project info can be found in the [project/project_instructions.pdf](proj
 
 The exam will take the form of an oral exam in which you will have to answer a series of 4-5 questions based on a case study. The case study will be given a hypothetical ML/AI application use case and you will have to answer different design questions based on the concepts taught during this course.
 
+Two practice exams can be found in the [exams/](exams/) folder.
+
 ## Logistic
 - **Teaching Staff**: 
   - Thomas Vrancken (Instructor)
